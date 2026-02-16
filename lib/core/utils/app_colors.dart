@@ -35,4 +35,7 @@ class AppColors {
   static const Color warning = Colors.orange;
   static const MaterialColor brandPrimary = primary;
   static const Color brandSecondary = Color(0xFFFD6B38); // From gradient end
+  static const Color splashBackground = Color(
+    0xFF282a51,
+  ); // From gradient start
 }

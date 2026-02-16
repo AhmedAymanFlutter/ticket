@@ -82,7 +82,7 @@ class AppTextStyle {
 
   /// Heading 3 - 32px
   static TextStyle get heading3 => _baseStyle(
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
   );
