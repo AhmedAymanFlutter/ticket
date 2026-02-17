@@ -23,6 +23,20 @@
         "already_have_account": "Already have an account?",
         "login_link": "Login",
         "search": "Search",
-        "dont_have_account": "Don't have an account?"
+        "dont_have_account": "Don't have an account?",
+        "forget_password": "Forgot Password?",
+        "enter_phone_reset": "Enter your phone number to receive a verification code.",
+        "send_verification_code": "Send Verification Code",
+        "confirm_phone": "Confirm Phone Number",
+        "enter_otp_sent": "Enter the 6-digit code sent to your phone.",
+        "didnt_receive_code": "Didn't receive the code?",
+        "resend_code": "Resend",
+        "verify_code": "Verify Code",
+        "reset_password": "Reset Password",
+        "new_password": "New Password",
+        "confirm_password": "Confirm Password",
+        "confirm": "Confirm",
+        "password_changed_success_title": "Password Changed Successfully",
+        "password_changed_success_desc": "Your password has been updated successfully, you can now login with the new password."
     }
 }

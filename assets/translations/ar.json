@@ -23,6 +23,20 @@
         "already_have_account": "هل لديك حساب بالفعل؟",
         "login_link": "تسجيل الدخول",
         "search": "بحث",
-        "dont_have_account": "ليس لديك حساب؟"
+        "dont_have_account": "ليس لديك حساب؟",
+        "forget_password": "نسيت كلمة المرور؟",
+        "enter_phone_reset": "ادخل رقم جوالك سيتم إرسال رمز التحقق إلى رقم هاتفك.",
+        "send_verification_code": "ارسل رمز التحقق",
+        "confirm_phone": "تأكيد رقم الهاتف",
+        "enter_otp_sent": "ادخل رمز التحقق المكون من 6 أرقام المرسل إلى رقم هاتفك.",
+        "didnt_receive_code": "لم يصلك الرمز؟",
+        "resend_code": "أعد الارسال",
+        "verify_code": "التحقق من الرمز",
+        "reset_password": "إعادة ضبط كلمة المرور",
+        "new_password": "كلمة المرور الجديدة",
+        "confirm_password": "تأكيد كلمة المرور",
+        "confirm": "تأكيد",
+        "password_changed_success_title": "تم تغيير كلمة المرور بنجاح",
+        "password_changed_success_desc": "تم تحديث كلمة المرور الخاصة بك بنجاح، يمكنك الآن تسجيل الدخول باستخدام كلمة المرور الجديدة."
     }
 }

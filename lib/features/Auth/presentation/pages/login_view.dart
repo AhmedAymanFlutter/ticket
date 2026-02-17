@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/core/widgets/custom_text_field.dart';
+import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
+import 'package:ticket/features/Auth/presentation/pages/widgets/social_section_widgets.dart';
+import 'package:ticket/features/Auth/presentation/pages/forget_password_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -13,13 +16,13 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -89,11 +92,12 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       SizedBox(height: 16.h),
 
-                      // Email Field
-                      CustomTextField(
-                        controller: _emailController,
-                        hintText: 'auth.email'.tr(),
-                        keyboardType: TextInputType.emailAddress,
+                      PhoneFieldWithCountryPicker(
+                        controller: _phoneController,
+                        initialCountryCode: 'SA',
+                        onCountryChanged: (code) {
+                          print(code.dialCode);
+                        },
                       ),
                       SizedBox(height: 16.h),
 
@@ -107,6 +111,29 @@ class _LoginViewState extends State<LoginView> {
                           color: Colors.grey[600],
                         ),
                       ),
+
+                      // Forgot Password
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgetPasswordView(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'auth.forget_password'.tr(),
+                            style: AppTextStyle.bodyRegular.copyWith(
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ),
+
                       SizedBox(height: 32.h),
 
                       // Login Button
@@ -150,9 +177,9 @@ class _LoginViewState extends State<LoginView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildSocialButton(Icons.apple, Colors.black),
+                          buildSocialButton(Icons.apple, Colors.black),
                           SizedBox(width: 16.w),
-                          _buildSocialButton(
+                          buildSocialButton(
                             null,
                             Colors.white,
                             child: Image.asset(
@@ -161,7 +188,7 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           SizedBox(width: 16.w),
-                          _buildSocialButton(
+                          buildSocialButton(
                             null,
                             const Color(0xFF1877F2),
                             child: Icon(
@@ -190,14 +217,12 @@ class _LoginViewState extends State<LoginView> {
                           SizedBox(width: 4.w),
                           GestureDetector(
                             onTap: () {
-                              // Navigate back to Signup or push Signup if this is main
-                              // Assuming Signup is main for now based on navigation flow in Onboarding
                               Navigator.pop(context);
                             },
                             child: Text(
                               'auth.signup'.tr(),
                               style: AppTextStyle.bodyRegular.copyWith(
-                                color: Colors.black,
+                                color: const Color(0xFF282A51),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -213,26 +238,6 @@ class _LoginViewState extends State<LoginView> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSocialButton(IconData? icon, Color bgColor, {Widget? child}) {
-    return Container(
-      width: 56.w,
-      height: 56.h,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: bgColor,
-        border: Border.all(color: Colors.grey[300]!, width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: child ?? Icon(icon, color: Colors.white, size: 24.sp),
     );
   }
 }

@@ -1,11 +1,11 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
-
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/core/widgets/custom_text_field.dart';
+import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
+import 'package:ticket/features/Auth/presentation/pages/widgets/social_section_widgets.dart';
 import 'package:ticket/features/auth/presentation/pages/login_view.dart';
 
 class SignupView extends StatefulWidget {
@@ -184,75 +184,14 @@ class _SignupViewState extends State<SignupView> {
                       SizedBox(height: 16.h),
 
                       // Phone Field with Country Code (Unified Container)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(
-                            color: Colors.grey[300]!,
-                            width: 1,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            // Phone Number Field
-                            Expanded(
-                              child: TextFormField(
-                                controller: _phoneController,
-                                keyboardType: TextInputType.phone,
-                                textAlign: TextAlign.right,
-                                style: AppTextStyle.bodyRegular.copyWith(
-                                  color: Colors.black87,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: 'auth.phone'.tr(),
-                                  hintStyle: AppTextStyle.bodyRegular.copyWith(
-                                    color: Colors.grey[400],
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16.w,
-                                    vertical: 12.h,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            // Divider
-                            Container(
-                              height: 40.h,
-                              width: 1,
-                              color: Colors.grey[300],
-                            ),
-
-                            // Country Code Picker
-                            CountryCodePicker(
-                              onChanged: (code) {
-                                setState(() {});
-                              },
-                              initialSelection: 'SA',
-                              favorite: const ['+966', 'SA', '+20', 'EG'],
-                              showCountryOnly: false,
-                              showOnlyCountryWhenClosed: false,
-                              alignLeft: false,
-                              textStyle: AppTextStyle.bodyRegular.copyWith(
-                                color: Colors.black87,
-                                fontSize: 14.sp,
-                              ),
-                              dialogTextStyle: AppTextStyle.bodyRegular,
-                              searchDecoration: InputDecoration(
-                                hintText: 'auth.search'.tr(),
-                                hintStyle: AppTextStyle.bodyRegular.copyWith(
-                                  color: Colors.grey[400],
-                                ),
-                              ),
-                              padding: EdgeInsets.zero,
-                            ),
-                          ],
-                        ),
+                      PhoneFieldWithCountryPicker(
+                        controller: _phoneController,
+                        initialCountryCode: 'SA',
+                        onCountryChanged: (code) {
+                          print(code.dialCode);
+                        },
                       ),
                       SizedBox(height: 16.h),
-
                       // City Dropdown Field
                       GestureDetector(
                         onTap: () {
@@ -275,15 +214,18 @@ class _SignupViewState extends State<SignupView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Text(
-                                  _selectedCity.isEmpty
-                                      ? 'auth.city'.tr()
-                                      : _selectedCity,
-                                  textAlign: TextAlign.left,
-                                  style: AppTextStyle.bodyRegular.copyWith(
-                                    color: _selectedCity.isEmpty
-                                        ? Colors.grey[400]
-                                        : Colors.black87,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    _selectedCity.isEmpty
+                                        ? 'auth.city'.tr()
+                                        : _selectedCity,
+                                    textAlign: TextAlign.left,
+                                    style: AppTextStyle.bodyRegular.copyWith(
+                                      color: _selectedCity.isEmpty
+                                          ? Colors.grey[400]
+                                          : Colors.black87,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -297,7 +239,6 @@ class _SignupViewState extends State<SignupView> {
                         ),
                       ),
                       SizedBox(height: 16.h),
-
                       // Password Field
                       CustomTextField(
                         controller: _passwordController,
@@ -351,9 +292,9 @@ class _SignupViewState extends State<SignupView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildSocialButton(Icons.apple, Colors.black),
+                          buildSocialButton(Icons.apple, Colors.black),
                           SizedBox(width: 16.w),
-                          _buildSocialButton(
+                          buildSocialButton(
                             null,
                             Colors.white,
                             child: Image.asset(
@@ -362,7 +303,7 @@ class _SignupViewState extends State<SignupView> {
                             ),
                           ),
                           SizedBox(width: 16.w),
-                          _buildSocialButton(
+                          buildSocialButton(
                             null,
                             const Color(0xFF1877F2),
                             child: Icon(
@@ -401,7 +342,7 @@ class _SignupViewState extends State<SignupView> {
                             child: Text(
                               'auth.login_link'.tr(),
                               style: AppTextStyle.bodyRegular.copyWith(
-                                color: Colors.black,
+                                color: const Color(0xFF282A51),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -417,26 +358,6 @@ class _SignupViewState extends State<SignupView> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSocialButton(IconData? icon, Color bgColor, {Widget? child}) {
-    return Container(
-      width: 56.w,
-      height: 56.h,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: bgColor,
-        border: Border.all(color: Colors.grey[300]!, width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: child ?? Icon(icon, color: Colors.white, size: 24.sp),
     );
   }
 }
