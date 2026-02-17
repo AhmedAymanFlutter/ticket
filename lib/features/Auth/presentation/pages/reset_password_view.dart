@@ -6,6 +6,7 @@ import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/core/widgets/custom_text_field.dart';
 import 'package:ticket/features/auth/presentation/pages/login_view.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key});
@@ -191,11 +192,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               CustomGradientButton(
                 text: 'auth.login'.tr(),
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginView()),
-                    (route) => false,
-                  );
+                  FadeNavigation.pushAndRemoveUntil(context, const LoginView());
                 },
               ),
             ],

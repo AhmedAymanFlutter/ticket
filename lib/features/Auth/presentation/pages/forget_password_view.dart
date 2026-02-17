@@ -5,6 +5,7 @@ import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
 import 'package:ticket/features/Auth/presentation/pages/otp_view.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class ForgetPasswordView extends StatefulWidget {
   const ForgetPasswordView({super.key});
@@ -114,12 +115,8 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                             .tr(), // "ارسل رمز التحقق"
                         onPressed: () {
                           // Validate and Navigate to OTP
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const OtpView(),
-                            ),
-                          );
+                          // Validate and Navigate to OTP
+                          FadeNavigation.push(context, const OtpView());
                         },
                       ),
                     ],

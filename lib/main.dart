@@ -17,9 +17,7 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       assetLoader: const HybridAssetLoader(),
-      startLocale: const Locale(
-        'ar',
-      ), // Starting with Arabic as requested or default
+      startLocale: const Locale('ar'),
       child: const MyApp(),
     ),
   );
@@ -36,12 +34,17 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
+          key: ValueKey(context.locale),
+          theme: ThemeData(
+            primaryColor: Colors.blue,
+            scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+            fontFamily: 'Madani Arabic',
+          ),
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           debugShowCheckedModeBanner: false,
           title: 'Ticket App',
-          theme: ThemeData(primarySwatch: Colors.blue),
           home: const SplashScreen(),
         );
       },

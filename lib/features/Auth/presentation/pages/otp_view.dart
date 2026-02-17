@@ -6,6 +6,7 @@ import 'package:pinput/pinput.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/features/Auth/presentation/pages/reset_password_view.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class OtpView extends StatefulWidget {
   const OtpView({super.key});
@@ -208,11 +209,10 @@ class _OtpViewState extends State<OtpView> {
                         text: 'auth.verify_code'.tr(), // "التحقق من الرمز"
                         onPressed: () {
                           // Validate and Navigate to Reset Password
-                          Navigator.push(
+                          // Validate and Navigate to Reset Password
+                          FadeNavigation.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const ResetPasswordView(),
-                            ),
+                            const ResetPasswordView(),
                           );
                         },
                       ),

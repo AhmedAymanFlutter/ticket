@@ -7,6 +7,7 @@ import 'package:ticket/core/widgets/custom_text_field.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/social_section_widgets.dart';
 import 'package:ticket/features/auth/presentation/pages/login_view.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -332,12 +333,7 @@ class _SignupViewState extends State<SignupView> {
                           SizedBox(width: 4.w),
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginView(),
-                                ),
-                              );
+                              FadeNavigation.push(context, const LoginView());
                             },
                             child: Text(
                               'auth.login_link'.tr(),

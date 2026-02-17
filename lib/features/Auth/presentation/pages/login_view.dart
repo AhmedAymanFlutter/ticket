@@ -7,6 +7,8 @@ import 'package:ticket/core/widgets/custom_text_field.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/social_section_widgets.dart';
 import 'package:ticket/features/Auth/presentation/pages/forget_password_view.dart';
+import 'package:ticket/features/home/home.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -117,12 +119,9 @@ class _LoginViewState extends State<LoginView> {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            FadeNavigation.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const ForgetPasswordView(),
-                              ),
+                              const ForgetPasswordView(),
                             );
                           },
                           child: Text(
@@ -140,7 +139,7 @@ class _LoginViewState extends State<LoginView> {
                       CustomGradientButton(
                         text: 'auth.login'.tr(),
                         onPressed: () {
-                          // Validate and Login
+                          FadeNavigation.push(context, const Home());
                         },
                       ),
                       SizedBox(height: 24.h),

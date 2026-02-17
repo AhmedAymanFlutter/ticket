@@ -9,6 +9,7 @@ import 'package:ticket/features/auth/presentation/pages/signup_view.dart';
 import 'package:ticket/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:ticket/features/onboarding/presentation/cubit/onboarding_state.dart';
 import 'package:ticket/injection_container.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
@@ -44,9 +45,7 @@ class _OnboardingScaffoldState extends State<OnboardingScaffold> {
       body: BlocConsumer<OnboardingCubit, OnboardingState>(
         listener: (context, state) {
           if (state is OnboardingCompleted) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const SignupView()),
-            );
+            FadeNavigation.pushReplacement(context, const SignupView());
           }
         },
         builder: (context, state) {

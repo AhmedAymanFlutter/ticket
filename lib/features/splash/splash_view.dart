@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/onboarding/presentation/pages/onboarding_view.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -50,9 +51,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent>
   }
 
   Future<void> _checkStatus() async {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const OnboardingView()),
-    );
+    FadeNavigation.pushReplacement(context, const OnboardingView());
   }
 
   @override
