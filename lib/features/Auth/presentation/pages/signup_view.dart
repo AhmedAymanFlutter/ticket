@@ -7,6 +7,7 @@ import 'package:ticket/core/widgets/custom_text_field.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
 import 'package:ticket/features/Auth/presentation/pages/widgets/social_section_widgets.dart';
 import 'package:ticket/features/auth/presentation/pages/login_view.dart';
+import 'package:ticket/features/home/home.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class SignupView extends StatefulWidget {
@@ -252,11 +253,11 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       SizedBox(height: 32.h),
 
-                      // Register Button
                       CustomGradientButton(
                         text: 'auth.register'.tr(),
                         onPressed: () {
                           // Validate and Sign up
+                          FadeNavigation.pushFromBottom(context, const Home());
                         },
                       ),
                       SizedBox(height: 24.h),
@@ -333,7 +334,10 @@ class _SignupViewState extends State<SignupView> {
                           SizedBox(width: 4.w),
                           GestureDetector(
                             onTap: () {
-                              FadeNavigation.push(context, const LoginView());
+                              FadeNavigation.pushFade(
+                                context,
+                                const LoginView(),
+                              );
                             },
                             child: Text(
                               'auth.login_link'.tr(),

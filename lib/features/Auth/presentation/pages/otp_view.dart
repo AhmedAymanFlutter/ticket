@@ -210,7 +210,7 @@ class _OtpViewState extends State<OtpView> {
                         onPressed: () {
                           // Validate and Navigate to Reset Password
                           // Validate and Navigate to Reset Password
-                          FadeNavigation.push(
+                          FadeNavigation.pushSlide(
                             context,
                             const ResetPasswordView(),
                           );

@@ -45,7 +45,7 @@ class _OnboardingScaffoldState extends State<OnboardingScaffold> {
       body: BlocConsumer<OnboardingCubit, OnboardingState>(
         listener: (context, state) {
           if (state is OnboardingCompleted) {
-            FadeNavigation.pushReplacement(context, const SignupView());
+            FadeNavigation.pushFromBottom(context, const SignupView());
           }
         },
         builder: (context, state) {

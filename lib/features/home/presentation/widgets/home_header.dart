@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/utils/app_colors.dart';
@@ -101,8 +102,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                             radius: 16.r,
                             backgroundColor: AppColors.splashBackground,
                             child: Image.asset(
-                              'assets/photo/ticket.png',
-                              fit: BoxFit.cover,
+                              'assets/photo/ticket_icon.png',
+                              width: 32.w,
+                              height: 32.h,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           SizedBox(width: 8.w),

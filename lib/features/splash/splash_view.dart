@@ -51,7 +51,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent>
   }
 
   Future<void> _checkStatus() async {
-    FadeNavigation.pushReplacement(context, const OnboardingView());
+    FadeNavigation.pushFromBottom(context, const OnboardingView());
   }
 
   @override

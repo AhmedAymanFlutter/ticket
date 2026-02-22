@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ticket/features/flights/presentation/pages/flights_view.dart';
+import 'package:ticket/features/activities/presentation/pages/activities_view.dart';
 import 'package:ticket/features/home/presentation/widgets/best_destinations_section.dart';
 import 'package:ticket/features/home/presentation/widgets/best_hotels_section.dart';
 import 'package:ticket/features/home/presentation/widgets/custom_bottom_nav_bar.dart';
@@ -7,6 +9,7 @@ import 'package:ticket/features/home/presentation/widgets/home_header.dart';
 import 'package:ticket/features/home/presentation/widgets/plan_adventure_section.dart';
 import 'package:ticket/features/home/presentation/widgets/reviews_section.dart';
 import 'package:ticket/features/home/presentation/widgets/special_offers_section.dart';
+import 'package:ticket/features/more/presentation/more_view.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -40,9 +43,9 @@ class _HomeState extends State<Home> {
         ),
       ),
       const Center(child: Text('Packages Page')),
-      const Center(child: Text('Flights Page')),
-      const Center(child: Text('Activities Page')),
-      const Center(child: Text('More Page')),
+      const FlightsView(),
+      const ActivitiesView(),
+      const MoreView(),
     ];
 
     return Scaffold(

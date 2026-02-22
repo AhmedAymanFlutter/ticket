@@ -192,7 +192,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               CustomGradientButton(
                 text: 'auth.login'.tr(),
                 onPressed: () {
-                  FadeNavigation.pushAndRemoveUntil(context, const LoginView());
+                  FadeNavigation.pushFromBottom(context, const LoginView());
                 },
               ),
             ],

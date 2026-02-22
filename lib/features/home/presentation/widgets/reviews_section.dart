@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/features/home/presentation/widgets/rating_orbit_animation.dart';
@@ -38,7 +39,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
     },
     {
       'name': 'محمد رفعت',
-      'avatar': 'assets/photo/ticket.png',
+      'avatar': 'assets/photo/home_cobonant.png',
       'rating': 5.0,
       'comment':
           'لقد كانت تجربة رائعة! كانت الرحلة منظمة بشكل مثالي، والفنادق رائعة، وتم الاهتمام بكل التفاصيل. لا أطيق الانتظار لمغامرتي القادمة!',
@@ -67,7 +68,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
           child: Column(
             children: [
               Text(
-                'آراء مسافرين', // Localization key: home.traveler_reviews
+                'home.traveler_reviews'.tr(),
                 style: TextStyle(
                   fontFamily: 'Madani Arabic',
                   fontSize: 22.sp,
@@ -77,7 +78,7 @@ class _ReviewsSectionState extends State<ReviewsSection> {
               ),
               SizedBox(height: 8.h),
               Text(
-                'تجارب سفر يشاركها عملاؤنا', // Localization key: home.traveler_reviews_desc
+                'home.traveler_reviews_desc'.tr(),
                 style: TextStyle(
                   fontFamily: 'Madani Arabic',
                   fontSize: 14.sp,

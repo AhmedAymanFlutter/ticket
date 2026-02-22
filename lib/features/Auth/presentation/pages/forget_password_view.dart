@@ -116,7 +116,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                         onPressed: () {
                           // Validate and Navigate to OTP
                           // Validate and Navigate to OTP
-                          FadeNavigation.push(context, const OtpView());
+                          FadeNavigation.pushFade(context, const OtpView());
                         },
                       ),
                     ],

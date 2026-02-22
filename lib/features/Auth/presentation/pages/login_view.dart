@@ -119,7 +119,7 @@ class _LoginViewState extends State<LoginView> {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                           onPressed: () {
-                            FadeNavigation.push(
+                            FadeNavigation.pushFade(
                               context,
                               const ForgetPasswordView(),
                             );
@@ -135,11 +135,10 @@ class _LoginViewState extends State<LoginView> {
 
                       SizedBox(height: 32.h),
 
-                      // Login Button
                       CustomGradientButton(
                         text: 'auth.login'.tr(),
                         onPressed: () {
-                          FadeNavigation.push(context, const Home());
+                          FadeNavigation.pushScale(context, const Home());
                         },
                       ),
                       SizedBox(height: 24.h),
