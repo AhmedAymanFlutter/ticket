@@ -27,42 +27,48 @@ class TicketsAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 12.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Title and Back Button (Right in RTL)
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (showBack)
-                    IconButton(
-                      onPressed: () => Navigator.maybePop(context),
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                        size: 15.sp,
-                      ),
-                    ),
-                  if (title != null)
-                    Text(
-                      title!,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Madani Arabic',
-                      ),
-                    ),
-                ],
-              ),
+          SizedBox(
+            height: 48.h, // Fixed height for consistent centering
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Title and Back Button (Side)
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (showBack)
+                        IconButton(
+                          onPressed: () => Navigator.maybePop(context),
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                            size: 15.sp,
+                          ),
+                        ),
+                      if (title != null)
+                        Text(
+                          title!,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Madani Arabic',
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
 
-              /// Logo (Left in RTL)
-              Image.asset(
-                "assets/photo/ticketLogo.png",
-                height: 28.h,
-                fit: BoxFit.contain,
-              ),
-            ],
+                // Logo (Center)
+                Image.asset(
+                  "assets/photo/ticketLogo.png",
+                  height: 28.h,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
           ),
 
           if (subtitle != null) ...[

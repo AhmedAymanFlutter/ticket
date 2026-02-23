@@ -43,15 +43,19 @@ class _SplashScreenContentState extends State<_SplashScreenContent>
   }
 
   void _startAnimation() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    await _fadeController.forward();
-    // Add delay before navigating
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (mounted) await _fadeController.forward();
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (mounted) await _fadeController.reverse();
+
     if (mounted) _checkStatus();
   }
 
   Future<void> _checkStatus() async {
-    FadeNavigation.pushFromBottom(context, const OnboardingView());
+    FadeNavigation.pushSplash(context, const OnboardingView());
   }
 
   @override

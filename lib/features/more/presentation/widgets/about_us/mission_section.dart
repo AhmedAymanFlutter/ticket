@@ -103,13 +103,15 @@ class _MissionListItem extends StatelessWidget {
             child: icon,
           ),
           SizedBox(width: 16.w),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Madani Arabic',
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Madani Arabic',
+              ),
             ),
           ),
         ],

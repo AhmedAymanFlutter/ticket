@@ -98,10 +98,15 @@
         "tokyo": "Tokyo, Japan",
         "barcelona": "Barcelona, Spain",
         "tokyo_desc": "A city full of modern culture",
-        "barcelona_desc": "Enjoy stunning architecture and a vibrant cultural atmosphere"
+        "barcelona_desc": "Enjoy stunning architecture and a vibrant cultural atmosphere",
+        "riyadh": "Riyadh",
+        "jeddah": "Jeddah",
+        "makkah": "Makkah",
+        "madinah": "Madinah",
+        "dammam": "Dammam"
     },
     "more": {
-        "ready_trip": "Ready for a new adventure? ... Choose your destination",
+        "ready_trip": "Ready for a new trip? ... Choose your destination",
         "user_name": "Ahmed Abd El-Rahman",
         "user_email": "ahmed231@gmail.com",
         "hotels": "Hotels",
@@ -231,5 +236,44 @@
         "hotel_name_sample": "St. Regis Rome Hotel",
         "city_sample": "Singapore",
         "starting_from": "Starting from"
+    },
+    "flights": {
+        "title": "Flights",
+        "where_to_next": "Where are you going next?",
+        "enter_city_desc": "Enter your city to get the best offers and nearby destinations",
+        "round_trip": "Round Trip",
+        "one_way": "One Way",
+        "from": "From",
+        "to": "To",
+        "departure_station": "Departure Airport",
+        "arrival_station": "Arrival Airport",
+        "departure_date": "Select Date",
+        "return_date": "Return Date",
+        "passengers": "Passengers",
+        "passenger_count": "Number of Passengers",
+        "send_request": "Send Booking Request",
+        "trusted_trips": "Trips you can trust",
+        "what_we_offer": "What we offer for your trips",
+        "instant_booking": "Instant Booking",
+        "instant_booking_desc": "Book now and get your ticket instantly",
+        "secure_payments": "Secure and Reliable Payments",
+        "secure_payments_desc": "Multiple payment options with full protection",
+        "best_prices": "Best Available Prices",
+        "best_prices_desc": "Compare flights and find the best offers"
+    },
+    "packages": {
+        "title": "Distinctive travel packages that meet all your needs",
+        "description": "Enjoy seamless travel planning with premium ticket booking services from Tickets. We offer a wide range of flight and travel tickets, designed to suit all budgets, providing a smooth and reliable booking experience at competitive prices.",
+        "explore_now": "Explore Now",
+        "intl_title": "International Tourism Packages",
+        "intl_subtitle": "Explore the best global destinations with integrated international travel packages",
+        "domestic_title": "Domestic Travel Packages",
+        "domestic_subtitle": "Discover the best local destinations through carefully planned domestic trips",
+        "sea_title": "Sea Travel Packages",
+        "sea_subtitle": "Enjoy luxury cruises with breathtaking sea views and exceptional services.",
+        "explore_world": "Explore the World",
+        "explore_world_desc": "Explore the best global destinations through integrated international travel packages, carefully designed to provide comfort, ease, and unforgettable experiences, including flights, accommodation, and guided tours tailored to your travel needs.",
+        "suitable_for_visa": "Suitable for Work Visas",
+        "saudi_arabia": "Saudi Arabia"
     }
 }

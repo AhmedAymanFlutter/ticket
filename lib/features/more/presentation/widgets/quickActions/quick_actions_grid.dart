@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:ticket/features/flights/presentation/pages/flights_view.dart';
 import 'package:ticket/features/more/presentation/services_view.dart';
 import 'package:ticket/features/more/presentation/about_us_view.dart';
 import 'package:ticket/features/travel_guide/presentation/travel_guide_view.dart';
@@ -50,7 +51,7 @@ class QuickActionsGrid extends StatelessWidget {
       QuickActionItem(
         icon: 'assets/icons/boat2.svg',
         label: 'more.flights'.tr(),
-        onTap: () {},
+        onTap: () => FadeNavigation.pushFade(context, const FlightsView()),
       ),
       QuickActionItem(
         icon: 'assets/icons/translate.svg',

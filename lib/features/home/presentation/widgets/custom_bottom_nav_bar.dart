@@ -17,7 +17,6 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 92.h,
       decoration: BoxDecoration(
         color: const Color(0xFF282A51),
         boxShadow: [
@@ -29,15 +28,21 @@ class CustomBottomNavBar extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(0, 'assets/icons/home.svg', 'nav.home'.tr()),
-          _buildNavItem(1, 'assets/icons/package.svg', 'nav.packages'.tr()),
-          _buildNavItem(2, 'assets/icons/flight.svg', 'nav.flights'.tr()),
-          _buildNavItem(3, 'assets/icons/boat.svg', 'nav.activities'.tr()),
-          _buildNavItem(4, 'assets/icons/more.svg', 'nav.more'.tr()),
-        ],
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 80.h,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(0, 'assets/icons/home.svg', 'nav.home'.tr()),
+              _buildNavItem(1, 'assets/icons/package.svg', 'nav.packages'.tr()),
+              _buildNavItem(2, 'assets/icons/flight.svg', 'nav.flights'.tr()),
+              _buildNavItem(3, 'assets/icons/boat.svg', 'nav.activities'.tr()),
+              _buildNavItem(4, 'assets/icons/more.svg', 'nav.more'.tr()),
+            ],
+          ),
+        ),
       ),
     );
   }

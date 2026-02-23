@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:ticket/features/hotels/presentation/pages/hotels_view.dart';
 import 'package:ticket/features/hotels/presentation/widgets/hotel_card.dart';
 
 class BestHotelsSection extends StatelessWidget {
@@ -85,7 +87,7 @@ class BestHotelsSection extends StatelessWidget {
         // View All Button
         GestureDetector(
           onTap: () {
-            // TODO: Navigate to All Hotels
+            FadeNavigation.pushFade(context, const HotelsView());
           },
           child: Text(
             'common.view_all'.tr(),

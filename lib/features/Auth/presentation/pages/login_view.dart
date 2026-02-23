@@ -138,7 +138,7 @@ class _LoginViewState extends State<LoginView> {
                       CustomGradientButton(
                         text: 'auth.login'.tr(),
                         onPressed: () {
-                          FadeNavigation.pushScale(context, const Home());
+                          FadeNavigation.pushFromBottom(context, const Home());
                         },
                       ),
                       SizedBox(height: 24.h),

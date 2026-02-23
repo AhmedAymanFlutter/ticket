@@ -10,6 +10,7 @@ import 'package:ticket/features/home/presentation/widgets/plan_adventure_section
 import 'package:ticket/features/home/presentation/widgets/reviews_section.dart';
 import 'package:ticket/features/home/presentation/widgets/special_offers_section.dart';
 import 'package:ticket/features/more/presentation/more_view.dart';
+import 'package:ticket/features/packages/presentation/pages/packages_view.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      const Center(child: Text('Packages Page')),
+      const PackagesView(),
       const FlightsView(),
       const ActivitiesView(),
       const MoreView(),

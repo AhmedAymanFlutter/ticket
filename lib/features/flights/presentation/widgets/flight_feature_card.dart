@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FlightFeatureCard extends StatelessWidget {
   final String icon;
@@ -33,25 +34,14 @@ class FlightFeatureCard extends StatelessWidget {
       child: Column(
         children: [
           // Icon placeholder
-          Container(
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5F6FF),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.star_outline, // Temporary until SVG refined
-              color: const Color(0xFFFE406F),
-              size: 32.sp,
-            ),
-          ),
+          SvgPicture.asset('assets/photo/Container.svg'),
           SizedBox(height: 16.h),
           Text(
             title.tr(),
             style: TextStyle(
               color: const Color(0xFF282A51),
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w400,
               fontFamily: 'Madani Arabic',
             ),
           ),
@@ -60,8 +50,9 @@ class FlightFeatureCard extends StatelessWidget {
             desc.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: const Color(0xFF8E8E93),
-              fontSize: 14.sp,
+              color: const Color(0xFF8A8A8A),
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w400,
               fontFamily: 'Madani Arabic',
               height: 1.5,
             ),

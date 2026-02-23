@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
 import 'package:ticket/features/activities/presentation/widgets/activities_filters.dart';
 import 'package:ticket/features/activities/presentation/widgets/activities_search_bar.dart';
 import 'package:ticket/features/activities/presentation/widgets/activity_card.dart';
+import 'package:ticket/features/activities/presentation/pages/activity_details_view.dart';
 
 class ActivitiesView extends StatelessWidget {
   const ActivitiesView({super.key});
@@ -61,7 +63,12 @@ class ActivitiesView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               itemCount: 3,
               itemBuilder: (context, index) {
-                return const ActivityCard();
+                return InkWell(
+                  onTap: () {
+                    FadeNavigation.pushFade(context, ActivityDetailsView());
+                  },
+                  child: const ActivityCard(),
+                );
               },
             ),
             SizedBox(height: 100.h), // Bottom nav bar spacing
