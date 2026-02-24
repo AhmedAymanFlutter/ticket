@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
-import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
+import 'package:ticket/core/widgets/appbarDetails_widgets.dart';
 import 'package:ticket/features/activities/presentation/pages/activity_details_view.dart';
 import 'package:ticket/features/travel_guide/presentation/widgets/guide_hero_section.dart';
 import 'package:ticket/features/travel_guide/presentation/widgets/guide_info_section.dart';
@@ -17,7 +17,10 @@ class TourGuideDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
-      appBar: const TicketsAppBar(title: 'تفاصيل الوجهة', showBack: true),
+      appBar: const TicketsAppBarDetails(
+        title: 'تفاصيل الوجهة',
+        showBack: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

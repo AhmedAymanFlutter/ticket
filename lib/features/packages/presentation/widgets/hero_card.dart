@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget buildHeroCard() {
+Widget buildHeroCard({
+  required String name,
+  required String location,
+  required String image,
+}) {
   return Container(
     width: 343.w,
     height: 385.h,
-    margin: EdgeInsets.symmetric(horizontal: 16.w),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(16.r),
@@ -24,7 +27,7 @@ Widget buildHeroCard() {
         ClipRRect(
           borderRadius: BorderRadius.circular(16.r),
           child: Image.network(
-            'https://images.unsplash.com/photo-1544918877-460635b6d13e?q=80&w=1000&auto=format&fit=crop',
+            image,
             width: 343.w,
             height: 385.h,
             fit: BoxFit.cover,
@@ -87,7 +90,7 @@ Widget buildHeroCard() {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                'باقة شهر العسل',
+                name,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 28.sp,
@@ -101,7 +104,7 @@ Widget buildHeroCard() {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'الإمارات العربية المتحدة',
+                    location,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.sp,

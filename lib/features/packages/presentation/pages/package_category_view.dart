@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
-import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
+import 'package:ticket/core/widgets/appbarDetails_widgets.dart';
 import 'package:ticket/features/packages/presentation/widgets/category_package_card.dart';
 import 'package:ticket/features/packages/presentation/pages/package_details_view.dart';
 
@@ -15,7 +15,7 @@ class PackageCategoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
-      appBar: TicketsAppBar(title: categoryTitle, showBack: true),
+      appBar: TicketsAppBarDetails(title: categoryTitle, showBack: true),
       body: SingleChildScrollView(
         child: Column(
           children: [

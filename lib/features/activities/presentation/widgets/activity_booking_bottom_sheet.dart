@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 
 class ActivityBookingBottomSheet extends StatefulWidget {
@@ -12,7 +13,7 @@ class ActivityBookingBottomSheet extends StatefulWidget {
 
 class _ActivityBookingBottomSheetState
     extends State<ActivityBookingBottomSheet> {
-  int _selectedTab = 1; // Default to 'الشروط والأحكام' (Middle tab)
+  int _selectedTab = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +44,13 @@ class _ActivityBookingBottomSheetState
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Stack(
-              alignment: Alignment.center,
+              alignment: Alignment.topRight,
               children: [
-                Positioned(
-                  left: 0,
+                Align(
+                  alignment: AlignmentGeometry.centerLeft,
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: Icon(Icons.close, color: Colors.grey, size: 24.sp),
+                    child: Icon(Icons.close, color: Colors.grey, size: 16.sp),
                   ),
                 ),
                 Text(
@@ -71,17 +72,7 @@ class _ActivityBookingBottomSheetState
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.phone_android, color: Colors.grey, size: 16.sp),
-              SizedBox(width: 4.w),
-              Text(
-                'عرض التذكرة عبر الهاتف المحمول أو طباعتها',
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: const Color(0xFF6B7280),
-                  fontFamily: 'Madani Arabic',
-                ),
-              ),
-              SizedBox(width: 20.w),
+              SizedBox(width: 5.w),
               Icon(Icons.bolt, color: Colors.amber, size: 16.sp),
               SizedBox(width: 4.w),
               Text(
@@ -92,10 +83,32 @@ class _ActivityBookingBottomSheetState
                   fontFamily: 'Madani Arabic',
                 ),
               ),
+              SizedBox(width: 20.w),
+
+              SvgPicture.asset(
+                'assets/icons/smartphone.svg',
+                width: 16.w,
+                height: 16.h,
+                fit: BoxFit.scaleDown,
+              ),
+              SizedBox(width: 4.w),
+              Text(
+                'عرض التذكرة عبر الهاتف المحمول أو طباعتها',
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: const Color(0xFF6B7280),
+                  fontFamily: 'Madani Arabic',
+                ),
+              ),
             ],
           ),
           SizedBox(height: 20.h),
-          const Divider(height: 1, color: Color(0xFFF3F4F6)),
+          const Divider(
+            height: 1,
+            color: Color(0xFFF3F4F6),
+            endIndent: 10,
+            indent: 10,
+          ),
           SizedBox(height: 16.h),
 
           // ── Tabs
@@ -167,18 +180,18 @@ class _ActivityBookingBottomSheetState
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: active ? const Color(0xFFE5F0FF) : Colors.white,
+          color: active ? const Color(0xFF282A5126) : Colors.white,
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
-            color: active ? const Color(0xFF3B82F6) : const Color(0xFFD1D5DB),
+            color: active ? const Color(0xFF6F708A) : const Color(0xFFD1D5DB),
           ),
         ),
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 12.sp,
-            color: active ? const Color(0xFF3B82F6) : const Color(0xFF6B7280),
-            fontWeight: active ? FontWeight.w600 : FontWeight.w400,
+            fontSize: 10.sp,
+            color: active ? const Color(0xFF282A51) : const Color(0xFF6B7280),
+            fontWeight: active ? FontWeight.w400 : FontWeight.w400,
             fontFamily: 'Madani Arabic',
           ),
         ),
@@ -191,7 +204,7 @@ class _ActivityBookingBottomSheetState
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'سياسات الحجز',
@@ -225,7 +238,7 @@ class _ActivityBookingBottomSheetState
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'تفاصيل',
