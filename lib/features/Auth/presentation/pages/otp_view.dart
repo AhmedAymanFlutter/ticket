@@ -101,7 +101,7 @@ class _OtpViewState extends State<OtpView> {
                 ),
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -116,7 +116,7 @@ class _OtpViewState extends State<OtpView> {
                           color: Colors.grey[600],
                         ),
                       ),
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 24.h),
 
                       // Pinput Widget
                       Directionality(
@@ -166,7 +166,7 @@ class _OtpViewState extends State<OtpView> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // Resend Code
                       Container(
@@ -202,7 +202,7 @@ class _OtpViewState extends State<OtpView> {
                         ),
                       ),
 
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 24.h),
 
                       // Verify Button
                       CustomGradientButton(

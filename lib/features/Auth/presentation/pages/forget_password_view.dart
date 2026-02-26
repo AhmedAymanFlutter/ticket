@@ -83,7 +83,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                 ),
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -107,7 +107,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                           print(code.dialCode);
                         },
                       ),
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 24.h),
 
                       // Send Code Button
                       CustomGradientButton(

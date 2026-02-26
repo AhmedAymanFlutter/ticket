@@ -87,12 +87,12 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 8.h),
 
                       PhoneFieldWithCountryPicker(
                         controller: _phoneController,
@@ -101,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
                           print(code.dialCode);
                         },
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
 
                       // Password Field
                       CustomTextField(
@@ -133,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
 
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 24.h),
 
                       CustomGradientButton(
                         text: 'auth.login'.tr(),
@@ -141,7 +141,7 @@ class _LoginViewState extends State<LoginView> {
                           FadeNavigation.pushFromBottom(context, const Home());
                         },
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // OR Divider
                       Row(
@@ -169,7 +169,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // Social Buttons
                       Row(
@@ -197,7 +197,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // Bottom Text
                       Row(
@@ -227,7 +227,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 40.h),
+                      SizedBox(height: 16.h),
                     ],
                   ),
                 ),

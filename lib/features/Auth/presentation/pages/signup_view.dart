@@ -165,7 +165,7 @@ class _SignupViewState extends State<SignupView> {
                 ),
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -175,7 +175,7 @@ class _SignupViewState extends State<SignupView> {
                         controller: _nameController,
                         hintText: 'auth.name'.tr(),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
 
                       // Email Field
                       CustomTextField(
@@ -183,7 +183,7 @@ class _SignupViewState extends State<SignupView> {
                         hintText: 'auth.email'.tr(),
                         keyboardType: TextInputType.emailAddress,
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
 
                       // Phone Field with Country Code (Unified Container)
                       PhoneFieldWithCountryPicker(
@@ -193,7 +193,7 @@ class _SignupViewState extends State<SignupView> {
                           print(code.dialCode);
                         },
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       // City Dropdown Field
                       GestureDetector(
                         onTap: () {
@@ -240,7 +240,7 @@ class _SignupViewState extends State<SignupView> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       // Password Field
                       CustomTextField(
                         controller: _passwordController,
@@ -251,7 +251,7 @@ class _SignupViewState extends State<SignupView> {
                           color: Colors.grey[600],
                         ),
                       ),
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 24.h),
 
                       CustomGradientButton(
                         text: 'auth.register'.tr(),
@@ -260,7 +260,7 @@ class _SignupViewState extends State<SignupView> {
                           FadeNavigation.pushFromBottom(context, const Home());
                         },
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // OR Divider
                       Row(
@@ -288,7 +288,7 @@ class _SignupViewState extends State<SignupView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // Social Buttons
                       Row(
@@ -316,7 +316,7 @@ class _SignupViewState extends State<SignupView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(height: 16.h),
 
                       // Bottom Text
                       Row(
@@ -349,7 +349,7 @@ class _SignupViewState extends State<SignupView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 40.h),
+                      SizedBox(height: 16.h),
                     ],
                   ),
                 ),

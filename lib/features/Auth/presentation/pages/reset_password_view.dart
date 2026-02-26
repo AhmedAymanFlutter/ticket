@@ -85,7 +85,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 ),
               ),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -103,7 +103,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           color: Colors.grey[600],
                         ),
                       ),
-                      SizedBox(height: 32.h),
+                      SizedBox(height: 24.h),
 
                       // Confirm Button
                       CustomGradientButton(
