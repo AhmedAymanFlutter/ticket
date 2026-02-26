@@ -31,39 +31,43 @@ class TicketsAppBarDetails extends StatelessWidget
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 48.h,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (showBack)
-                            IconButton(
-                              onPressed: () => Navigator.maybePop(context),
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                                size: 15.sp,
+              Expanded(
+                child: SizedBox(
+                  height: 48.h,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Row(
+                          children: [
+                            if (showBack)
+                              IconButton(
+                                onPressed: () => Navigator.maybePop(context),
+                                icon: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                  size: 15.sp,
+                                ),
                               ),
-                            ),
-                          if (title != null)
-                            Text(
-                              title!,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'Madani Arabic',
+                            if (title != null)
+                              Expanded(
+                                child: Text(
+                                  title!,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'Madani Arabic',
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Image.asset(
