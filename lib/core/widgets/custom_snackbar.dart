@@ -97,3 +97,35 @@ class CustomSnackBarContent extends StatelessWidget {
     );
   }
 }
+
+extension SnackBarExtension on BuildContext {
+  void showSuccessSnackBar(String message) {
+    ScaffoldMessenger.of(this)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        CustomSnackBar(message: message, type: SnackBarType.success),
+      );
+  }
+
+  void showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(this)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        CustomSnackBar(message: message, type: SnackBarType.error),
+      );
+  }
+
+  void showWarningSnackBar(String message) {
+    ScaffoldMessenger.of(this)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        CustomSnackBar(message: message, type: SnackBarType.warning),
+      );
+  }
+
+  void showInfoSnackBar(String message) {
+    ScaffoldMessenger.of(this)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(CustomSnackBar(message: message, type: SnackBarType.info));
+  }
+}

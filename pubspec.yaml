@@ -47,6 +47,7 @@ dependencies:
   shared_preferences: ^2.3.5
   country_code_picker: ^3.4.1
   pinput: ^6.0.2
+  flutter_secure_storage: ^10.0.0
 
 dev_dependencies:
   flutter_test:
