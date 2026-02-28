@@ -2,13 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/localization/hybrid_asset_loader.dart';
-
+import 'package:ticket/core/network/api_helper.dart';
 import 'package:ticket/features/splash/splash_view.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await APIHelper.init();
   await di.init();
 
   runApp(

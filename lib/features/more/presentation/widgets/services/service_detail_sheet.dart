@@ -2,39 +2,52 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-/// Data model for a service item
-class ServiceItem {
-  final String icon;
-  final String label;
-  final String description;
-  final String howToUse;
-
-  const ServiceItem({
-    required this.icon,
-    required this.label,
-    required this.description,
-    required this.howToUse,
-  });
-}
+import 'package:ticket/features/services/data/models/service_model.dart';
+import 'package:ticket/features/services/data/models/service_settings_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Shows the service detail bottom sheet
-void showServiceDetailSheet(BuildContext context, ServiceItem service) {
+void showServiceDetailSheet(
+  BuildContext context,
+  ServiceModel service,
+  ServiceSettingsModel settings,
+) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => _ServiceDetailSheet(service: service),
+    builder: (_) => _ServiceDetailSheet(service: service, settings: settings),
   );
 }
 
 class _ServiceDetailSheet extends StatelessWidget {
-  final ServiceItem service;
-  const _ServiceDetailSheet({required this.service});
+  final ServiceModel service;
+  final ServiceSettingsModel settings;
+  const _ServiceDetailSheet({required this.service, required this.settings});
+
+  Future<void> _launchWhatsApp(String phone) async {
+    final url = 'whatsapp://send?phone=$phone';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
+  }
+
+  Future<void> _launchCall(String phone) async {
+    final url = 'tel:$phone';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // height: 636 → fills bottom portion (top: 525 on 1080px screen)
+    final whatsAppPhone = settings.phones
+        .firstWhere((p) => p.isWhatsApp, orElse: () => settings.phones.first)
+        .number;
+    final primaryPhone = settings.phones
+        .firstWhere((p) => p.isPrimary, orElse: () => settings.phones.first)
+        .number;
+
     return Container(
       height: 636.h,
       width: double.infinity,
@@ -70,13 +83,15 @@ class _ServiceDetailSheet extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        service.label,
-                        style: TextStyle(
-                          fontFamily: 'Madani Arabic',
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF1A1A1A),
+                      Expanded(
+                        child: Text(
+                          service.name,
+                          style: TextStyle(
+                            fontFamily: 'Madani Arabic',
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF1A1A1A),
+                          ),
                         ),
                       ),
                       GestureDetector(
@@ -140,7 +155,7 @@ class _ServiceDetailSheet extends StatelessWidget {
                   SizedBox(height: 12.h),
 
                   Text(
-                    service.howToUse,
+                    service.summary,
                     style: TextStyle(
                       fontFamily: 'Madani Arabic',
                       fontSize: 14.sp,
@@ -148,7 +163,7 @@ class _ServiceDetailSheet extends StatelessWidget {
                       color: const Color(0xFF1A1A1A),
                       height: 1.8,
                     ),
-                    textAlign: TextAlign.right, // RTL content
+                    textAlign: TextAlign.right,
                   ),
 
                   SizedBox(height: 24.h),
@@ -168,7 +183,7 @@ class _ServiceDetailSheet extends StatelessWidget {
                   icon: 'assets/icons/watsapp.svg',
                   backgroundColor: const Color(0xFF25D366),
                   textColor: Colors.white,
-                  onTap: () {},
+                  onTap: () => _launchWhatsApp(whatsAppPhone),
                 ),
                 SizedBox(height: 12.h),
                 // Call Now Button
@@ -177,7 +192,7 @@ class _ServiceDetailSheet extends StatelessWidget {
                   icon: 'assets/icons/customer-service.svg',
                   backgroundColor: const Color(0xFFEAEAEA),
                   textColor: const Color(0xFF1A1A1A),
-                  onTap: () {},
+                  onTap: () => _launchCall(primaryPhone),
                 ),
               ],
             ),

@@ -1,121 +1,128 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
 import 'package:ticket/features/more/presentation/widgets/services/service_card.dart';
 import 'package:ticket/features/more/presentation/widgets/services/service_detail_sheet.dart';
+import 'package:ticket/features/services/data/models/service_model.dart';
+import 'package:ticket/features/services/presentation/manager/services_cubit.dart';
+import 'package:ticket/features/services/presentation/manager/services_state.dart';
+import 'package:ticket/injection_container.dart';
 
 class ServicesView extends StatelessWidget {
   const ServicesView({super.key});
 
-  static List<ServiceItem> _buildServices(BuildContext context) {
-    return [
-      ServiceItem(
-        icon: 'assets/icons/services.svg',
-        label: 'more.service_car_rental'.tr(),
-        description: 'more.service_car_rental_desc'.tr(),
-        howToUse: 'more.service_how_to_use_default'.tr(),
-      ),
-      ServiceItem(
-        icon: 'assets/icons/boat2.svg',
-        label: 'more.service_boat_trips'.tr(),
-        description: 'more.service_boat_trips_desc'.tr(),
-        howToUse: 'more.service_how_to_use_default'.tr(),
-      ),
-      ServiceItem(
-        icon: 'assets/icons/document-validation.svg',
-        label: 'more.service_driving_license'.tr(),
-        description: 'more.service_driving_license_desc'.tr(),
-        howToUse: 'more.service_how_to_use_default'.tr(),
-      ),
-      ServiceItem(
-        icon: 'assets/icons/flight.svg',
-        label: 'more.service_book_flight'.tr(),
-        description: 'more.service_book_flight_desc'.tr(),
-        howToUse: 'more.service_how_to_use_default'.tr(),
-      ),
-      ServiceItem(
-        icon: 'assets/icons/tour_guide.svg',
-        label: 'more.service_programs'.tr(),
-        description: 'more.service_programs_desc'.tr(),
-        howToUse: 'more.service_how_to_use_default'.tr(),
-      ),
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
-    final services = _buildServices(context);
+    final lang = context.locale.languageCode;
+    return BlocProvider(
+      create: (context) => sl<ServicesCubit>()..getServices(lang),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F8F8),
+        appBar: TicketsAppBar(subtitle: 'more.ready_trip'.tr()),
+        body: BlocBuilder<ServicesCubit, ServicesState>(
+          builder: (context, state) {
+            if (state is ServicesFailure) {
+              return Center(child: Text(state.message));
+            }
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
-      appBar: TicketsAppBar(subtitle: 'more.ready_trip'.tr()),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 8.h),
+            final isLoading =
+                state is ServicesLoading || state is ServicesInitial;
+            final services = (state is ServicesSuccess)
+                ? state.services
+                : List.generate(
+                    6,
+                    (index) => const ServiceModel(
+                      id: 'skeleton',
+                      name: 'Service Name',
+                      slug: 'slug',
+                      imageCover: '',
+                      description: 'Description...',
+                      summary: 'Summary...',
+                      method: 'method',
+                      alt: 'alt',
+                    ),
+                  );
+            final settings = (state is ServicesSuccess) ? state.settings : null;
 
-            //  Gradient sub-label
-            Center(
-              child: ShaderMask(
-                shaderCallback: (b) => const LinearGradient(
-                  colors: [Color(0xFFFE406F), Color(0xFFFD6B38)],
-                ).createShader(b),
-                child: Text(
-                  'more.services_features'.tr(),
-                  style: TextStyle(
-                    fontFamily: 'Madani Arabic',
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                  ),
+            return Skeletonizer(
+              enabled: isLoading,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 8.h),
+
+                    //  Gradient sub-label
+                    Center(
+                      child: ShaderMask(
+                        shaderCallback: (b) => const LinearGradient(
+                          colors: [Color(0xFFFE406F), Color(0xFFFD6B38)],
+                        ).createShader(b),
+                        child: Text(
+                          'more.services_features'.tr(),
+                          style: TextStyle(
+                            fontFamily: 'Madani Arabic',
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 8.h),
+
+                    //  Big title
+                    Center(
+                      child: Text(
+                        'more.services_headline'.tr(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Madani Arabic',
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF1A1A1A),
+                          height: 32.6 / 24,
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 24.h),
+
+                    //  Cards Grid
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16.w,
+                        mainAxisSpacing: 16.h,
+                        childAspectRatio: 164 / 194,
+                      ),
+                      itemCount: services.length,
+                      itemBuilder: (context, i) {
+                        final svc = services[i];
+                        return ServiceCard(
+                          service: svc,
+                          onTap: () {
+                            if (settings != null) {
+                              showServiceDetailSheet(context, svc, settings);
+                            }
+                          },
+                        );
+                      },
+                    ),
+
+                    SizedBox(height: 24.h),
+                  ],
                 ),
               ),
-            ),
-
-            SizedBox(height: 8.h),
-
-            //  Big title
-            Text(
-              'more.services_headline'.tr(),
-              textAlign: TextAlign.center,
-
-              style: TextStyle(
-                fontFamily: 'Madani Arabic',
-                fontSize: 24.sp,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF1A1A1A),
-                height: 32.6 / 24,
-              ),
-            ),
-
-            SizedBox(height: 24.h),
-
-            //  Cards Grid
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16.w,
-                mainAxisSpacing: 16.h,
-                childAspectRatio: 164 / 194,
-              ),
-              itemCount: services.length,
-              itemBuilder: (context, i) {
-                final svc = services[i];
-                return ServiceCard(
-                  icon: svc.icon,
-                  label: svc.label,
-                  onTap: () => showServiceDetailSheet(context, svc),
-                );
-              },
-            ),
-
-            SizedBox(height: 24.h),
-          ],
+            );
+          },
         ),
       ),
     );

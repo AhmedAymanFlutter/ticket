@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/features/more/presentation/widgets/setting/settingsRow_widgets.dart';
+import 'package:ticket/features/more/presentation/contact_us_view.dart';
 
 class SettingsList extends StatelessWidget {
   const SettingsList({super.key});
@@ -48,7 +49,12 @@ class SettingsList extends StatelessWidget {
             icon: 'assets/icons/customer-service.svg',
             label: 'more.contact_us'.tr(),
             isDestructive: false,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ContactUsView()),
+              );
+            },
             showDivider: true,
           ),
           SizedBox(height: 30.h),

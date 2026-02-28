@@ -26,7 +26,12 @@ class DestinationCard extends StatelessWidget {
             spreadRadius: 0,
           ),
         ],
-        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
+        image: DecorationImage(
+          image: imagePath.startsWith('http')
+              ? NetworkImage(imagePath) as ImageProvider
+              : AssetImage(imagePath),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Stack(
         children: [

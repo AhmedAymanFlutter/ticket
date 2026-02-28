@@ -4,6 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/home/presentation/widgets/special_offer_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/features/home/presentation/manager/offers_cubit.dart';
+import 'package:ticket/features/home/presentation/manager/offers_state.dart';
+import 'package:ticket/core/widgets/horizontal_skeleton_list.dart';
 
 class SpecialOffersSection extends StatefulWidget {
   const SpecialOffersSection({super.key});
@@ -17,10 +21,10 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
   final PageController _pageController = PageController();
   final List<String> _filters = [
     'common.all',
-    'common.programs',
-    'common.hotels',
-    'common.activities',
-    'common.collected_packages',
+    'common.flight',
+    'common.hotel',
+    'common.package',
+    'common.activity',
   ];
 
   @override
@@ -80,9 +84,17 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
               final isSelected = _selectedIndex == index;
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
+                  if (_selectedIndex != index) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+
+                    // Fetch offers for the newly selected filter
+                    context.read<OffersCubit>().getOffers(
+                      context.locale.languageCode,
+                      filterCategory: _filters[index],
+                    );
+                  }
                 },
                 child: Container(
                   height: 29.h,
@@ -126,44 +138,65 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
         // Cards PageView
         SizedBox(
           height: 215.h, // Adjusted for horizontal card height + margin
-          child: PageView.builder(
-            controller: _pageController,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              // Mock Data
-              final titles = [
-                'home.three_days_in_paris'.tr(),
-                'home.week_in_maldives'.tr(),
-                'home.tour_in_old_cairo'.tr(),
-              ];
-              final descriptions = [
-                'home.paris_desc'.tr(),
-                'home.maldives_desc'.tr(),
-                'home.cairo_desc'.tr(),
-              ];
-              final prices = [4000, 12000, 1500];
-              final types = [
-                'common.programs'.tr(),
-                'common.hotels'.tr(),
-                'common.activities'.tr(),
-              ];
-              final images = [
-                'assets/photo/image (1).png',
-                'assets/photo/home_cobonant.png',
-                'assets/photo/image (1).png',
-              ];
+          child: BlocBuilder<OffersCubit, OffersState>(
+            builder: (context, state) {
+              if (state is OffersLoading) {
+                return HorizontalSkeletonList(
+                  itemCount: 3,
+                  separatorWidth: 0,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: const SpecialOfferCard(
+                        imagePath: 'assets/photo/image (1).png',
+                        title: 'Loading Offer...',
+                        description: 'Loading description...',
+                        days: 3,
+                        price: 1000,
+                        type: 'Loading',
+                      ),
+                    );
+                  },
+                );
+              } else if (state is OffersFailure) {
+                return Center(child: Text(state.message));
+              } else if (state is OffersSuccess) {
+                final offers = state.offers;
+                if (offers.isEmpty) {
+                  return Center(child: Text('home.no_offers'.tr()));
+                }
 
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: SpecialOfferCard(
-                  imagePath: images[index % images.length],
-                  title: titles[index % titles.length],
-                  description: descriptions[index % descriptions.length],
-                  days: 3 + index,
-                  price: prices[index % prices.length],
-                  type: types[index % types.length],
-                ),
-              );
+                return PageView.builder(
+                  controller: _pageController,
+                  itemCount: offers.length,
+                  itemBuilder: (context, index) {
+                    final offer = offers[index];
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: SpecialOfferCard(
+                        imagePath:
+                            (offer.imageCover != null &&
+                                offer.imageCover!.isNotEmpty)
+                            ? offer.imageCover!
+                            : 'assets/photo/image (1).png',
+                        title: offer.title ?? '',
+                        description: offer.description ?? '',
+                        days:
+                            int.tryParse(
+                              offer.details?['totalDays']?.toString() ?? '',
+                            ) ??
+                            int.tryParse(
+                              offer.details?['duration']?.toString() ?? '',
+                            ) ??
+                            1, // Fallback days logic
+                        price: offer.price ?? 0,
+                        type: offer.type ?? 'Offer',
+                      ),
+                    );
+                  },
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
         ),

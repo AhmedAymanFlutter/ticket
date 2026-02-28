@@ -48,7 +48,10 @@ class TourGuideDetailsView extends StatelessWidget {
                   'استمتع بتجارب متنوعة تشمل المعالم الشهيرة، والتسوق، والأنشطة الترفيهية الفريدة.',
               places: sampleActivities,
               onItemTap: () {
-                FadeNavigation.pushFade(context, ActivityDetailsView());
+                FadeNavigation.pushFade(
+                  context,
+                  const ActivityDetailsView(productCode: 'sample'),
+                );
               },
             ),
             SizedBox(height: 40.h),

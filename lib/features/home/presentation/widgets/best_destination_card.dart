@@ -40,11 +40,17 @@ class BestDestinationCard extends StatelessWidget {
           // Image
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
-            child: Image.asset(
+            child: Image.network(
               imagePath,
               width: double.infinity,
-              height: 190.h, // Approx half height for image
+              height: 190.h,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                width: double.infinity,
+                height: 190.h,
+                color: Colors.grey[200],
+                child: const Icon(Icons.broken_image, color: Colors.grey),
+              ),
             ),
           ),
 
@@ -81,7 +87,7 @@ class BestDestinationCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
 
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 6.h),
 
                   // Days
                   Row(
@@ -109,16 +115,16 @@ class BestDestinationCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 8.h),
                   // Divider (Height handles spacing)
                   Divider(
                     color: const Color(
                       0xFFEAE9EB,
                     ), // var(--stroke-Color, #EAE9EB)
                     thickness: 1,
-                    height: 8.h, // Reduced height (was 16.h)
+                    height: 8.h,
                   ),
-
+                  SizedBox(height: 8.h),
                   // Price and Button Row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

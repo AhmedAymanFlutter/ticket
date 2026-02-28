@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
+import 'package:ticket/features/tours/data/models/tour_details_model.dart';
 
 class ActivityMainInfo extends StatelessWidget {
-  const ActivityMainInfo({super.key});
+  final TourDetailsModel? tour;
+  const ActivityMainInfo({super.key, this.tour});
 
   @override
   Widget build(BuildContext context) {
+    // Dynamic data from tour details
+    final String locationStr =
+        '${tour?.cityName ?? 'جدة'}، ${tour?.timeZone?.split('/').first ?? 'المملكة العربية السعودية'}';
+    final String titleStr = tour?.title ?? 'رحلة بحرية فاخرة على الساحل لشخصين';
+    final num ratingAvg = tour?.ratingAverage ?? 4.6;
+    final int ratingCount = tour?.ratingCount ?? 70;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
@@ -14,7 +23,7 @@ class ActivityMainInfo extends StatelessWidget {
         children: [
           // ── Location
           Text(
-            'جدة، المملكة العربية السعودية',
+            locationStr,
             style: TextStyle(
               fontSize: 12.sp,
               color: const Color(0xFF6B7280),
@@ -26,7 +35,7 @@ class ActivityMainInfo extends StatelessWidget {
 
           // ── Title
           Text(
-            'رحلة بحرية فاخرة على الساحل لشخصين',
+            titleStr,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
@@ -43,7 +52,7 @@ class ActivityMainInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                '4.6 من 70 تقييماً',
+                '$ratingAvg من $ratingCount تقييماً',
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: const Color(0xFF6B7280),
@@ -62,9 +71,20 @@ class ActivityMainInfo extends StatelessWidget {
             spacing: 8.w,
             runSpacing: 8.h,
             children: [
-              _buildFeatureChip('شخصان بالغان'),
-              _buildFeatureChip('3 ساعات'),
-              _buildFeatureChip('إلغاء مجاني'),
+              if (tour?.pricingInfo?.type != null)
+                _buildFeatureChip(tour!.pricingInfo!.type!),
+              if (tour?.itinerary?.fixedDurationInMinutes != null)
+                _buildFeatureChip(
+                  '${tour!.itinerary!.fixedDurationInMinutes! ~/ 60} ساعات',
+                ),
+              if (tour?.cancellationPolicy?.type != null)
+                _buildFeatureChip(tour!.cancellationPolicy!.type!),
+              // Fallback default chips if no data
+              if (tour == null) ...[
+                _buildFeatureChip('شخصان بالغان'),
+                _buildFeatureChip('3 ساعات'),
+                _buildFeatureChip('إلغاء مجاني'),
+              ],
             ],
           ),
         ],

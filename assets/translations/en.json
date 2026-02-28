@@ -51,6 +51,10 @@
         "contact_now": "Contact Now",
         "price_sar": "SAR",
         "all": "All",
+        "flight": "Flight",
+        "hotel": "Hotel",
+        "package": "Package",
+        "activity": "Activity",
         "programs": "Tour Programs",
         "hotels": "Hotels",
         "activities": "Activities",
@@ -58,7 +62,8 @@
         "view_details": "View Details",
         "explore": "Explore",
         "per_night": "/Night",
-        "view_all": "View All"
+        "view_all": "View All",
+        "retry": "Retry"
     },
     "home": {
         "welcome": "Welcome!",
@@ -274,6 +279,39 @@
         "explore_world": "Explore the World",
         "explore_world_desc": "Explore the best global destinations through integrated international travel packages, carefully designed to provide comfort, ease, and unforgettable experiences, including flights, accommodation, and guided tours tailored to your travel needs.",
         "suitable_for_visa": "Suitable for Work Visas",
-        "saudi_arabia": "Saudi Arabia"
+        "saudi_arabia": "Saudi Arabia",
+        "no_packages_found": "No packages available currently",
+        "no_categories_found": "No categories available currently",
+        "package_details": "Package Details",
+        "included_destinations": "Included Destinations",
+        "explore_highlights": "Explore Highlights",
+        "trip_program": "Trip Program",
+        "daily_guide": "Daily Guide",
+        "newlyweds": "Newlyweds",
+        "days_count": "Days",
+        "nights_count": "Nights",
+        "explore_this_city": "Explore this city",
+        "day": "Day",
+        "tour_included": "Tour Included",
+        "tour": "Tour"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "support_service": "Support & Customer Service",
+        "support_team": "Support Team",
+        "visit_office": "Visit Our Office",
+        "send_message": "Send a Message",
+        "form_description": "We are always happy to hear your feedback or answer your questions. Please fill out the form below and our team will get back to you soon.",
+        "name_hint": "Full Name",
+        "email_hint": "Email Address",
+        "message_hint": "Write your message here...",
+        "name_required": "Please enter your name",
+        "email_invalid": "Invalid email address",
+        "message_required": "Please write a message",
+        "message_sent": "Message sent successfully",
+        "send_now": "Send Now",
+        "connect_with_us": "Connect with Us",
+        "book_trip": "Book Your Trip",
+        "contact_whatsapp_details": "Contact us via WhatsApp"
     }
 }

@@ -2,8 +2,29 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ActivitiesSearchBar extends StatelessWidget {
-  const ActivitiesSearchBar({super.key});
+class ActivitiesSearchBar extends StatefulWidget {
+  final void Function(String)? onSearch;
+
+  const ActivitiesSearchBar({super.key, this.onSearch});
+
+  @override
+  State<ActivitiesSearchBar> createState() => _ActivitiesSearchBarState();
+}
+
+class _ActivitiesSearchBarState extends State<ActivitiesSearchBar> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _submitSearch() {
+    if (widget.onSearch != null) {
+      widget.onSearch!(_controller.text.trim());
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +48,9 @@ class ActivitiesSearchBar extends StatelessWidget {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: TextField(
+                      controller: _controller,
+                      textInputAction: TextInputAction.search,
+                      onSubmitted: (_) => _submitSearch(),
                       decoration: InputDecoration(
                         hintText: 'activities.search_hint'.tr(),
                         hintStyle: TextStyle(
@@ -46,21 +70,24 @@ class ActivitiesSearchBar extends StatelessWidget {
           ),
           SizedBox(width: 8.w),
           // Search Button
-          Container(
-            width: 83.w,
-            height: 40.h,
-            decoration: BoxDecoration(
-              color: const Color(0xFF282A51),
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            child: Center(
-              child: Text(
-                'activities.search_button'.tr(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Madani Arabic',
+          GestureDetector(
+            onTap: _submitSearch,
+            child: Container(
+              width: 83.w,
+              height: 40.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFF282A51),
+                borderRadius: BorderRadius.circular(5.r),
+              ),
+              child: Center(
+                child: Text(
+                  'activities.search_button'.tr(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Madani Arabic',
+                  ),
                 ),
               ),
             ),

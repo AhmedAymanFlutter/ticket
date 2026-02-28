@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ticket/core/utils/app_colors.dart';
+import 'package:ticket/features/tours/data/models/tour_details_model.dart';
 import 'package:ticket/features/activities/presentation/widgets/activity_package_card.dart';
 
 class ActivityDetailsSection extends StatelessWidget {
-  const ActivityDetailsSection({super.key});
+  final TourDetailsModel? tour;
+  const ActivityDetailsSection({super.key, this.tour});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,8 @@ class ActivityDetailsSection extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
             child: Text(
-              'استمتع برحلة بحرية فاخرة على طول شواطئ جدة الساحرة على البحر الأحمر. صممت هذه التجربة خصيصاً للأزواج الراغبين في الاسترخاء والاستكشاف والاستمتاع بجمال البحر في أجواء خاصة وأنيقة. من المياه الصافية الكريستالية إلى الخدمات المميزة على متن القارب، تُقدم هذه الرحلة التوازن الأمثل بين الاسترخاء والمغامرة، مما يجعلها مثالية لقضاء عطلات رومانسية أو الاحتفال بمناسبات خاصة.',
+              tour?.description ??
+                  'استمتع برحلة بحرية فاخرة على طول شواطئ جدة الساحرة على البحر الأحمر. صممت هذه التجربة خصيصاً للأزواج الراغبين في الاسترخاء والاستكشاف والاستمتاع بجمال البحر في أجواء خاصة وأنيقة. من المياه الصافية الكريستالية إلى الخدمات المميزة على متن القارب، تُقدم هذه الرحلة التوازن الأمثل بين الاسترخاء والمغامرة، مما يجعلها مثالية لقضاء عطلات رومانسية أو الاحتفال بمناسبات خاصة.',
               style: TextStyle(
                 fontSize: 13.sp,
                 color: const Color(0xFF6B7280),
@@ -48,48 +50,74 @@ class ActivityDetailsSection extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
 
-          // ── Section 2: Features
-          _buildSectionHeader('المميزات'),
-          SizedBox(height: 12.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              children: [
-                _buildCheckItem('مناظر ساحلية خلابة للبحر الأحمر'),
-                SizedBox(height: 10.h),
-                _buildCheckItem('معدات السلامة تشمل'),
-                SizedBox(height: 10.h),
-                _buildCheckItem('أماكن جلوس مريحة ومناطق مظللة'),
-              ],
+          // ── Section 2: Features (Inclusions/Exclusions)
+          if (tour?.inclusions != null && tour!.inclusions!.isNotEmpty) ...[
+            _buildSectionHeader('المميزات'),
+            SizedBox(height: 12.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                children: tour!.inclusions!
+                    .map(
+                      (item) => Padding(
+                        padding: EdgeInsets.only(bottom: 10.h),
+                        child: _buildCheckItem(item),
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-
-          SizedBox(height: 16.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: const Divider(color: Color(0xFFF3F4F6)),
-          ),
-          SizedBox(height: 16.h),
-
-          // ── Section 3: Available Packages
-          _buildSectionHeader('الباقات المتاحة'),
-          SizedBox(height: 16.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Column(
-              children: [
-                const ActivityPackageCard(
-                  title: 'الباقة الأولى: تجربة غروب الشمس الفاخرة',
-                  price: '2500',
-                ),
-                SizedBox(height: 16.h),
-                const ActivityPackageCard(
-                  title: 'الباقة الثانية: تجربة غروب الشمس الفاخرة',
-                  price: '2500',
-                ),
-              ],
+            SizedBox(height: 16.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: const Divider(color: Color(0xFFF3F4F6)),
             ),
-          ),
+            SizedBox(height: 16.h),
+          ],
+
+          // ── Section 3: Available Packages (Product Options)
+          if (tour?.productOptions != null &&
+              tour!.productOptions!.isNotEmpty) ...[
+            _buildSectionHeader('الباقات المتاحة'),
+            SizedBox(height: 16.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                children: tour!.productOptions!
+                    .map(
+                      (option) => Padding(
+                        padding: EdgeInsets.only(bottom: 16.h),
+                        child: ActivityPackageCard(
+                          title: option.title ?? 'باقة جولة',
+                          price:
+                              '${tour?.price?.amount ?? 0}', // Use tour price or option price if available
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ] else if (tour == null) ...[
+            // Fallback static UI if tour is null (skeleton state)
+            _buildSectionHeader('الباقات المتاحة'),
+            SizedBox(height: 16.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                children: [
+                  const ActivityPackageCard(
+                    title: 'الباقة الأولى: تجربة غروب الشمس الفاخرة',
+                    price: '2500',
+                  ),
+                  SizedBox(height: 16.h),
+                  const ActivityPackageCard(
+                    title: 'الباقة الثانية: تجربة غروب الشمس الفاخرة',
+                    price: '2500',
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -110,13 +138,12 @@ class ActivityDetailsSection extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8.w),
-
           Text(
             title,
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.primary,
+              color: const Color(0xFF282A51), // AppColors.primary
               fontFamily: 'Madani Arabic',
             ),
           ),
@@ -135,7 +162,7 @@ class ActivityDetailsSection extends StatelessWidget {
             color: Color(0xFFE5E7EB),
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.check, size: 14.sp, color: AppColors.primary),
+          child: const Icon(Icons.check, size: 14, color: Color(0xFF282A51)),
         ),
         SizedBox(width: 12.w),
         Expanded(
@@ -143,7 +170,7 @@ class ActivityDetailsSection extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.primary,
+              color: const Color(0xFF282A51),
               fontWeight: FontWeight.w500,
               fontFamily: 'Madani Arabic',
             ),

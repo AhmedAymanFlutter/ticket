@@ -1,4 +1,6 @@
 abstract class EndPoints {
-  static const String baseUrl = 'https://grow-server-beta.vercel.app/api/v1/';
+  static const String baseUrl = 'http://192.168.1.230:3001/api/v1';
   static const String refreshToken = 'refreshToken';
+  static const String services = '/services';
+  static const String settings = '/settings';
 }

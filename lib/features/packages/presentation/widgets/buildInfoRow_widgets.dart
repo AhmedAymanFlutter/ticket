@@ -1,8 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 
-Widget buildInfoRow() {
+Widget buildInfoRow({
+  required int nights,
+  required int days,
+  required double price,
+}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 16.w),
     child: Row(
@@ -10,7 +15,7 @@ Widget buildInfoRow() {
       children: [
         Expanded(
           child: buildInfoItem(
-            'عروسان',
+            'packages.newlyweds'.tr(),
             Icons.group_outlined,
             const Color(0xFFFFF0F0),
           ),
@@ -18,7 +23,7 @@ Widget buildInfoRow() {
         SizedBox(width: 8.w),
         Expanded(
           child: buildInfoItem(
-            '5 أيام',
+            'packages.days_count'.tr(args: [days.toString()]),
             Icons.wb_sunny_outlined,
             const Color(0xFFFFF7F0),
           ),
@@ -26,7 +31,7 @@ Widget buildInfoRow() {
         SizedBox(width: 8.w),
         Expanded(
           child: buildInfoItem(
-            '4 ليال',
+            'packages.nights_count'.tr(args: [nights.toString()]),
             Icons.nightlight_outlined,
             const Color(0xFFF6F0FF),
           ),
@@ -38,7 +43,7 @@ Widget buildInfoRow() {
 
 Widget buildInfoItem(String label, IconData icon, Color iconBg) {
   return Container(
-    height: 94.h,
+    padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
     decoration: BoxDecoration(
       color: const Color(0xFFF9F9F9),
       borderRadius: BorderRadius.circular(12.r),

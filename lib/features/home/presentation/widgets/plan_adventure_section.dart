@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:ticket/features/activities/presentation/pages/activities_view.dart';
 
 class PlanAdventureSection extends StatelessWidget {
   const PlanAdventureSection({super.key});
@@ -101,7 +103,10 @@ class PlanAdventureSection extends StatelessWidget {
                         // Button
                         GestureDetector(
                           onTap: () {
-                            // Navigate to activities
+                            FadeNavigation.pushFade(
+                              context,
+                              const ActivitiesView(),
+                            );
                           },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6.r),

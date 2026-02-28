@@ -25,7 +25,7 @@ class SpecialOfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: 327.w,
       height: 205.h,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -40,12 +40,38 @@ class SpecialOfferCard extends StatelessWidget {
               topStart: Radius.circular(12.r),
               bottomStart: Radius.circular(12.r),
             ),
-            child: Image.asset(
-              imagePath,
-              width: 130.w,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
+            child: imagePath.startsWith('http')
+                ? Image.network(
+                    imagePath,
+                    width: 130.w,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        'assets/photo/image (1).png',
+                        width: 130.w,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  )
+                : Image.asset(
+                    imagePath,
+                    width: 130.w,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 130.w,
+                        height: double.infinity,
+                        color: Colors.grey[200],
+                        child: const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
           ),
 
           // Content
@@ -124,12 +150,16 @@ class SpecialOfferCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 4.w),
-                      Text(
-                        type,
-                        style: TextStyle(
-                          fontFamily: 'Madani Arabic',
-                          fontSize: 12.sp,
-                          color: const Color(0xFF8E8E93),
+                      Expanded(
+                        child: Text(
+                          type,
+                          style: TextStyle(
+                            fontFamily: 'Madani Arabic',
+                            fontSize: 12.sp,
+                            color: const Color(0xFF8E8E93),
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

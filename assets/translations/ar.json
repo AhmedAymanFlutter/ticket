@@ -51,6 +51,10 @@
         "contact_now": "تواصل الآن",
         "price_sar": "ر.س",
         "all": "الجميع",
+        "flight": "طيران",
+        "hotel": "فنادق",
+        "package": "باقات",
+        "activity": "أنشطة",
         "programs": "برامج الرحلات",
         "hotels": "الفنادق",
         "activities": "الأنشطة",
@@ -58,7 +62,8 @@
         "view_details": "عرض التفاصيل",
         "explore": "استكشف",
         "per_night": "/ليلة",
-        "view_all": "عرض الكل"
+        "view_all": "عرض الكل",
+        "retry": "إعادة المحاولة"
     },
     "home": {
         "welcome": "مرحبًا بك!",
@@ -274,6 +279,39 @@
         "explore_world": "استكشف العالم",
         "explore_world_desc": "استكشف أفضل الوجهات العالمية من خلال باقات سفر دولية متكاملة، مصممة بعناية لتوفير الراحة والسهولة وتجارب لا تُنسى، بما في ذلك الرحلات الجوية والإقامة والجولات السياحية المصحوبة بمرشدين والمصممة خصيصًا لتلبية احتياجات سفرك.",
         "suitable_for_visa": "مناسب لتأشيرات العمل",
-        "saudi_arabia": "المملكة العربية السعودية"
+        "saudi_arabia": "المملكة العربية السعودية",
+        "no_packages_found": "لا توجد باقات متاحة حالياً",
+        "no_categories_found": "لا توجد تصنيفات متاحة حالياً",
+        "package_details": "تفاصيل الباقة",
+        "included_destinations": "الوجهات المشمولة",
+        "explore_highlights": "استكشف المميزات",
+        "trip_program": "برنامج الرحلة",
+        "daily_guide": "دليل اليوم",
+        "newlyweds": "شهر العسل",
+        "days_count": "أيام",
+        "nights_count": "ليالي",
+        "explore_this_city": "استكشف هذه المدينة",
+        "day": "يوم",
+        "tour_included": "جولة مشمولة",
+        "tour": "جولة"
+    },
+    "contact": {
+        "title": "تواصل معنا",
+        "support_service": "الدعم وخدمة العملاء",
+        "support_team": "فريق الدعم",
+        "visit_office": "زيارة مكتبنا",
+        "send_message": "ارسل رسالة",
+        "form_description": "يسعدنا دائماً سماع آرائك أو الإجابة على استفساراتك. يرجى ملء النموذج أدناه وسيتم الرد عليك في أقرب وقت.",
+        "name_hint": "الاسم بالكامل",
+        "email_hint": "البريد الإلكتروني",
+        "message_hint": "اكتب رسالتك هنا...",
+        "name_required": "يرجى إدخال الاسم",
+        "email_invalid": "بريد إلكتروني غير صالح",
+        "message_required": "يرجى كتابة رسالة",
+        "message_sent": "تم إرسال الرسالة بنجاح",
+        "send_now": "ارسل الآن",
+        "connect_with_us": "تواصل معنا",
+        "book_trip": "احجز رحلتك",
+        "contact_whatsapp_details": "تواصل معنا عبر الواتس اب"
     }
 }

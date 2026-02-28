@@ -81,9 +81,9 @@ class _LanguageDropdown extends StatelessWidget {
           LanguageOption(
             label: 'العربية',
             isSelected: selected == 'ar',
-            onTap: () async {
-              await context.setLocale(const Locale('ar'));
-              onSelected();
+            onTap: () {
+              onSelected(); // Pop first
+              context.setLocale(const Locale('ar')); // Then change locale
             },
           ),
 
@@ -91,9 +91,9 @@ class _LanguageDropdown extends StatelessWidget {
           LanguageOption(
             label: 'English',
             isSelected: selected == 'en',
-            onTap: () async {
-              await context.setLocale(const Locale('en'));
-              onSelected();
+            onTap: () {
+              onSelected(); // Pop first
+              context.setLocale(const Locale('en')); // Then change locale
             },
           ),
         ],

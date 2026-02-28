@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/activities/presentation/widgets/activity_booking_bottom_sheet.dart';
+import 'package:ticket/features/tours/data/models/tour_details_model.dart';
 
 class ActivityBottomActions extends StatelessWidget {
-  const ActivityBottomActions({super.key});
+  final TourDetailsModel? tour;
+  const ActivityBottomActions({super.key, this.tour});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,7 @@ class ActivityBottomActions extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   Text(
-                    '1836',
+                    tour?.price?.amount?.toString() ?? '---',
                     style: TextStyle(
                       fontSize: 22.sp,
                       fontWeight: FontWeight.w700,
@@ -97,7 +99,7 @@ class ActivityBottomActions extends StatelessWidget {
                   ),
                   SizedBox(width: 4.w),
                   Text(
-                    '﷼',
+                    tour?.price?.currency ?? '﷼',
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
