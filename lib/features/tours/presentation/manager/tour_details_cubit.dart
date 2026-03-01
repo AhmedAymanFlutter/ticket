@@ -12,14 +12,19 @@ class TourDetailsCubit extends Cubit<TourDetailsState> {
     final result = await toursRepository.getTourDetails(lang, productCode);
 
     if (result.isSuccess && result.data != null) {
-      emit(TourDetailsSuccess(tourDetails: result.data!));
+      if (!isClosed) {
+        emit(TourDetailsSuccess(tourDetails: result.data!));
+      }
     } else {
-      emit(
-        TourDetailsFailure(
-          message:
-              result.message ?? 'An error occurred while fetching tour details',
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          TourDetailsFailure(
+            message:
+                result.message ??
+                'An error occurred while fetching tour details',
+          ),
+        );
+      }
     }
   }
 }

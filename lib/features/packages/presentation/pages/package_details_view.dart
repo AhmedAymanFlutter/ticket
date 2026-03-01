@@ -56,7 +56,7 @@ class PackageDetailsView extends StatelessWidget {
                     SizedBox(height: 16.h),
                     const PackageHeroCarousel(),
                     SizedBox(height: 24.h),
-                    buildInclusionSection(),
+                    buildInclusionSection(branch),
                     SizedBox(height: 24.h),
                     buildDestinationsSection(branch?.cities ?? []),
                     SizedBox(height: 24.h),

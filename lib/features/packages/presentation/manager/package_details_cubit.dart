@@ -20,10 +20,20 @@ class PackageDetailsCubit extends Cubit<PackageDetailsState> {
       lang,
     );
     result.fold(
-      (failure) => emit(
-        const PackageDetailsFailure(message: 'Failed to fetch package details'),
-      ),
-      (details) => emit(PackageDetailsSuccess(packageDetails: details)),
+      (failure) {
+        if (!isClosed) {
+          emit(
+            const PackageDetailsFailure(
+              message: 'Failed to fetch package details',
+            ),
+          );
+        }
+      },
+      (details) {
+        if (!isClosed) {
+          emit(PackageDetailsSuccess(packageDetails: details));
+        }
+      },
     );
   }
 

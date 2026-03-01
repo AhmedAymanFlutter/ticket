@@ -14,12 +14,23 @@ class ServicesCubit extends Cubit<ServicesState> {
     final settingsResult = await repository.getServiceSettings(lang);
 
     servicesResult.fold(
-      (failure) => emit(ServicesFailure(message: failure.message)),
+      (failure) {
+        if (!isClosed) {
+          emit(ServicesFailure(message: failure.message));
+        }
+      },
       (services) {
         settingsResult.fold(
-          (failure) => emit(ServicesFailure(message: failure.message)),
-          (settings) =>
-              emit(ServicesSuccess(services: services, settings: settings)),
+          (failure) {
+            if (!isClosed) {
+              emit(ServicesFailure(message: failure.message));
+            }
+          },
+          (settings) {
+            if (!isClosed) {
+              emit(ServicesSuccess(services: services, settings: settings));
+            }
+          },
         );
       },
     );

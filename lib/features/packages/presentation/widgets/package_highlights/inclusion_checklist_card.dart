@@ -5,14 +5,21 @@ import 'inclusion_ideal_card.dart';
 
 class InclusionChecklistCard extends StatelessWidget {
   final bool withAccommodation;
+  final List<String> inclusions;
+  final List<String> exclusions;
 
-  const InclusionChecklistCard({super.key, required this.withAccommodation});
+  const InclusionChecklistCard({
+    super.key,
+    required this.withAccommodation,
+    required this.inclusions,
+    required this.exclusions,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 311.w,
-      constraints: BoxConstraints(minHeight: 353.h),
+      constraints: BoxConstraints(minHeight: 100.h),
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -33,8 +40,8 @@ class InclusionChecklistCard extends StatelessWidget {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: withAccommodation
-                ? _buildWithAccommodationContent()
-                : _buildWithoutAccommodationContent(),
+                ? _buildChecklistContent('تتضمن الباقة ما يلي:', inclusions)
+                : _buildChecklistContent('لا تتضمن الباقة ما يلي:', exclusions),
           ),
           SizedBox(height: 16.h),
           const InclusionIdealCard(),
@@ -43,13 +50,13 @@ class InclusionChecklistCard extends StatelessWidget {
     );
   }
 
-  Widget _buildWithAccommodationContent() {
+  Widget _buildChecklistContent(String title, List<String> items) {
     return Column(
-      key: const ValueKey('with'),
+      key: ValueKey(title),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'تتضمن الاقامة الكاملة ما يلي:',
+          title,
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w700,
@@ -58,51 +65,29 @@ class InclusionChecklistCard extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.h),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 4,
-          children: [
-            _buildCheckItem('الإقامة الفندقية'),
-            _buildCheckItem('إفطار يومي'),
-            _buildCheckItem('خدمات مرشد سياحي'),
-            _buildCheckItem('جولات سياحية'),
-            _buildCheckItem('النقل من وإلى المطار'),
-            _buildCheckItem('تامين السفر'),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWithoutAccommodationContent() {
-    return Column(
-      key: const ValueKey('without'),
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'تتضمن الباقة بدون إقامة ما يلي:',
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w400,
-            color: AppColors.primary,
-            fontFamily: 'Madani Arabic',
+        if (items.isEmpty)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.h),
+            child: Text(
+              'لا توجد معلومات متوفرة',
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Colors.grey,
+                fontFamily: 'Madani Arabic',
+              ),
+            ),
+          )
+        else
+          GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 4,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: items.length,
+            itemBuilder: (context, index) => _buildCheckItem(items[index]),
           ),
-        ),
-        SizedBox(height: 8.h),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 4,
-          children: [
-            _buildCheckItem('جولات سياحية'),
-            _buildCheckItem('خدمات مرشد سياحي'),
-            _buildCheckItem('النقل من وإلى المطار'),
-            _buildCheckItem('تامين السفر'),
-          ],
-        ),
       ],
     );
   }
@@ -112,24 +97,26 @@ class InclusionChecklistCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          width: 24.w,
-          height: 24.h,
+          width: 20.w,
+          height: 20.h,
           decoration: const BoxDecoration(
             color: Color(0xFFDCFCE7),
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.check, size: 16.sp, color: const Color(0xFF16A34A)),
+          child: Icon(Icons.check, size: 14.sp, color: const Color(0xFF16A34A)),
         ),
         SizedBox(width: 8.w),
         Expanded(
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w400,
               color: const Color(0xFF1D2939),
               fontFamily: 'Madani Arabic',
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
           ),
         ),

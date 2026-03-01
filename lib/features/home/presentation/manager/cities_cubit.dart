@@ -13,11 +13,15 @@ class CitiesCubit extends Cubit<CitiesState> {
     final response = await homeRepository.getCities(lang);
 
     if (response.isSuccess) {
-      emit(CitiesSuccess(cities: response.data ?? []));
+      if (!isClosed) {
+        emit(CitiesSuccess(cities: response.data ?? []));
+      }
     } else {
-      emit(
-        CitiesFailure(message: response.message ?? 'Unknown error occurred'),
-      );
+      if (!isClosed) {
+        emit(
+          CitiesFailure(message: response.message ?? 'Unknown error occurred'),
+        );
+      }
     }
   }
 }

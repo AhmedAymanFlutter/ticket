@@ -3,13 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 
 class InclusionOverviewCard extends StatelessWidget {
-  const InclusionOverviewCard({super.key});
+  final String title;
+  const InclusionOverviewCard({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 311.w,
-      constraints: BoxConstraints(minHeight: 268.h),
+      constraints: BoxConstraints(minHeight: 100.h),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: const Color(0xFFFE5653).withOpacity(0.04),
@@ -24,7 +25,7 @@ class InclusionOverviewCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'نظرة عامة على الباقات',
+            title.isNotEmpty ? title : 'نظرة عامة على الباقة',
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
@@ -34,7 +35,7 @@ class InclusionOverviewCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'استمتع برحلة رمضانية مميزة لمدة ثمانية أيام في ماليزيا، تجمع بين الثقافة والتراث وجمال الجزر. تبدأ الرحلة في كوالالمبور برحلة خاصة للراحة والاسترخاء. ثم تكتشف أبرز معالم المدينة والأسواق الرمضانية المسائية. اكتشف كهوف باتو ومعبد تيان هو قبل التوجه جواً إلى بينانج للتجول في شوارعها التاريخية والاستمتاع بتجارب إفطار مميزة على شاطئ البحر. تم تابع رحلتك إلى لانكاوي لركوب التلفريك، والاستمتاع بالمناظر الخلابة، وخوض مغامرات الجزيرة. مع قضاء فترة ما بعد الظهر والمساء في الاسترخاء، تختتم الرحلة برحلة خاصة إلى مطار لانكاوي الدولي، حاملاً معك ذكريات لا تُنسى من ماليزيا خلال شهر رمضان.',
+            'استمتع برحلة مميزة مع باقة $title. تجمع هذه الباقة بين الترفيه والاستكشاف لضمان تجربة سياحية لا تُنسى في أرقى الوجهات.',
             style: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w400,

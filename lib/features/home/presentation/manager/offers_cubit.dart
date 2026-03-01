@@ -37,19 +37,23 @@ class OffersCubit extends Cubit<OffersState> {
     final response = await homeRepository.getOffers(lang, types: typesList);
 
     if (response.isSuccess) {
-      emit(
-        OffersSuccess(
-          offers: response.data ?? [],
-          activeFilter: filterCategory,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          OffersSuccess(
+            offers: response.data ?? [],
+            activeFilter: filterCategory,
+          ),
+        );
+      }
     } else {
-      emit(
-        OffersFailure(
-          message: response.message ?? 'Unknown error occurred',
-          activeFilter: filterCategory,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          OffersFailure(
+            message: response.message ?? 'Unknown error occurred',
+            activeFilter: filterCategory,
+          ),
+        );
+      }
     }
   }
 }

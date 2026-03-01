@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
+import 'package:ticket/features/more/presentation/widgets/build_BookTrip_CTA.dart';
 import 'package:ticket/features/more/presentation/widgets/contact_us/contact_form.dart';
 import 'package:ticket/features/more/presentation/widgets/contact_us/contact_info_cards.dart';
 import 'package:ticket/features/more/presentation/widgets/contact_us/connect_with_us.dart';
@@ -11,7 +12,6 @@ import 'package:ticket/features/services/data/models/app_settings_model.dart';
 import 'package:ticket/features/services/presentation/manager/contact_us_cubit.dart';
 import 'package:ticket/features/services/presentation/manager/contact_us_state.dart';
 import 'package:ticket/injection_container.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsView extends StatelessWidget {
   const ContactUsView({super.key});
@@ -78,7 +78,7 @@ class ContactUsView extends StatelessWidget {
                     SizedBox(height: 32.h),
 
                     // Book Your Trip CTA
-                    _buildBookTripCTA(settings.socialMedia.whatsApp.url),
+                    buildBookTripCTA(settings.socialMedia.whatsApp.url),
 
                     SizedBox(height: 32.h),
 
@@ -95,71 +95,6 @@ class ContactUsView extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Widget _buildBookTripCTA(String whatsappUrl) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      padding: EdgeInsets.all(20.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Text(
-            'contact.book_trip'.tr(),
-            style: TextStyle(
-              fontFamily: 'Madani Arabic',
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF1A1A1A),
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'contact.contact_whatsapp_details'.tr(),
-            style: TextStyle(
-              fontFamily: 'Madani Arabic',
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: const Color(0xFF666666),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          SizedBox(
-            width: double.infinity,
-            height: 52.h,
-            child: ElevatedButton.icon(
-              onPressed: () => launchUrl(Uri.parse(whatsappUrl)),
-              icon: Icon(Icons.phone_android, color: Colors.white, size: 24.w),
-              label: Text(
-                'more.contact_whatsapp'.tr(),
-                style: TextStyle(
-                  fontFamily: 'Madani Arabic',
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4CAF50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -12,9 +12,16 @@ class PackageCountriesCubit extends Cubit<PackageCountriesState> {
     emit(PackageCountriesLoading());
     final result = await repository.getPackageTypeCountries(slug, lang);
     result.fold(
-      (failure) =>
-          emit(const PackageCountriesFailure('Failed to fetch countries')),
-      (countries) => emit(PackageCountriesSuccess(countries)),
+      (failure) {
+        if (!isClosed) {
+          emit(const PackageCountriesFailure('Failed to fetch countries'));
+        }
+      },
+      (countries) {
+        if (!isClosed) {
+          emit(PackageCountriesSuccess(countries));
+        }
+      },
     );
   }
 }

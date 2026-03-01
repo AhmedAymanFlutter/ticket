@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../data/models/country_model.dart';
 
 /// Hero section at the top of the Tour Guide Details page.
 /// Displays a full-width image with a gradient overlay, a large title,
 /// and info chips (language, currency, continent) at the bottom.
 class GuideHeroSection extends StatelessWidget {
-  const GuideHeroSection({super.key});
+  final CountryModel? country;
+  const GuideHeroSection({super.key, this.country});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         // ── Background image
-        Image.network(
-          'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&auto=format&fit=crop',
-          width: double.infinity,
-          height: 220.h,
-          fit: BoxFit.cover,
-          loadingBuilder: (_, child, progress) =>
-              progress == null ? child : _placeholder(),
-          errorBuilder: (_, __, ___) => _placeholder(),
-        ),
+        country?.imageCover != null && country!.imageCover!.isNotEmpty
+            ? Image.network(
+                country!.imageCover!,
+                width: double.infinity,
+                height: 220.h,
+                fit: BoxFit.cover,
+                loadingBuilder: (_, child, progress) =>
+                    progress == null ? child : _placeholder(),
+                errorBuilder: (_, __, ___) => _placeholder(),
+              )
+            : _placeholder(),
         // ── Gradient overlay
         Positioned.fill(
           child: Container(
@@ -47,7 +51,7 @@ class GuideHeroSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'السياحة في لندن',
+                country?.displayName ?? 'جاري التحميل...',
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -59,18 +63,24 @@ class GuideHeroSection extends StatelessWidget {
               SizedBox(height: 8.h),
               Row(
                 children: [
-                  _GuideHeroChip(icon: Icons.language, label: 'الإنجليزية'),
+                  _GuideHeroChip(
+                    icon: Icons.language,
+                    label: country?.language ?? '',
+                  ),
                   SizedBox(width: 8.w),
                   const _HeroChipDivider(),
                   SizedBox(width: 8.w),
                   _GuideHeroChip(
                     icon: Icons.attach_money,
-                    label: 'الجنيه الإسترليني',
+                    label: country?.currency ?? '',
                   ),
                   SizedBox(width: 8.w),
                   const _HeroChipDivider(),
                   SizedBox(width: 8.w),
-                  _GuideHeroChip(icon: Icons.public, label: 'أوروبا'),
+                  _GuideHeroChip(
+                    icon: Icons.public,
+                    label: country?.displayContinent ?? '',
+                  ),
                 ],
               ),
             ],
@@ -83,6 +93,7 @@ class GuideHeroSection extends StatelessWidget {
   Widget _placeholder() {
     return Container(
       height: 220.h,
+      width: double.infinity,
       color: const Color(0xFFF3F4F6),
       child: const Icon(Icons.image_outlined, color: Colors.grey, size: 40),
     );
@@ -98,6 +109,7 @@ class _GuideHeroChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (label.isEmpty) return const SizedBox.shrink();
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [

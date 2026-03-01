@@ -3,4 +3,7 @@ abstract class EndPoints {
   static const String refreshToken = 'refreshToken';
   static const String services = '/services';
   static const String settings = '/settings';
+  static const String contact = '/contact';
+  static const String countries = '/countries';
+  static String countryDetails(String slug) => '/countries/$slug';
 }

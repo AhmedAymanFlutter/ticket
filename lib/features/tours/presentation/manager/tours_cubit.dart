@@ -42,15 +42,19 @@ class ToursCubit extends Cubit<ToursState> {
 
     if (result.isSuccess && result.data != null) {
       final tours = result.data!;
-      emit(
-        ToursSuccess(
-          tours,
-          hasReachedMax: tours.length < _limit,
-          isFetchingMore: false,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          ToursSuccess(
+            tours,
+            hasReachedMax: tours.length < _limit,
+            isFetchingMore: false,
+          ),
+        );
+      }
     } else {
-      emit(ToursFailure(result.message ?? 'Failed to load tours'));
+      if (!isClosed) {
+        emit(ToursFailure(result.message ?? 'Failed to load tours'));
+      }
     }
   }
 
@@ -74,16 +78,20 @@ class ToursCubit extends Cubit<ToursState> {
 
       if (result.isSuccess && result.data != null) {
         final newTours = result.data!;
-        emit(
-          ToursSuccess(
-            [...currentState.tours, ...newTours],
-            hasReachedMax: newTours.length < _limit,
-            isFetchingMore: false,
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            ToursSuccess(
+              [...currentState.tours, ...newTours],
+              hasReachedMax: newTours.length < _limit,
+              isFetchingMore: false,
+            ),
+          );
+        }
       } else {
         // If it fails to fetch more, revert to previous success state (stop fetching indicator)
-        emit(currentState.copyWith(isFetchingMore: false));
+        if (!isClosed) {
+          emit(currentState.copyWith(isFetchingMore: false));
+        }
       }
     }
   }

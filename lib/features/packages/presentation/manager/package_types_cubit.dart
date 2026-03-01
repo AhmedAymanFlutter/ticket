@@ -11,9 +11,18 @@ class PackageTypesCubit extends Cubit<PackageTypesState> {
     emit(PackageTypesLoading());
     final result = await repository.getPackageTypes(lang);
     result.fold(
-      (failure) =>
-          emit(PackageTypesFailure(message: 'Failed to fetch package types')),
-      (packageTypes) => emit(PackageTypesSuccess(packageTypes: packageTypes)),
+      (failure) {
+        if (!isClosed) {
+          emit(
+            const PackageTypesFailure(message: 'Failed to fetch package types'),
+          );
+        }
+      },
+      (packageTypes) {
+        if (!isClosed) {
+          emit(PackageTypesSuccess(packageTypes: packageTypes));
+        }
+      },
     );
   }
 }

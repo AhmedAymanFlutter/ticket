@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/travel_guide/presentation/widgets/guide_info_card.dart';
+import '../../data/models/country_model.dart';
 
 /// The main information section container for the Tour Guide Details page.
 /// It includes a section title with a red indicator, a description text,
 /// and a list of detailed information cards (Time, Visa, Duration).
 class GuideInfoSection extends StatelessWidget {
-  const GuideInfoSection({super.key});
+  final CountryModel? country;
+  const GuideInfoSection({super.key, this.country});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class GuideInfoSection extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Text(
-              'لندن هي عاصمة المملكة المتحدة ومدينة متعددة الثقافات. تجمع بين التاريخ العريق والحداثة، حيث يمكنك زيارة متحف البريطاني، وقصر باكنغهام، وجسر لندن الشهير.',
+              country?.description ?? 'جاري تحميل الوصف...',
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w400,
@@ -85,21 +87,21 @@ class GuideInfoSection extends StatelessWidget {
                   icon: Icons.calendar_today_outlined,
                   title: 'أفضل الأوقات لزيارة',
                   description:
-                      'أفضل الأوقات لزيارة لندن هي بين مارس وسبتمبر، عندما يكون الطقس معتدلاً ومعظم المعالم مفتوحة للزوار.',
+                      'تختلف الأوقات المناسبة للزيارة حسب التفضيلات الشخصية والأنشطة المخطط لها.',
                 ),
                 SizedBox(height: 12.h),
                 const GuideInfoCard(
                   icon: Icons.description_outlined,
                   title: 'المستندات المطلوبة للتأشيرة',
                   description:
-                      'للسفر إلى لندن، تحتاج إلى جواز سفر ساري وصور شخصية، بالإضافة إلى تأشيرة سياحية إذا لزم الأمر.',
+                      'تحتاج عادةً إلى جواز سفر ساري المفعول وتأمين طبي وصور شخصية.',
                 ),
                 SizedBox(height: 12.h),
                 const GuideInfoCard(
                   icon: Icons.timer_outlined,
                   title: 'مدة الرحلة',
                   description:
-                      'المدة المثالية للسعوديين لاستكشاف لندن هي من 5 إلى 7 أيام، للاستمتاع بأبرز المعالم والتجارب الثقافية.',
+                      'المدة المقترحة لاستكشاف أبرز المعالم تتراوح عادةً بين 5 إلى 10 أيام.',
                 ),
               ],
             ),

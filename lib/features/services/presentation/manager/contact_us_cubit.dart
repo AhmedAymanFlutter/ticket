@@ -11,8 +11,16 @@ class ContactUsCubit extends Cubit<ContactUsState> {
     emit(ContactUsLoading());
     final result = await repository.getAppSettings(lang);
     result.fold(
-      (failure) => emit(ContactUsFailure(failure.message)),
-      (settings) => emit(ContactUsSuccess(settings)),
+      (failure) {
+        if (!isClosed) {
+          emit(ContactUsFailure(failure.message));
+        }
+      },
+      (settings) {
+        if (!isClosed) {
+          emit(ContactUsSuccess(settings));
+        }
+      },
     );
   }
 }

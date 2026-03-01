@@ -11,10 +11,13 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     emit(OnboardingLoading());
     try {
       final pages = await repository.getOnboardingPages();
-      emit(OnboardingLoaded(pages: pages));
+      if (!isClosed) {
+        emit(OnboardingLoaded(pages: pages));
+      }
     } catch (e) {
-      // Handle error state if needed
-      emit(OnboardingInitial());
+      if (!isClosed) {
+        emit(OnboardingInitial());
+      }
     }
   }
 

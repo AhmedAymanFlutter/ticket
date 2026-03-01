@@ -8,6 +8,7 @@ class GuideCard extends StatelessWidget {
   final String tag1;
   final String tag2;
   final String imagePath;
+  final String slug;
 
   const GuideCard({
     super.key,
@@ -16,6 +17,7 @@ class GuideCard extends StatelessWidget {
     required this.tag1,
     required this.tag2,
     required this.imagePath,
+    required this.slug,
   });
 
   @override
@@ -23,7 +25,9 @@ class GuideCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const TourGuideDetailsView()),
+        MaterialPageRoute(
+          builder: (_) => TourGuideDetailsView(countrySlug: slug),
+        ),
       ),
       child: Container(
         width: 327.w,
@@ -44,7 +48,42 @@ class GuideCard extends StatelessWidget {
           child: Stack(
             children: [
               // Image
-              Positioned.fill(child: Image.asset(imagePath, fit: BoxFit.cover)),
+              Positioned.fill(
+                child: imagePath.isEmpty
+                    ? Container(
+                        color: const Color(0xFFEEEEEE),
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 48.sp,
+                          color: const Color(0xFF999999),
+                        ),
+                      )
+                    : imagePath.startsWith('http')
+                    ? Image.network(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: const Color(0xFFEEEEEE),
+                          child: Icon(
+                            Icons.broken_image_outlined,
+                            size: 48.sp,
+                            color: const Color(0xFF999999),
+                          ),
+                        ),
+                      )
+                    : Image.asset(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: const Color(0xFFEEEEEE),
+                          child: Icon(
+                            Icons.broken_image_outlined,
+                            size: 48.sp,
+                            color: const Color(0xFF999999),
+                          ),
+                        ),
+                      ),
+              ),
 
               // Top Badges Row
               Positioned(
