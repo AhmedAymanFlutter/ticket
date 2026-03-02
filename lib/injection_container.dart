@@ -7,6 +7,7 @@ import 'package:ticket/features/home/data/datasources/home_remote_data_source.da
 import 'package:ticket/features/home/data/repositories/home_repository_impl.dart';
 import 'package:ticket/features/home/domain/repositories/home_repository.dart';
 import 'package:ticket/features/home/presentation/manager/cities_cubit.dart';
+import 'package:ticket/features/home/presentation/manager/branches_cubit.dart';
 import 'package:ticket/features/home/presentation/manager/offers_cubit.dart';
 import 'package:ticket/features/tours/data/datasources/tours_remote_data_source.dart';
 import 'package:ticket/features/tours/data/repositories/tours_repository_impl.dart';
@@ -24,10 +25,15 @@ import 'package:ticket/features/services/data/repositories/services_repository_i
 import 'package:ticket/features/services/domain/repositories/services_repository.dart';
 import 'package:ticket/features/services/presentation/manager/services_cubit.dart';
 import 'package:ticket/features/services/presentation/manager/contact_us_cubit.dart';
+import 'package:ticket/core/network/api_helper.dart';
+import 'package:ticket/features/travel_guide/data/datasources/travel_guide_remote_data_source.dart';
+import 'package:ticket/features/travel_guide/data/repositories/travel_guide_repository.dart';
+import 'package:ticket/features/travel_guide/presentation/manager/travel_guide_details_cubit.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  sl.registerLazySingleton<APIHelper>(() => APIHelper());
   //! Features - Onboarding
   // Bloc
   sl.registerFactory(() => OnboardingCubit(sl()));
@@ -39,8 +45,9 @@ Future<void> init() async {
 
   //! Features - Home, Tours & Packages
   // Bloc
-  sl.registerFactory(() => CitiesCubit(homeRepository: sl()));
-  sl.registerFactory(() => OffersCubit(homeRepository: sl()));
+  sl.registerFactory<CitiesCubit>(() => CitiesCubit(homeRepository: sl()));
+  sl.registerFactory<BranchesCubit>(() => BranchesCubit(homeRepository: sl()));
+  sl.registerFactory<OffersCubit>(() => OffersCubit(homeRepository: sl()));
   sl.registerFactory<ToursCubit>(() => ToursCubit(repository: sl()));
   sl.registerFactory<TourDetailsCubit>(() => TourDetailsCubit(sl()));
   sl.registerFactory<PackageTypesCubit>(
@@ -54,6 +61,9 @@ Future<void> init() async {
   );
   sl.registerFactory<ServicesCubit>(() => ServicesCubit(repository: sl()));
   sl.registerFactory<ContactUsCubit>(() => ContactUsCubit(repository: sl()));
+  sl.registerFactory<TravelGuideDetailsCubit>(
+    () => TravelGuideDetailsCubit(sl()),
+  );
 
   // Repository
   sl.registerLazySingleton<HomeRepository>(
@@ -68,10 +78,16 @@ Future<void> init() async {
   sl.registerLazySingleton<ServicesRepository>(
     () => ServicesRepositoryImpl(remoteDataSource: sl()),
   );
+  sl.registerLazySingleton<TravelGuideRepository>(
+    () => TravelGuideRepository(sl()),
+  );
 
   // Data sources
   sl.registerLazySingleton<HomeRemoteDataSource>(
     () => HomeRemoteDataSourceImpl(),
+  );
+  sl.registerLazySingleton<TravelGuideRemoteDataSource>(
+    () => TravelGuideRemoteDataSource(sl()),
   );
   sl.registerLazySingleton<ToursRemoteDataSource>(
     () => ToursRemoteDataSourceImpl(),

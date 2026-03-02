@@ -6,4 +6,5 @@ abstract class EndPoints {
   static const String contact = '/contact';
   static const String countries = '/countries';
   static String countryDetails(String slug) => '/countries/$slug';
+  static String guideDetails(String slug) => '/guides/$slug';
 }

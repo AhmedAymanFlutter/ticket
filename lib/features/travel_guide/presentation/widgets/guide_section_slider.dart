@@ -8,7 +8,7 @@ class GuideSectionSlider extends StatefulWidget {
   final String title;
   final String subtitle;
   final List<PlaceItem> places;
-  final VoidCallback? onItemTap;
+  final Function(int index)? onItemTap;
 
   const GuideSectionSlider({
     super.key,
@@ -117,7 +117,7 @@ class _GuideSectionSliderState extends State<GuideSectionSlider> {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: GestureDetector(
-                    onTap: widget.onItemTap,
+                    onTap: () => widget.onItemTap?.call(_current),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24.r),
                       child: Stack(
@@ -183,13 +183,17 @@ class _GuideSectionSliderState extends State<GuideSectionSlider> {
                                                   ),
                                             ),
                                             SizedBox(width: 4.w),
-                                            Text(
-                                              place.name,
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.white,
-                                                fontFamily: 'Madani Arabic',
+                                            Flexible(
+                                              child: Text(
+                                                place.name,
+                                                style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white,
+                                                  fontFamily: 'Madani Arabic',
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
                                           ],
@@ -204,6 +208,8 @@ class _GuideSectionSliderState extends State<GuideSectionSlider> {
                                             fontFamily: 'Madani Arabic',
                                           ),
                                           textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ],
                                     ),

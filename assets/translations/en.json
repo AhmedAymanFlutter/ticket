@@ -207,6 +207,8 @@
         "guide_istanbul_desc": "The meeting point of continents where East meets West, a city rich in historical mosques, lavish palaces, and vibrant traditional markets."
     },
     "activities": {
+        "select_city": "Select City",
+        "no_cities_found": "No cities found",
         "search_hint": "Jeddah, Saudi Arabia",
         "search_button": "Search",
         "explore_title": "Explore Boat Trip Experiences",

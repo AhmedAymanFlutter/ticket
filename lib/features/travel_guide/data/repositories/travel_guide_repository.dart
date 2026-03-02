@@ -1,6 +1,7 @@
 import '../../../../core/network/api_response.dart';
 import '../datasources/travel_guide_remote_data_source.dart';
 import '../models/country_model.dart';
+import '../models/guide_details_model.dart';
 
 class TravelGuideRepository {
   final TravelGuideRemoteDataSource _remoteDataSource;
@@ -13,5 +14,9 @@ class TravelGuideRepository {
 
   Future<ApiResponse<CountryModel>> getCountryDetails(String slug) async {
     return await _remoteDataSource.getCountryDetails(slug);
+  }
+
+  Future<ApiResponse<GuideDetailsModel>> getGuideDetails(String slug) async {
+    return await _remoteDataSource.getGuideDetails(slug);
   }
 }

@@ -7,10 +7,10 @@ class CitiesCubit extends Cubit<CitiesState> {
 
   CitiesCubit({required this.homeRepository}) : super(CitiesInitial());
 
-  Future<void> getCities(String lang) async {
+  Future<void> getCities() async {
     emit(CitiesLoading());
 
-    final response = await homeRepository.getCities(lang);
+    final response = await homeRepository.getCities();
 
     if (response.isSuccess) {
       if (!isClosed) {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,7 @@ class CityFilterBottomSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Select City',
+            'activities.select_city'.tr(),
             style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 16.h),
@@ -36,7 +37,9 @@ class CityFilterBottomSheet extends StatelessWidget {
                   return Center(child: Text(state.message));
                 } else if (state is CitiesSuccess) {
                   if (state.cities.isEmpty) {
-                    return const Center(child: Text('No cities found'));
+                    return Center(
+                      child: Text('activities.no_cities_found'.tr()),
+                    );
                   }
 
                   return ListView.builder(

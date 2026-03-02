@@ -6,6 +6,7 @@ Widget buildHeroCard({
   required String name,
   required String location,
   required String image,
+  required double price,
 }) {
   return Container(
     width: 343.w,
@@ -36,7 +37,7 @@ Widget buildHeroCard({
                 width: 343.w,
                 height: 385.h,
                 color: Colors.grey[300],
-                child: const Icon(Icons.error_outline, color: Colors.red),
+                child: const Icon(Icons.error_outline, color: Colors.blue),
               );
             },
           ),
@@ -54,7 +55,7 @@ Widget buildHeroCard({
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Text(
-              '1836 د.أ',
+              '${price.toInt()} د.أ',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22.sp,
@@ -66,7 +67,7 @@ Widget buildHeroCard({
         ),
         // Gradient Overlay
         Align(
-          alignment: Alignment.bottomRight,
+          alignment: Alignment.bottomCenter,
           child: Container(
             height: 120.h,
             decoration: BoxDecoration(
@@ -87,22 +88,32 @@ Widget buildHeroCard({
           right: 16.w,
           left: 16.w,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 name,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 28.sp,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Madani Arabic',
                 ),
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.left,
               ),
               SizedBox(height: 4.h),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SvgPicture.asset(
+                    'assets/icons/location.svg',
+                    width: 18.w,
+                    height: 18.h,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
                   Text(
                     location,
                     style: TextStyle(
@@ -111,17 +122,7 @@ Widget buildHeroCard({
                       fontWeight: FontWeight.w400,
                       fontFamily: 'Madani Arabic',
                     ),
-                    textAlign: TextAlign.right,
-                  ),
-                  SizedBox(width: 8.w),
-                  SvgPicture.asset(
-                    'assets/icons/location.svg',
-                    width: 24.w,
-                    height: 24.h,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
-                    ),
+                    textAlign: TextAlign.left,
                   ),
                 ],
               ),

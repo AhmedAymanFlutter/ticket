@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ticket/core/widgets/ExitConfirmWrapper_widget.dart';
 import 'package:ticket/features/flights/presentation/pages/flights_view.dart';
 import 'package:ticket/features/activities/presentation/pages/activities_view.dart';
 import 'package:ticket/features/home/presentation/widgets/best_destinations_section.dart';
@@ -16,6 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket/injection_container.dart';
 import 'package:ticket/features/home/presentation/manager/cities_cubit.dart';
 import 'package:ticket/features/home/presentation/manager/cities_state.dart';
+import 'package:ticket/features/home/presentation/manager/branches_cubit.dart';
+import 'package:ticket/features/home/presentation/manager/branches_state.dart';
 import 'package:ticket/features/home/presentation/manager/offers_cubit.dart';
 import 'package:ticket/features/home/presentation/manager/offers_state.dart';
 import 'package:ticket/features/packages/presentation/manager/package_types_cubit.dart';
@@ -62,6 +65,7 @@ class _HomeState extends State<Home> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<CitiesCubit>()),
+        BlocProvider(create: (context) => sl<BranchesCubit>()),
         BlocProvider(create: (context) => sl<OffersCubit>()),
         BlocProvider(create: (context) => sl<PackageTypesCubit>()),
         BlocProvider(create: (context) => sl<ToursCubit>()),
@@ -72,10 +76,14 @@ class _HomeState extends State<Home> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (context.mounted && _currentIndex == 0) {
               final citiesCubit = context.read<CitiesCubit>();
+              final branchesCubit = context.read<BranchesCubit>();
               final offersCubit = context.read<OffersCubit>();
 
               if (citiesCubit.state is CitiesInitial) {
-                citiesCubit.getCities(lang);
+                citiesCubit.getCities();
+              }
+              if (branchesCubit.state is BranchesInitial) {
+                branchesCubit.getBranches(lang);
               }
               if (offersCubit.state is OffersInitial) {
                 offersCubit.getOffers(lang);
@@ -86,23 +94,27 @@ class _HomeState extends State<Home> {
           return Scaffold(
             extendBody: true,
             body: IndexedStack(index: _currentIndex, children: pages),
-            bottomNavigationBar: CustomBottomNavBar(
-              currentIndex: _currentIndex,
-              onTap: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
+            bottomNavigationBar: ExitConfirmWrapper(
+              child: CustomBottomNavBar(
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
 
-                // Refresh logic on tab switch
-                if (index == 0) {
-                  context.read<CitiesCubit>().getCities(lang);
-                  context.read<OffersCubit>().getOffers(lang);
-                } else if (index == 1) {
-                  context.read<PackageTypesCubit>().getPackageTypes(lang);
-                } else if (index == 3) {
-                  context.read<ToursCubit>().getTours(lang);
-                }
-              },
+                  // Refresh logic on tab switch
+                  if (index == 0) {
+                    context.read<CitiesCubit>().getCities();
+                    context.read<BranchesCubit>().getBranches(lang);
+                    context.read<OffersCubit>().getOffers(lang);
+                  } else if (index == 1) {
+                    context.read<PackageTypesCubit>().getPackageTypes(lang);
+                  } else if (index == 3) {
+                    context.read<ToursCubit>().getTours(lang);
+                    context.read<CitiesCubit>().getCities();
+                  }
+                },
+              ),
             ),
           );
         },

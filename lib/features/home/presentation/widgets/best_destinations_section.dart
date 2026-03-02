@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/features/home/presentation/widgets/best_destination_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ticket/features/home/presentation/manager/cities_cubit.dart';
-import 'package:ticket/features/home/presentation/manager/cities_state.dart';
+import 'package:ticket/features/home/presentation/manager/branches_cubit.dart';
+import 'package:ticket/features/home/presentation/manager/branches_state.dart';
 import 'package:ticket/core/widgets/horizontal_skeleton_list.dart';
 
 class BestDestinationsSection extends StatelessWidget {
@@ -42,46 +42,45 @@ class BestDestinationsSection extends StatelessWidget {
         // List
         SizedBox(
           height: 399.h,
-          child: BlocBuilder<CitiesCubit, CitiesState>(
+          child: BlocBuilder<BranchesCubit, BranchesState>(
             builder: (context, state) {
-              if (state is CitiesLoading) {
+              if (state is BranchesLoading) {
                 return HorizontalSkeletonList(
                   itemCount: 3,
                   itemBuilder: (context, index) {
                     return const BestDestinationCard(
                       imagePath: 'assets/photo/image (1).png',
-                      title: 'Placeholder Title Here',
-                      description:
-                          'Placeholder description that takes up some space to show.',
+                      title: '...',
+                      description: '...',
                       days: 5,
-                      price: 2500,
+                      price: 0,
                     );
                   },
                 );
-              } else if (state is CitiesFailure) {
+              } else if (state is BranchesFailure) {
                 return Center(child: Text(state.message));
-              } else if (state is CitiesSuccess) {
-                final cities = state.cities;
-                if (cities.isEmpty) {
-                  return const Center(child: Text('No cities available'));
+              } else if (state is BranchesSuccess) {
+                final branches = state.branches;
+                if (branches.isEmpty) {
+                  return const Center(child: Text('No destinations available'));
                 }
                 return ListView.separated(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   scrollDirection: Axis.horizontal,
-                  itemCount: cities.length,
+                  itemCount: branches.length,
                   separatorBuilder: (context, index) => SizedBox(width: 16.w),
                   itemBuilder: (context, index) {
-                    final city = cities[index];
+                    final branch = branches[index];
                     return BestDestinationCard(
                       imagePath:
-                          (city.imageCover != null &&
-                              city.imageCover!.isNotEmpty)
-                          ? city.imageCover!
-                          : 'assets/photo/image (1).png',
-                      title: city.name,
-                      description: city.description,
-                      days: 5, // Static for now as it's not from /cities API
-                      price: 2500, // Static for now
+                          (branch.imageCover != null &&
+                              branch.imageCover!.isNotEmpty)
+                          ? branch.imageCover!
+                          : 'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
+                      title: branch.name,
+                      description: branch.alt ?? '',
+                      days: branch.daysCount,
+                      price: branch.price,
                     );
                   },
                 );

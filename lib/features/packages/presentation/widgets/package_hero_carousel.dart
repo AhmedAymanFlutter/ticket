@@ -61,12 +61,14 @@ class _PackageHeroCarouselState extends State<PackageHeroCarousel> {
                           image:
                               branch?.imageCover ??
                               'https://images.unsplash.com/photo-1544918877-460635b6d13e',
+                          price: branch?.totalBranchPrice.toDouble() ?? 0.0,
                         ),
                         SizedBox(height: 8.h),
                         buildInfoRow(
                           nights: branch?.nightsCount ?? 0,
                           days: branch?.daysCount ?? 0,
                           price: branch?.totalBranchPrice.toDouble() ?? 0.0,
+                          branchName: branch?.name ?? '...',
                         ),
                         SizedBox(height: 24.h),
                         buildActionButtons(),

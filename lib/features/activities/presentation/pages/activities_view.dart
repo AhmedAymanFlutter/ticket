@@ -43,6 +43,7 @@ class _ActivitiesBodyState extends State<_ActivitiesBody> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         context.read<ToursCubit>().getTours(context.locale.languageCode);
+        context.read<CitiesCubit>().getCities();
       }
     });
 

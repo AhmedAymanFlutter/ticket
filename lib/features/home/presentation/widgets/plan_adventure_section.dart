@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
 import 'package:ticket/features/activities/presentation/pages/activities_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
+import 'package:ticket/features/home/presentation/manager/cities_cubit.dart';
 
 class PlanAdventureSection extends StatelessWidget {
   const PlanAdventureSection({super.key});
@@ -105,7 +108,17 @@ class PlanAdventureSection extends StatelessWidget {
                           onTap: () {
                             FadeNavigation.pushFade(
                               context,
-                              const ActivitiesView(),
+                              MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                    value: context.read<ToursCubit>(),
+                                  ),
+                                  BlocProvider.value(
+                                    value: context.read<CitiesCubit>(),
+                                  ),
+                                ],
+                                child: const ActivitiesView(),
+                              ),
                             );
                           },
                           child: ClipRRect(
