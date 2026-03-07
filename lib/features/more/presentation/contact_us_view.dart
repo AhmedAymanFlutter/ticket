@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/features/more/presentation/widgets/build_BookTrip_CTA.dart';
 import 'package:ticket/features/more/presentation/widgets/contact_us/contact_form.dart';
 import 'package:ticket/features/more/presentation/widgets/contact_us/contact_info_cards.dart';
@@ -27,19 +28,9 @@ class ContactUsView extends StatelessWidget {
         body: BlocBuilder<ContactUsCubit, ContactUsState>(
           builder: (context, state) {
             if (state is ContactUsFailure) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(state.message),
-                    SizedBox(height: 16.h),
-                    ElevatedButton(
-                      onPressed: () =>
-                          context.read<ContactUsCubit>().getSettings(lang),
-                      child: Text('common.retry'.tr()),
-                    ),
-                  ],
-                ),
+              return CustomErrorWidget(
+                message: state.message,
+                onRetry: () => context.read<ContactUsCubit>().getSettings(lang),
               );
             }
 

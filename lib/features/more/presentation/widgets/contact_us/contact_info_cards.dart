@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ticket/features/more/presentation/widgets/contact_us/ContactItem_widgets.dart';
 import 'package:ticket/features/services/data/models/app_settings_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 
 class ContactInfoCards extends StatelessWidget {
   final AppSettingsModel settings;
@@ -37,7 +37,7 @@ class ContactInfoCards extends StatelessWidget {
                 details: settings.contactInfo.emails
                     .map((e) => e.email)
                     .toList(),
-                onTap: (email) => launchUrl(Uri.parse('mailto:$email')),
+                onTap: (email) => ContactHelper.launchEmail(email),
               ),
             ),
             VerticalDivider(
@@ -53,7 +53,7 @@ class ContactInfoCards extends StatelessWidget {
                 details: settings.contactInfo.phones
                     .map((p) => p.number)
                     .toList(),
-                onTap: (phone) => launchUrl(Uri.parse('tel:$phone')),
+                onTap: (phone) => ContactHelper.launchCall(phone),
               ),
             ),
             VerticalDivider(
@@ -67,11 +67,7 @@ class ContactInfoCards extends StatelessWidget {
                 fallbackIcon: Icons.location_on_outlined,
                 title: 'contact.visit_office'.tr(),
                 details: settings.contactInfo.addresses,
-                onTap: (address) => launchUrl(
-                  Uri.parse(
-                    'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(address)}',
-                  ),
-                ),
+                onTap: (address) => ContactHelper.launchMap(address),
               ),
             ),
           ],

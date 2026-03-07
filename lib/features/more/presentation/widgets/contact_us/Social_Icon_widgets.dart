@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 
 class SocialIcon extends StatelessWidget {
   final Widget icon;
@@ -10,7 +11,18 @@ class SocialIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(onTap: () => launchUrl(Uri.parse(url)), child: icon);
+    return GestureDetector(
+      onTap: () {
+        if (url.contains('wa.me') || url.contains('whatsapp.com')) {
+          ContactHelper.launchWhatsApp(
+            number: ContactHelper.extractPhoneNumber(url),
+          );
+        } else {
+          launchUrl(Uri.parse(url));
+        }
+      },
+      child: icon,
+    );
   }
 }
 

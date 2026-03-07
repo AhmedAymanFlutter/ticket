@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket/features/travel_guide/presentation/manager/travel_guide_details_cubit.dart';
 import 'package:ticket/features/travel_guide/presentation/manager/travel_guide_details_state.dart';
 import 'package:ticket/features/travel_guide/presentation/widgets/models/place_item.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/injection_container.dart';
 
 /// The main orchestrator view for the Tour Guide Details page.
@@ -48,6 +50,28 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
         builder: (context, snapshot) {
           final isLoading = snapshot.connectionState == ConnectionState.waiting;
           final country = snapshot.data?.data;
+
+          if (!isLoading &&
+              (snapshot.hasError ||
+                  snapshot.data == null ||
+                  !snapshot.data!.isSuccess)) {
+            return Scaffold(
+              appBar: TicketsAppBarDetails(
+                title: 'تفاصيل الوجهة',
+                showBack: true,
+              ),
+              body: CustomErrorWidget(
+                message: snapshot.data?.message ?? 'contact.error_message'.tr(),
+                onRetry: () {
+                  setState(() {
+                    _detailsFuture = _repository.getCountryDetails(
+                      widget.countrySlug,
+                    );
+                  });
+                },
+              ),
+            );
+          }
 
           return Scaffold(
             backgroundColor: const Color(0xFFF9F9F9),
@@ -158,6 +182,17 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
                                 ),
                               ],
                             ],
+                          );
+                        }
+                        if (state is TravelGuideDetailsFailure) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.h),
+                            child: CustomErrorWidget(
+                              message: state.message,
+                              onRetry: () => context
+                                  .read<TravelGuideDetailsCubit>()
+                                  .getGuideDetails(widget.countrySlug),
+                            ),
                           );
                         }
                         return const SizedBox.shrink();

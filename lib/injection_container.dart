@@ -14,6 +14,7 @@ import 'package:ticket/features/tours/data/repositories/tours_repository_impl.da
 import 'package:ticket/features/tours/domain/repositories/tours_repository.dart';
 import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
 import 'package:ticket/features/tours/presentation/manager/tour_details_cubit.dart';
+import 'package:ticket/features/flights/presentation/manager/flight_search_cubit.dart';
 import 'package:ticket/features/packages/data/datasources/packages_remote_data_source.dart';
 import 'package:ticket/features/packages/data/repositories/packages_repository_impl.dart';
 import 'package:ticket/features/packages/domain/repositories/packages_repository.dart';
@@ -59,6 +60,7 @@ Future<void> init() async {
   sl.registerFactory<PackageDetailsCubit>(
     () => PackageDetailsCubit(repository: sl()),
   );
+  sl.registerFactory<FlightSearchCubit>(() => FlightSearchCubit());
   sl.registerFactory<ServicesCubit>(() => ServicesCubit(repository: sl()));
   sl.registerFactory<ContactUsCubit>(() => ContactUsCubit(repository: sl()));
   sl.registerFactory<TravelGuideDetailsCubit>(

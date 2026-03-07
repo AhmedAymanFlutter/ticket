@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/core/widgets/ExitConfirmWrapper_widget.dart';
 import 'package:ticket/features/flights/presentation/pages/flights_view.dart';
 import 'package:ticket/features/activities/presentation/pages/activities_view.dart';
@@ -22,6 +23,8 @@ import 'package:ticket/features/home/presentation/manager/branches_state.dart';
 import 'package:ticket/features/home/presentation/manager/offers_cubit.dart';
 import 'package:ticket/features/home/presentation/manager/offers_state.dart';
 import 'package:ticket/features/packages/presentation/manager/package_types_cubit.dart';
+import 'package:ticket/features/services/presentation/manager/contact_us_cubit.dart';
+import 'package:ticket/features/services/presentation/manager/contact_us_state.dart';
 
 import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
 
@@ -39,21 +42,38 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       SingleChildScrollView(
-        child: Column(
-          children: [
-            const HomeHeader(),
-            SizedBox(height: 24.h),
-            BestDestinationsSection(),
-            SizedBox(height: 24.h),
-            SpecialOffersSection(),
-            SizedBox(height: 24.h),
-            BestHotelsSection(),
-            SizedBox(height: 24.h),
-            PlanAdventureSection(),
-            SizedBox(height: 24.h),
-            ReviewsSection(),
-            SizedBox(height: 120.h),
-          ],
+        child: Container(
+          color: AppColors.primary,
+          child: Column(
+            children: [
+              const HomeHeader(),
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32.r),
+                    topRight: Radius.circular(32.r),
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 24.h),
+                child: Column(
+                  children: [
+                    BestDestinationsSection(),
+                    SizedBox(height: 24.h),
+                    SpecialOffersSection(),
+                    SizedBox(height: 24.h),
+                    BestHotelsSection(),
+                    SizedBox(height: 24.h),
+                    PlanAdventureSection(),
+                    SizedBox(height: 24.h),
+                    ReviewsSection(),
+                    SizedBox(height: 100.h),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       const PackagesView(),
@@ -69,6 +89,7 @@ class _HomeState extends State<Home> {
         BlocProvider(create: (context) => sl<OffersCubit>()),
         BlocProvider(create: (context) => sl<PackageTypesCubit>()),
         BlocProvider(create: (context) => sl<ToursCubit>()),
+        BlocProvider(create: (context) => sl<ContactUsCubit>()),
       ],
       child: Builder(
         builder: (context) {
@@ -78,6 +99,7 @@ class _HomeState extends State<Home> {
               final citiesCubit = context.read<CitiesCubit>();
               final branchesCubit = context.read<BranchesCubit>();
               final offersCubit = context.read<OffersCubit>();
+              final contactUsCubit = context.read<ContactUsCubit>();
 
               if (citiesCubit.state is CitiesInitial) {
                 citiesCubit.getCities();
@@ -87,6 +109,9 @@ class _HomeState extends State<Home> {
               }
               if (offersCubit.state is OffersInitial) {
                 offersCubit.getOffers(lang);
+              }
+              if (contactUsCubit.state is ContactUsInitial) {
+                contactUsCubit.getSettings(lang);
               }
             }
           });
@@ -107,6 +132,7 @@ class _HomeState extends State<Home> {
                     context.read<CitiesCubit>().getCities();
                     context.read<BranchesCubit>().getBranches(lang);
                     context.read<OffersCubit>().getOffers(lang);
+                    context.read<ContactUsCubit>().getSettings(lang);
                   } else if (index == 1) {
                     context.read<PackageTypesCubit>().getPackageTypes(lang);
                   } else if (index == 3) {

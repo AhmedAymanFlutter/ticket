@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticket/core/utils/app_colors.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/features/home/presentation/widgets/special_offer_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket/features/home/presentation/manager/offers_cubit.dart';
@@ -159,7 +160,13 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
                   },
                 );
               } else if (state is OffersFailure) {
-                return Center(child: Text(state.message));
+                return CustomErrorWidget(
+                  message: state.message,
+                  onRetry: () => context.read<OffersCubit>().getOffers(
+                    context.locale.languageCode,
+                    filterCategory: state.activeFilter,
+                  ),
+                );
               } else if (state is OffersSuccess) {
                 final offers = state.offers;
                 if (offers.isEmpty) {

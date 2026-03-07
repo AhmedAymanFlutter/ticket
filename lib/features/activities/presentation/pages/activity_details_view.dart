@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/features/tours/presentation/manager/tour_details_cubit.dart';
 import 'package:ticket/features/tours/presentation/manager/tour_details_state.dart';
 import 'package:ticket/features/activities/presentation/widgets/activity_image_slider.dart';
@@ -44,7 +45,12 @@ class ActivityDetailsView extends StatelessWidget {
                 : null;
 
             if (state is TourDetailsFailure) {
-              return Center(child: Text(state.message));
+              return CustomErrorWidget(
+                message: state.message,
+                onRetry: () => context
+                    .read<TourDetailsCubit>()
+                    .fetchTourDetails(lang, productCode),
+              );
             }
 
             return Skeletonizer(

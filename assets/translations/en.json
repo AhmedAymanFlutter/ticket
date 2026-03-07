@@ -318,5 +318,19 @@
         "connect_with_us": "Connect with Us",
         "book_trip": "Book Your Trip",
         "contact_whatsapp_details": "Contact us via WhatsApp"
+    },
+    "exit_dialog": {
+        "title": "Exit App",
+        "message": "Are you sure you want to leave?\nWe will miss you!",
+        "cancel": "Cancel",
+        "exit": "Exit"
+    },
+    "errors": {
+        "retry": "Retry",
+        "try_again": "Try Again",
+        "try_again_desc": "Something went wrong. Please check your connection and try again.",
+        "request_timeout": "Request Timeout",
+        "no_internet": "No Internet Connection",
+        "unexpected": "Unexpected Error"
     }
 }

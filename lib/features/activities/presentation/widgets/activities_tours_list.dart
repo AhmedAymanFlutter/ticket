@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:ticket/features/activities/presentation/widgets/activity_card.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
+import 'package:ticket/features/activities/presentation/widgets/activity_card/view/activity_card.dart';
 import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
 import 'package:ticket/features/tours/presentation/manager/tours_state.dart';
 
@@ -27,7 +29,12 @@ class ActivitiesToursList extends StatelessWidget {
             ),
           );
         } else if (state is ToursFailure) {
-          return Center(child: Text(state.message));
+          return CustomErrorWidget(
+            message: state.message,
+            onRetry: () => context.read<ToursCubit>().getTours(
+              context.locale.languageCode,
+            ),
+          );
         } else if (state is ToursSuccess) {
           final tours = state.tours;
           if (tours.isEmpty) {

@@ -1,25 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ticket/features/flights/presentation/widgets/build_textField_widgets.dart';
-import 'package:ticket/features/flights/presentation/widgets/build_toogelItem_widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../manager/flight_search_cubit.dart';
+import 'trip_type_toggle.dart';
+import 'station_selection_section.dart';
+import 'date_selection_section.dart';
+import 'passenger_contact_section.dart';
 
-class FlightSearchForm extends StatefulWidget {
+class FlightSearchForm extends StatelessWidget {
   const FlightSearchForm({super.key});
-
-  @override
-  State<FlightSearchForm> createState() => _FlightSearchFormState();
-}
-
-class _FlightSearchFormState extends State<FlightSearchForm> {
-  bool isRoundTrip = true;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 343.w,
-      height: 480.h, // Adjusted height for layout
+      height: 480.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
         gradient: LinearGradient(
@@ -40,176 +36,14 @@ class _FlightSearchFormState extends State<FlightSearchForm> {
       padding: EdgeInsets.all(16.w),
       child: Column(
         children: [
-          // Toggle Round Trip / One Way
-          Container(
-            height: 44.h,
-            padding: EdgeInsets.all(4.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(33.r),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                buildToggleItem(
-                  title: 'flights.round_trip',
-                  isSelected: isRoundTrip,
-                  onTap: () => setState(() => isRoundTrip = true),
-                  icon: SvgPicture.asset(
-                    'assets/icons/roundTrip.svg',
-                    width: 20.w,
-                    height: 20.h,
-                    fit: BoxFit.scaleDown,
-                  ),
-                  isSelectedStyle: true,
-                ),
-                buildToggleItem(
-                  title: 'flights.one_way',
-                  isSelected: !isRoundTrip,
-                  onTap: () => setState(() => isRoundTrip = false),
-                  icon: SvgPicture.asset(
-                    'assets/icons/oneWay.svg',
-                    width: 20.w,
-                    height: 20.h,
-                    fit: BoxFit.scaleDown,
-                  ),
-                  isSelectedStyle: false,
-                ),
-              ],
-            ),
-          ),
-
+          const TripTypeToggle(),
           SizedBox(height: 20.h),
-
-          // From/To Fields
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: buildField(
-                      label: 'flights.from',
-                      hint: 'flights.departure_station',
-
-                      svgPath: 'assets/icons/flight.svg',
-                      width: 135.w,
-                    ),
-                  ),
-                  SizedBox(width: 40.w), // Space for swap button
-                  Expanded(
-                    child: buildField(
-                      label: 'flights.to',
-                      hint: 'flights.arrival_station',
-
-                      svgPath: 'assets/icons/flight.svg',
-                      width: 135.w,
-                    ),
-                  ),
-                ],
-              ),
-              Positioned(
-                bottom: 3.h,
-                child: Container(
-                  width: 36.w,
-                  height: 36.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFFEAE9EB)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.swap_horiz,
-                    size: 16.sp,
-                    color: const Color(0xFF282A51),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
+          const StationSelectionSection(),
           SizedBox(height: 16.h),
-
-          // Date Selection
-          Row(
-            children: [
-              Expanded(
-                child: buildField(
-                  label: 'flights.departure_date',
-                  hint: 'mm-dd-yyyy',
-                  svgPath: 'assets/photo/calendar-02.svg',
-                  width: 135.w,
-                  insideIcon: SvgPicture.asset('assets/photo/calendar-02.svg'),
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: buildField(
-                  label: 'flights.return_date',
-                  hint: 'mm-dd-yyyy',
-                  width: 135.w,
-                  insideIcon: SvgPicture.asset('assets/photo/calendar-02.svg'),
-                  svgPath: 'assets/photo/calendar-02.svg',
-                ),
-              ),
-            ],
-          ),
-
+          const DateSelectionSection(),
           SizedBox(height: 16.h),
-
-          // Travelers and Email
-          Row(
-            children: [
-              Expanded(
-                child: buildField(
-                  label: 'flights.passengers',
-                  hint: 'flights.passenger_count',
-                  svgPath: 'assets/icons/user-group.svg',
-                  width: 135.w,
-                ),
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: buildField(
-                  label: 'auth.email',
-                  hint: 'your@email.com',
-                  svgPath: 'assets/photo/mail-02.svg',
-                  width: 135.w,
-                ),
-              ),
-            ],
-          ),
-
-          SizedBox(height: 16.h),
-
-          // Phone Number
-          Align(
-            alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: 160.w, // Half width
-              child: buildField(
-                label: 'auth.phone',
-                hint: '05xxxxxxxx',
-                width: 135.w,
-              ),
-            ),
-          ),
-
+          const PassengerContactSection(),
           const Spacer(),
-
           // Submit Button
           Container(
             width: double.infinity,
@@ -221,7 +55,12 @@ class _FlightSearchFormState extends State<FlightSearchForm> {
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<FlightSearchCubit>().submitRequest();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('flights.request_sent'.tr())),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent,

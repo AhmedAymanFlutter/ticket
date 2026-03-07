@@ -2,9 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 
 Widget buildBookTripCTA(String whatsappUrl) {
+  final whatsappNumber = ContactHelper.extractPhoneNumber(whatsappUrl);
+
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 16.w),
     padding: EdgeInsets.all(20.w),
@@ -32,7 +34,7 @@ Widget buildBookTripCTA(String whatsappUrl) {
         ),
         SizedBox(height: 8.h),
         Text(
-          'contact.contact_whatsapp_details'.tr(),
+          '${'contact.contact_whatsapp_details'.tr()} ${whatsappNumber != null ? '($whatsappNumber)' : ''}',
           style: TextStyle(
             fontFamily: 'Madani Arabic',
             fontSize: 14.sp,
@@ -45,7 +47,8 @@ Widget buildBookTripCTA(String whatsappUrl) {
           width: double.infinity,
           height: 52.h,
           child: ElevatedButton.icon(
-            onPressed: () => launchUrl(Uri.parse(whatsappUrl)),
+            onPressed: () =>
+                ContactHelper.launchWhatsApp(number: whatsappNumber),
             icon: SvgPicture.asset(
               'assets/icons/watsapp.svg',
               width: 24.w,

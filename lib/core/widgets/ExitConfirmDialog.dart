@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,63 +10,60 @@ class ExitConfirmDialog {
     await showGeneralDialog(
       context: context,
       barrierDismissible: false,
-      barrierLabel: 'Exit',
+      barrierLabel: 'exit_dialog.title'.tr(),
       barrierColor: Colors.black.withOpacity(0.4),
       transitionDuration: const Duration(milliseconds: 250),
       pageBuilder: (_, __, ___) {
         return SafeArea(
           child: Center(
             child: Dialog(
-              backgroundColor: AppColors.brandPrimary,
+              backgroundColor: AppColors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.r),
+                borderRadius: BorderRadius.circular(24.r),
               ),
               child: Padding(
-                padding: EdgeInsets.all(20.w),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 28.h),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     /// 🔴 Icon
                     Container(
-                      height: 60.h,
-                      width: 60.w,
+                      height: 70.h,
+                      width: 70.w,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.brandPrimary.withOpacity(0.12),
+                        color: AppColors.brandSecondary.withOpacity(0.12),
                       ),
                       child: Icon(
-                        Icons.exit_to_app_rounded,
-                        color: AppColors.brandPrimary,
-                        size: 32.sp,
+                        Icons.logout_rounded,
+                        color: AppColors.brandSecondary,
+                        size: 36.sp,
                       ),
                     ),
 
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 20.h),
 
                     /// 📝 Title
                     Text(
-                      'Exit App',
-                      style: AppTextStyle.setIBMTextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
+                      'exit_dialog.title'.tr(),
+                      style: AppTextStyle.heading3.copyWith(
                         color: AppColors.brandPrimary,
                       ),
                     ),
 
-                    SizedBox(height: 8.h),
+                    SizedBox(height: 12.h),
 
                     /// 📄 Description
                     Text(
-                      'Are you sure you want to exit the application?',
+                      'exit_dialog.message'.tr(),
                       textAlign: TextAlign.center,
-                      style: AppTextStyle.setIBMTextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.brandPrimary,
+                      style: AppTextStyle.bodySmall.copyWith(
+                        color: AppColors.textSecondary,
+                        height: 1.4,
                       ),
                     ),
 
-                    SizedBox(height: 24.h),
+                    SizedBox(height: 32.h),
 
                     /// 🔘 Buttons
                     Row(
@@ -74,27 +72,26 @@ class ExitConfirmDialog {
                         Expanded(
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: AppColors.darkGray),
+                              side: BorderSide(color: AppColors.lightGray),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.r),
+                                borderRadius: BorderRadius.circular(14.r),
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 12.h),
+                              padding: EdgeInsets.symmetric(vertical: 14.h),
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              'Cancel',
-                              style: AppTextStyle.setIBMTextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                              'exit_dialog.cancel'.tr(),
+                              style: AppTextStyle.bodySmall.copyWith(
                                 color: AppColors.primary,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
                         ),
 
-                        SizedBox(width: 12.w),
+                        SizedBox(width: 16.w),
 
                         /// Exit
                         Expanded(
@@ -102,20 +99,19 @@ class ExitConfirmDialog {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.brandPrimary,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.r),
+                                borderRadius: BorderRadius.circular(14.r),
                               ),
-                              padding: EdgeInsets.symmetric(vertical: 12.h),
+                              padding: EdgeInsets.symmetric(vertical: 14.h),
                               elevation: 0,
                             ),
                             onPressed: () {
                               SystemNavigator.pop();
                             },
                             child: Text(
-                              'Exit',
-                              style: AppTextStyle.setIBMTextStyle(
-                                fontSize: 14,
+                              'exit_dialog.exit'.tr(),
+                              style: AppTextStyle.bodySmall.copyWith(
+                                color: AppColors.white,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.error,
                               ),
                             ),
                           ),

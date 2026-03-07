@@ -31,10 +31,7 @@ class ActivitiesFilters extends StatelessWidget {
 
     final List<Map<String, dynamic>> filters = [
       {
-        'label':
-            selectedCity ??
-            'activities.filter_date'
-                .tr(), // Repurposing Date filter visual for City per user mapping (or keep separate if needed, but only 4 exist)
+        'label': selectedCity ?? 'activities.filter_date'.tr(),
         'icon': Icons.location_on_outlined,
         'onTap': onCityTapped,
         'isActive': selectedCity != null,

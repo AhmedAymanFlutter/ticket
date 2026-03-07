@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/features/home/presentation/manager/cities_cubit.dart';
 import 'package:ticket/features/home/presentation/manager/cities_state.dart';
 
@@ -19,7 +20,7 @@ class CityFilterBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.w),
-      height: 400.h,
+      height: 550.h, // Increased height for error widget
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,11 +35,15 @@ class CityFilterBottomSheet extends StatelessWidget {
                 if (state is CitiesLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is CitiesFailure) {
-                  return Center(child: Text(state.message));
+                  return CustomErrorWidget(
+                    message: state.message,
+                    onRetry: () => context.read<CitiesCubit>().getCities(),
+                  );
                 } else if (state is CitiesSuccess) {
                   if (state.cities.isEmpty) {
-                    return Center(
-                      child: Text('activities.no_cities_found'.tr()),
+                    return CustomErrorWidget(
+                      message: 'activities.no_cities_found',
+                      onRetry: () => context.read<CitiesCubit>().getCities(),
                     );
                   }
 

@@ -28,106 +28,127 @@ class TestimonialCard extends StatelessWidget {
         // Previous Button
         _buildNavButton(icon: Icons.arrow_back_ios_new, onTap: onPrevious),
 
-        SizedBox(width: 12.w),
+        SizedBox(width: 14.w),
 
-        // Card Stack
-        Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topCenter,
-          children: [
-            Container(
-              width: 269.w,
-
-              constraints: BoxConstraints(minHeight: 166.h),
-              margin: EdgeInsets.only(top: 30.h, bottom: 20.h),
-              padding: EdgeInsets.fromLTRB(14.w, 42.h, 14.w, 16.h),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: const Color(0xFFE0E0E0), width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
+        // Card Stack - Wrapped in Expanded to prevent overflow
+        Expanded(
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topCenter,
+            children: [
+              // Premium Card
+              Center(
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: 180.h,
+                    maxWidth: 280.w, // Use maxWidth to avoid overflow
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Name
-                  Text(
-                    name,
-                    style: TextStyle(
-                      fontFamily: 'Madani Arabic',
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF1A1A1A),
-                    ),
-                  ),
-                  SizedBox(height: 12.h), // Spacing
-                  // Stars
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(5, (index) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 2.w),
-                        child: Icon(
-                          Icons.star_rounded,
-                          color: const Color(0xFFFFC107),
-                          size: 20.sp,
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 16.h), // Spacing
-                  // Comment
-                  Text(
-                    comment,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Madani Arabic',
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF1A1A1A),
-                      height: 1.6,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Floating Avatar
-            Positioned(
-              top: 0,
-              child: Container(
-                width: 63.w,
-                height: 63.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage(avatar),
-                    fit: BoxFit.cover,
-                  ),
-                  border: Border.all(
+                  margin: EdgeInsets.only(top: 32.h, bottom: 16.h),
+                  padding: EdgeInsets.fromLTRB(20.w, 48.h, 20.w, 20.h),
+                  decoration: BoxDecoration(
                     color: Colors.white,
-                    width: 6, // User specified border width
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
+                    borderRadius: BorderRadius.circular(16.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.03),
+                        blurRadius: 30,
+                        offset: const Offset(0, 15),
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.02),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                    border: Border.all(
+                      color: const Color(0xFFF0F0F0),
+                      width: 1,
                     ),
-                  ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Name
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontFamily: 'Madani Arabic',
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF1A1A1A),
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      // Stars
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 1.5.w),
+                            child: Icon(
+                              index < rating.floor()
+                                  ? Icons.star_rounded
+                                  : Icons.star_outline_rounded,
+                              color: const Color(0xFFFFC107),
+                              size: 18.sp,
+                            ),
+                          );
+                        }),
+                      ),
+                      SizedBox(height: 18.h),
+                      // Comment
+                      Text(
+                        comment,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Madani Arabic',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF4A4A4A),
+                          height: 1.7,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+
+              // Floating Avatar with Glow
+              Positioned(
+                top: 0,
+                child: Container(
+                  padding: EdgeInsets.all(6.w),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFFE406F).withOpacity(0.12),
+                        blurRadius: 15,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Container(
+                    width: 58.w,
+                    height: 58.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage(avatar),
+                        fit: BoxFit.cover,
+                      ),
+                      border: Border.all(color: Colors.white, width: 3.w),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
 
-        SizedBox(width: 12.w),
+        SizedBox(width: 14.w),
 
         // Next Button
         _buildNavButton(icon: Icons.arrow_forward_ios, onTap: onNext),
@@ -142,21 +163,21 @@ class TestimonialCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 40.w,
-        height: 40.w,
+        width: 42.w,
+        height: 42.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: const Color(0xFFE0E0E0)),
           color: Colors.white,
+          border: Border.all(color: const Color(0xFFF5F5F5)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: Icon(icon, size: 16.sp, color: const Color(0xFFBDBDBD)),
+        child: Icon(icon, size: 15.sp, color: const Color(0xFFD1D1D1)),
       ),
     );
   }

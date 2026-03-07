@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
-import 'package:ticket/features/activities/presentation/widgets/activity_booking_bottom_sheet.dart';
+import 'package:ticket/features/activities/presentation/widgets/activity_booking_bottom_sheet/widgets/view/activity_booking_bottom_sheet.dart';
 import 'package:ticket/features/tours/data/models/tour_details_model.dart';
 
 class ActivityBottomActions extends StatelessWidget {

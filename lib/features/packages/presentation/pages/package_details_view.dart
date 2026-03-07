@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket/core/widgets/appbarDetails_widgets.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/features/packages/presentation/manager/package_details_cubit.dart';
 import 'package:ticket/features/packages/presentation/manager/package_details_state.dart';
 import 'package:ticket/features/packages/presentation/widgets/package_highlights/package_highlights_section.dart';
@@ -41,7 +42,15 @@ class PackageDetailsView extends StatelessWidget {
             final bool isLoading = state is PackageDetailsLoading;
 
             if (state is PackageDetailsFailure) {
-              return Center(child: Text(state.message));
+              return CustomErrorWidget(
+                message: state.message,
+                onRetry: () =>
+                    context.read<PackageDetailsCubit>().getPackageDetails(
+                      packageTypeSlug,
+                      packageSlug,
+                      languageCode,
+                    ),
+              );
             }
 
             final branch = state is PackageDetailsSuccess

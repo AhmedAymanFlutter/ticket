@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:ticket/core/widgets/TicketsAppBar_widget.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 import 'package:ticket/features/more/presentation/widgets/services/service_card.dart';
 import 'package:ticket/features/more/presentation/widgets/services/service_detail_sheet.dart';
 import 'package:ticket/features/services/data/models/service_model.dart';
@@ -25,7 +26,10 @@ class ServicesView extends StatelessWidget {
         body: BlocBuilder<ServicesCubit, ServicesState>(
           builder: (context, state) {
             if (state is ServicesFailure) {
-              return Center(child: Text(state.message));
+              return CustomErrorWidget(
+                message: state.message,
+                onRetry: () => context.read<ServicesCubit>().getServices(lang),
+              );
             }
 
             final isLoading =

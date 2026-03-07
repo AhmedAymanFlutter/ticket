@@ -11,6 +11,10 @@ Widget buildField({
   String? svgPath,
   double? width,
   Widget? insideIcon,
+  VoidCallback? onTap,
+  TextEditingController? controller,
+  bool readOnly = true,
+  String? value,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,38 +47,69 @@ Widget buildField({
         ],
       ),
       SizedBox(height: 6.h),
-      Container(
-        width: width,
-        height: 36.h,
-        padding: EdgeInsets.only(top: 4.h, right: 8.w, bottom: 4.h, left: 8.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: const Color(0xFFEAE9EB)),
-          borderRadius: BorderRadius.circular(5.r),
-        ),
-        child: Row(
-          textDirection: ui.TextDirection.rtl,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                hint.tr(),
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: const Color(0xFF9E9E9E),
-                  fontSize: 11.sp, // Adjusted to fit height
-                  fontFamily: 'Madani Arabic',
-                ),
-                overflow: TextOverflow.ellipsis,
+      GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          width: width,
+          height: 36.h,
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: const Color(0xFFEAE9EB)),
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+          child: Row(
+            textDirection: ui.TextDirection.rtl,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: controller != null
+                    ? TextField(
+                        controller: controller,
+                        readOnly: readOnly,
+                        onTap: onTap,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: const Color(0xFF1D1B20),
+                          fontSize: 11.sp,
+                          fontFamily: 'Madani Arabic',
+                        ),
+                        decoration: InputDecoration(
+                          hintText: hint.tr(),
+                          hintStyle: TextStyle(
+                            color: const Color(0xFF9E9E9E),
+                            fontSize: 11.sp,
+                            fontFamily: 'Madani Arabic',
+                          ),
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      )
+                    : Text(
+                        value ?? hint.tr(),
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          color: value != null
+                              ? const Color(0xFF1D1B20)
+                              : const Color(0xFF9E9E9E),
+                          fontSize: 11.sp,
+                          fontFamily: 'Madani Arabic',
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
               ),
-            ),
-            insideIcon ??
+              if (insideIcon != null)
+                insideIcon
+              else if (onTap != null || controller != null)
                 Icon(
                   Icons.keyboard_arrow_down,
                   color: const Color(0xFF9E9E9E),
                   size: 18.sp,
                 ),
-          ],
+            ],
+          ),
         ),
       ),
     ],

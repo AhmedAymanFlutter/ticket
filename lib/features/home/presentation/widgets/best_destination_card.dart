@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 import 'package:ticket/features/home/presentation/widgets/watsapp_btn.dart';
 
 class BestDestinationCard extends StatelessWidget {
@@ -11,6 +12,7 @@ class BestDestinationCard extends StatelessWidget {
   final String description;
   final int days;
   final int price;
+  final String? whatsappNumber;
 
   const BestDestinationCard({
     super.key,
@@ -19,6 +21,7 @@ class BestDestinationCard extends StatelessWidget {
     required this.description,
     required this.days,
     required this.price,
+    this.whatsappNumber,
   });
 
   @override
@@ -167,8 +170,10 @@ class BestDestinationCard extends StatelessWidget {
 
                       // Button (Left side in RTL)
                       WatsappBtn(
-                        onTap: () {},
-                        // width removed to allow auto-sizing
+                        onTap: () => ContactHelper.launchWhatsApp(
+                          number: whatsappNumber,
+                        ),
+
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,

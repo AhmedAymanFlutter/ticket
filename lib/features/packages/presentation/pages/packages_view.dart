@@ -10,6 +10,7 @@ import 'package:ticket/features/packages/presentation/manager/package_types_cubi
 import 'package:ticket/features/packages/presentation/manager/package_types_state.dart';
 import 'package:ticket/features/packages/presentation/pages/package_category_view.dart';
 import 'package:ticket/features/packages/presentation/widgets/package_card.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -40,10 +41,10 @@ class PackagesView extends StatelessWidget {
               : _dummyPackages;
 
           if (state is PackageTypesFailure) {
-            return Center(
-              child: Text(
-                state.message,
-                style: const TextStyle(color: Colors.red),
+            return CustomErrorWidget(
+              message: state.message,
+              onRetry: () => context.read<PackageTypesCubit>().getPackageTypes(
+                context.locale.languageCode,
               ),
             );
           }
@@ -55,47 +56,13 @@ class PackagesView extends StatelessWidget {
               child: Column(
                 children: [
                   displayList.isEmpty && !isLoading
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 80.h),
-                              Icon(
-                                Icons.category_outlined,
-                                size: 64.sp,
-                                color: Colors.grey[400],
-                              ),
-                              SizedBox(height: 16.h),
-                              Text(
-                                'packages.no_categories_found'.tr(),
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: Colors.grey[600],
-                                  fontFamily: 'Madani Arabic',
-                                ),
-                              ),
-                              SizedBox(height: 24.h),
-                              ElevatedButton(
-                                onPressed: () {
-                                  context
-                                      .read<PackageTypesCubit>()
-                                      .getPackageTypes(
-                                        context.locale.languageCode,
-                                      );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                ),
-                                child: Text(
-                                  'common.retry'.tr(),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
+                      ? CustomErrorWidget(
+                          message: 'packages.no_categories_found'.tr(),
+                          onRetry: () {
+                            context.read<PackageTypesCubit>().getPackageTypes(
+                              context.locale.languageCode,
+                            );
+                          },
                         )
                       : Column(
                           children: [

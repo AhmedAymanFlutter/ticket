@@ -6,6 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticket/features/home/presentation/manager/branches_cubit.dart';
 import 'package:ticket/features/home/presentation/manager/branches_state.dart';
 import 'package:ticket/core/widgets/horizontal_skeleton_list.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
+import 'package:ticket/features/services/presentation/manager/contact_us_cubit.dart';
+import 'package:ticket/features/services/presentation/manager/contact_us_state.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 
 class BestDestinationsSection extends StatelessWidget {
   const BestDestinationsSection({super.key});
@@ -42,50 +46,74 @@ class BestDestinationsSection extends StatelessWidget {
         // List
         SizedBox(
           height: 399.h,
-          child: BlocBuilder<BranchesCubit, BranchesState>(
-            builder: (context, state) {
-              if (state is BranchesLoading) {
-                return HorizontalSkeletonList(
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return const BestDestinationCard(
-                      imagePath: 'assets/photo/image (1).png',
-                      title: '...',
-                      description: '...',
-                      days: 5,
-                      price: 0,
-                    );
-                  },
-                );
-              } else if (state is BranchesFailure) {
-                return Center(child: Text(state.message));
-              } else if (state is BranchesSuccess) {
-                final branches = state.branches;
-                if (branches.isEmpty) {
-                  return const Center(child: Text('No destinations available'));
-                }
-                return ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: branches.length,
-                  separatorBuilder: (context, index) => SizedBox(width: 16.w),
-                  itemBuilder: (context, index) {
-                    final branch = branches[index];
-                    return BestDestinationCard(
-                      imagePath:
-                          (branch.imageCover != null &&
-                              branch.imageCover!.isNotEmpty)
-                          ? branch.imageCover!
-                          : 'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
-                      title: branch.name,
-                      description: branch.alt ?? '',
-                      days: branch.daysCount,
-                      price: branch.price,
-                    );
-                  },
+          child: BlocBuilder<ContactUsCubit, ContactUsState>(
+            builder: (context, contactState) {
+              String? whatsappNumber;
+              if (contactState is ContactUsSuccess) {
+                whatsappNumber = ContactHelper.extractPhoneNumber(
+                  contactState.settings.socialMedia.whatsApp.url,
                 );
               }
-              return const SizedBox.shrink();
+              return BlocBuilder<BranchesCubit, BranchesState>(
+                builder: (context, state) {
+                  if (state is BranchesLoading) {
+                    return HorizontalSkeletonList(
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return const BestDestinationCard(
+                          imagePath: 'assets/photo/image (1).png',
+                          title: '...',
+                          description: '...',
+                          days: 5,
+                          price: 0,
+                        );
+                      },
+                    );
+                  } else if (state is BranchesFailure) {
+                    return CustomErrorWidget(
+                      message: state.message,
+                      onRetry: () {
+                        context.read<BranchesCubit>().getBranches(
+                          context.locale.languageCode,
+                        );
+                        context.read<ContactUsCubit>().getSettings(
+                          context.locale.languageCode,
+                        );
+                      },
+                    );
+                  } else if (state is BranchesSuccess) {
+                    final branches = state.branches;
+                    if (branches.isEmpty) {
+                      return const Center(
+                        child: Text('No destinations available'),
+                      );
+                    }
+                    return ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: branches.length,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(width: 16.w),
+                      itemBuilder: (context, index) {
+                        final branch = branches[index];
+                        return BestDestinationCard(
+                          imagePath:
+                              (branch.imageCover != null &&
+                                  branch.imageCover!.isNotEmpty)
+                              ? branch.imageCover!
+                              : 'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
+                          title: branch.name,
+                          description: branch.alt ?? '',
+                          days: branch.daysCount,
+                          price: branch.price,
+                          whatsappNumber: whatsappNumber,
+                        );
+                      },
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              );
             },
           ),
         ),

@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ticket/features/services/data/models/service_model.dart';
 import 'package:ticket/features/services/data/models/service_settings_model.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 
 /// Shows the service detail bottom sheet
 void showServiceDetailSheet(
@@ -24,20 +24,6 @@ class _ServiceDetailSheet extends StatelessWidget {
   final ServiceModel service;
   final ServiceSettingsModel settings;
   const _ServiceDetailSheet({required this.service, required this.settings});
-
-  Future<void> _launchWhatsApp(String phone) async {
-    final url = 'whatsapp://send?phone=$phone';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    }
-  }
-
-  Future<void> _launchCall(String phone) async {
-    final url = 'tel:$phone';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,11 +165,12 @@ class _ServiceDetailSheet extends StatelessWidget {
               children: [
                 // WhatsApp Button
                 _ActionButton(
-                  label: 'more.contact_whatsapp'.tr(),
+                  label: '${'more.contact_whatsapp'.tr()} ($whatsAppPhone)',
                   icon: 'assets/icons/watsapp.svg',
                   backgroundColor: const Color(0xFF25D366),
                   textColor: Colors.white,
-                  onTap: () => _launchWhatsApp(whatsAppPhone),
+                  onTap: () =>
+                      ContactHelper.launchWhatsApp(number: whatsAppPhone),
                 ),
                 SizedBox(height: 12.h),
                 // Call Now Button
@@ -192,7 +179,7 @@ class _ServiceDetailSheet extends StatelessWidget {
                   icon: 'assets/icons/customer-service.svg',
                   backgroundColor: const Color(0xFFEAEAEA),
                   textColor: const Color(0xFF1A1A1A),
-                  onTap: () => _launchCall(primaryPhone),
+                  onTap: () => ContactHelper.launchCall(primaryPhone),
                 ),
               ],
             ),

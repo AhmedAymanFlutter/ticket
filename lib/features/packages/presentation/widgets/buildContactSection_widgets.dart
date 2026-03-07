@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ticket/core/helper/contact_helper.dart';
 
 class PackageContactSection extends StatelessWidget {
-  const PackageContactSection({super.key});
+  final String? whatsappNumber;
+  const PackageContactSection({super.key, this.whatsappNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class PackageContactSection extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'احجز رحلتك',
+            'contact.book_trip'.tr(),
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w700,
@@ -37,7 +40,7 @@ class PackageContactSection extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'اتصل بنا لحجز رحلتك',
+            'more.call_now'.tr(), // or create a better key if needed
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w400,
@@ -57,41 +60,47 @@ class PackageContactSection extends StatelessWidget {
   }
 
   Widget _buildWhatsAppButton() {
-    return Container(
-      width: double.infinity,
-      height: 56.h,
-      decoration: BoxDecoration(
-        color: const Color(0xFF4ADE80),
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0x334ADE80),
-            offset: const Offset(0, 8),
-            blurRadius: 16,
-            spreadRadius: -4,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'تواصل معنا عبر واتساب',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Madani Arabic',
-              color: Colors.white,
+    return GestureDetector(
+      onTap: () => ContactHelper.launchWhatsApp(number: whatsappNumber),
+      child: Container(
+        width: double.infinity,
+        height: 56.h,
+        decoration: BoxDecoration(
+          color: const Color(0xFF4ADE80),
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x334ADE80),
+              offset: const Offset(0, 8),
+              blurRadius: 16,
+              spreadRadius: -4,
             ),
-          ),
-          SizedBox(width: 12.w),
-          SvgPicture.asset(
-            'assets/icons/watsapp.svg',
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-            width: 28.w,
-            height: 28.h,
-          ),
-        ],
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '${'more.contact_whatsapp'.tr()} ${whatsappNumber != null ? '($whatsappNumber)' : ''}',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Madani Arabic',
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(width: 12.w),
+            SvgPicture.asset(
+              'assets/icons/watsapp.svg',
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+              width: 28.w,
+              height: 28.h,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -109,7 +118,7 @@ class PackageContactSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'عادةً ما يرد على الفور',
+          'contact.support_team'.tr(),
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w400,
@@ -132,4 +141,5 @@ class PackageContactSection extends StatelessWidget {
 }
 
 // Global function for consistency with other widgets
-Widget buildContactSection() => const PackageContactSection();
+Widget buildContactSection({String? whatsappNumber}) =>
+    PackageContactSection(whatsappNumber: whatsappNumber);

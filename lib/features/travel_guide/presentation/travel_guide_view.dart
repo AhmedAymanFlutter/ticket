@@ -9,6 +9,7 @@ import 'package:ticket/features/travel_guide/data/datasources/travel_guide_remot
 import 'package:ticket/features/travel_guide/data/repositories/travel_guide_repository.dart';
 import 'package:ticket/features/travel_guide/data/models/country_model.dart';
 import 'package:ticket/features/travel_guide/presentation/widgets/guide_card.dart';
+import 'package:ticket/core/widgets/custom_error_widget.dart';
 
 class TravelGuideView extends StatefulWidget {
   const TravelGuideView({super.key});
@@ -55,27 +56,25 @@ class _TravelGuideViewState extends State<TravelGuideView> {
               (snapshot.hasError ||
                   snapshot.data == null ||
                   !snapshot.data!.isSuccess)) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('contact.error_message'.tr()),
-                  SizedBox(height: 16.h),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _countriesFuture = _repository.getCountries();
-                      });
-                    },
-                    child: Text('Retry'),
-                  ),
-                ],
-              ),
+            return CustomErrorWidget(
+              message: snapshot.data?.message ?? 'contact.error_message'.tr(),
+              onRetry: () {
+                setState(() {
+                  _countriesFuture = _repository.getCountries();
+                });
+              },
             );
           }
 
           if (!isLoading && countries.isEmpty) {
-            return Center(child: Text('No countries found'));
+            return CustomErrorWidget(
+              message: 'No countries found',
+              onRetry: () {
+                setState(() {
+                  _countriesFuture = _repository.getCountries();
+                });
+              },
+            );
           }
 
           return Skeletonizer(
