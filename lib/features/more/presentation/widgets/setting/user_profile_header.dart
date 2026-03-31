@@ -4,88 +4,109 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticket/core/utils/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ticket/core/network/local_data.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class UserProfileHeader extends StatelessWidget {
   const UserProfileHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 343.w,
-      height: 88.h,
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFFEAE9EB), width: 1),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          /// Profile Image (Right)
-          Container(
-            width: 48.w,
-            height: 48.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(16.r),
-              image: const DecorationImage(
-                image: AssetImage('assets/photo/image (1).png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SizedBox(width: 12.w),
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        final bool isLoading = state is AuthLoading;
+        String name = LocalData.userName ?? 'more.user_name'.tr();
+        String email = 'more.user_email'.tr();
 
-          /// Name & Email
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+        if (state is AuthSuccess && state.response.data != null) {
+          name = state.response.data!.name;
+          email = state.response.data!.email;
+        }
+
+        return Skeletonizer(
+          enabled: isLoading,
+          child: Container(
+            width: 343.w,
+            height: 88.h,
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFFFFF),
+              borderRadius: BorderRadius.circular(16.r),
+              border: Border.all(color: const Color(0xFFEAE9EB), width: 1),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'more.user_name'.tr(),
-                  style: TextStyle(
-                    fontFamily: 'Madani Arabic',
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xFF161616),
+                /// Profile Image (Right)
+                Container(
+                  width: 48.w,
+                  height: 48.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(16.r),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/photo/image (1).png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 4.h),
-                Text(
-                  'more.user_email'.tr(),
-                  style: TextStyle(
-                    fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
-                    fontSize: 12.sp,
-                    color: const Color(0xFF333333),
+                SizedBox(width: 12.w),
+
+                /// Name & Email
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontFamily: 'Madani Arabic',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF161616),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        email,
+                        style: TextStyle(
+                          fontFamily:
+                              GoogleFonts.ibmPlexSansArabic().fontFamily,
+                          fontSize: 12.sp,
+                          color: const Color(0xFF333333),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                ),
+
+                SizedBox(width: 12.w),
+
+                /// Edit Icon (Left)
+                GestureDetector(
+                  onTap: () {},
+                  child: SvgPicture.asset(
+                    'assets/icons/edite.svg',
+                    width: 40.w,
+                    height: 40.h,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.splashBackground,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-
-          SizedBox(width: 12.w),
-
-          /// Edit Icon (Left)
-          GestureDetector(
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/icons/edite.svg',
-              width: 40.w,
-              height: 40.h,
-              colorFilter: ColorFilter.mode(
-                AppColors.splashBackground,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

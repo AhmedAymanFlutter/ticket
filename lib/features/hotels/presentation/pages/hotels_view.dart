@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 import 'package:ticket/core/widgets/appbarDetails_widgets.dart';
+import 'package:ticket/features/hotels/presentation/pages/hotel_details_view.dart';
 import 'package:ticket/features/hotels/presentation/widgets/hotel_card.dart';
 import '../widgets/hotel_search_bar.dart';
 
@@ -55,6 +57,9 @@ class HotelsView extends StatelessWidget {
                   price: prices[index],
                   tag: tags[index],
                   discount: discounts[index],
+                  onTap: () {
+                    FadeNavigation.pushFade(context, const HotelDetailsView());
+                  },
                 );
               },
             ),

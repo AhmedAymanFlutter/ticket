@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ticket</string>
+    <string name="facebook_app_id">918214607841367</string>
+    <string name="facebook_client_token">8c40b816baec3402420c0b1ae4b688af</string>
+    <string name="fb_login_protocol_scheme">fb918214607841367</string>
+</resources>

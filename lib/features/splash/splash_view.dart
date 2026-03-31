@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/onboarding/presentation/pages/onboarding_view.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:ticket/features/home/home.dart';
+import 'package:ticket/core/network/local_data.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -55,7 +57,11 @@ class _SplashScreenContentState extends State<_SplashScreenContent>
   }
 
   Future<void> _checkStatus() async {
-    FadeNavigation.pushSplash(context, const OnboardingView());
+    if (LocalData.accessToken != null && LocalData.accessToken!.isNotEmpty) {
+      FadeNavigation.pushSplash(context, const Home());
+    } else {
+      FadeNavigation.pushSplash(context, const OnboardingView());
+    }
   }
 
   @override

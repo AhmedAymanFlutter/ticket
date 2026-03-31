@@ -1,8 +1,8 @@
 // ignore_for_file: unnecessary_import
 import 'package:dio/dio.dart';
-import 'api_endpoint.dart';
-import 'api_response.dart';
-import 'local_data.dart';
+import 'package:ticket/core/network/api_endpoint.dart';
+import 'package:ticket/core/network/api_response.dart';
+import 'package:ticket/core/network/local_data.dart';
 
 class APIHelper {
   static final APIHelper _apiHelper = APIHelper._internal();

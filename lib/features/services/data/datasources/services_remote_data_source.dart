@@ -15,7 +15,6 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
     final response = await APIHelper().getRequest<List<ServiceModel>>(
       endPoint: '/services',
       queryParameters: {'lang': lang},
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&
@@ -40,7 +39,6 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
     final response = await APIHelper().getRequest<ServiceSettingsModel>(
       endPoint: '/services',
       queryParameters: {'lang': lang},
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&
@@ -64,7 +62,6 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
     final response = await APIHelper().getRequest<AppSettingsModel>(
       endPoint: '/settings',
       queryParameters: {'lang': lang},
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&

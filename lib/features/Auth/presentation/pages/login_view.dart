@@ -4,11 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/core/widgets/custom_text_field.dart';
-import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
-import 'package:ticket/features/Auth/presentation/pages/widgets/social_section_widgets.dart';
-import 'package:ticket/features/Auth/presentation/pages/forget_password_view.dart';
+import 'package:ticket/features/auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
+import 'package:ticket/features/auth/presentation/pages/widgets/social_section_widgets.dart';
+import 'package:ticket/features/auth/presentation/pages/forget_password_view.dart';
 import 'package:ticket/features/home/home.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/features/auth/data/models/login_request_model.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ticket/core/widgets/custom_snackbar.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -21,6 +25,7 @@ class _LoginViewState extends State<LoginView> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String _selectedCountryCode = '+966'; // Default for SA
 
   @override
   void dispose() {
@@ -98,7 +103,9 @@ class _LoginViewState extends State<LoginView> {
                         controller: _phoneController,
                         initialCountryCode: 'SA',
                         onCountryChanged: (code) {
-                          print(code.dialCode);
+                          setState(() {
+                            _selectedCountryCode = code.dialCode ?? '+966';
+                          });
                         },
                       ),
                       SizedBox(height: 12.h),
@@ -135,10 +142,35 @@ class _LoginViewState extends State<LoginView> {
 
                       SizedBox(height: 24.h),
 
-                      CustomGradientButton(
-                        text: 'auth.login'.tr(),
-                        onPressed: () {
-                          FadeNavigation.pushFromBottom(context, const Home());
+                      BlocConsumer<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthSuccess) {
+                            context.showSuccessSnackBar(state.response.message);
+                            FadeNavigation.pushFromBottom(
+                              context,
+                              const Home(),
+                            );
+                          } else if (state is AuthError) {
+                            context.showErrorSnackBar(state.message);
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomGradientButton(
+                            text: state is AuthLoading
+                                ? 'auth.loading'.tr()
+                                : 'auth.login'.tr(),
+                            onPressed: () {
+                              if (state is AuthLoading) return;
+                              if (_formKey.currentState!.validate()) {
+                                final loginRequest = LoginRequestModel(
+                                  phone: _phoneController.text,
+                                  countryCode: _selectedCountryCode,
+                                  password: _passwordController.text,
+                                );
+                                context.read<AuthCubit>().login(loginRequest);
+                              }
+                            },
+                          );
                         },
                       ),
                       SizedBox(height: 16.h),
@@ -180,6 +212,9 @@ class _LoginViewState extends State<LoginView> {
                           buildSocialButton(
                             null,
                             Colors.white,
+                            onTap: () {
+                              context.read<AuthCubit>().signInWithGoogle();
+                            },
                             child: Image.asset(
                               'assets/icons/google.png',
                               width: 24.w,
@@ -189,6 +224,9 @@ class _LoginViewState extends State<LoginView> {
                           buildSocialButton(
                             null,
                             const Color(0xFF1877F2),
+                            onTap: () {
+                              context.read<AuthCubit>().signInWithFacebook();
+                            },
                             child: Icon(
                               Icons.facebook,
                               color: Colors.white,

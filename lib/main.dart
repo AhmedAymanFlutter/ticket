@@ -1,16 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/localization/hybrid_asset_loader.dart';
+import 'package:ticket/core/network/api_endpoint.dart';
 import 'package:ticket/core/network/api_helper.dart';
+import 'package:ticket/core/network/local_data.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:ticket/features/splash/splash_view.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await LocalData.init();
   await APIHelper.init();
   await di.init();
+  await GoogleSignIn(serverClientId: EndPoints.serverClientId).signInSilently();
 
   runApp(
     EasyLocalization(
@@ -29,26 +36,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (_, child) {
-        return MaterialApp(
-          key: ValueKey(context.locale),
-          theme: ThemeData(
-            primaryColor: Colors.blue,
-            scaffoldBackgroundColor: const Color(0xFFFAFAFA),
-            fontFamily: 'Madani Arabic',
-          ),
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          debugShowCheckedModeBanner: false,
-          title: 'Ticket App',
-          home: const SplashScreen(),
-        );
-      },
+    return BlocProvider(
+      create: (context) => di.sl<AuthCubit>(),
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (_, child) {
+          return MaterialApp(
+            key: ValueKey(context.locale),
+            theme: ThemeData(
+              primaryColor: Colors.blue,
+              scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+              fontFamily: 'Madani Arabic',
+            ),
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            debugShowCheckedModeBanner: false,
+            title: 'Ticket App',
+            home: const SplashScreen(),
+          );
+        },
+      ),
     );
   }
 }

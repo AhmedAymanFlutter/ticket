@@ -26,15 +26,28 @@ class DestinationCard extends StatelessWidget {
             spreadRadius: 0,
           ),
         ],
-        image: DecorationImage(
-          image: imagePath.startsWith('http')
-              ? NetworkImage(imagePath) as ImageProvider
-              : AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
       ),
       child: Stack(
         children: [
+          // Background Image with Error Handling
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24.r),
+              child: imagePath.startsWith('http')
+                  ? Image.network(
+                      imagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: Colors.grey[200],
+                        child: const Icon(Icons.broken_image, color: Colors.grey),
+                      ),
+                    )
+                  : Image.asset(
+                      imagePath,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
           // Gradient Overlay for text visibility
           Positioned.fill(
             child: Container(

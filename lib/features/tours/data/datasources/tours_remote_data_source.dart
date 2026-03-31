@@ -52,7 +52,6 @@ class ToursRemoteDataSourceImpl implements ToursRemoteDataSource {
     return await APIHelper().getRequest<List<TourModel>>(
       endPoint: '/tours',
       queryParameters: queryParams,
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&
@@ -73,7 +72,6 @@ class ToursRemoteDataSourceImpl implements ToursRemoteDataSource {
     return await APIHelper().getRequest<TourDetailsModel>(
       endPoint: '/tours/$productCode',
       queryParameters: {'lang': lang},
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&

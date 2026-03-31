@@ -1,10 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ticket/core/navigation/fade_navigation.dart';
-import 'package:ticket/features/hotels/presentation/pages/hotel_details_view.dart';
 
 class HotelCard extends StatelessWidget {
   final String imagePath;
@@ -14,6 +10,7 @@ class HotelCard extends StatelessWidget {
   final int price;
   final String tag;
   final String discount;
+  final VoidCallback? onTap;
 
   const HotelCard({
     super.key,
@@ -24,204 +21,74 @@ class HotelCard extends StatelessWidget {
     required this.price,
     required this.tag,
     required this.discount,
+    this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        FadeNavigation.pushFade(context, HotelDetailsView());
-      },
+    return GestureDetector(
+      onTap: onTap,
       child: Container(
-        width: double.infinity,
-        height: 204.h,
+        width: 255.w,
+        height: 337.h,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: const Color(0xFFEAE9EB), width: 1),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x1F000000), // #0000001F
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              // In RTL: Image (Right) -> Content (Left)
+            // Image with Rating Badge
+            Stack(
               children: [
-                // Image Section (Right in RTL)
-                Expanded(
-                  flex: 4,
-                  child: ClipRRect(
-                    borderRadius: BorderRadiusDirectional.only(
-                      topStart: Radius.circular(16.r),
-                      bottomStart: Radius.circular(16.r),
-                    ),
-                    child: Image.asset(
-                      imagePath,
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+                  child: Image.network(
+                    imagePath,
+                    width: double.infinity,
+                    height: 150.h,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
                       width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
+                      height: 150.h,
+                      color: Colors.grey[200],
+                      child: const Icon(Icons.broken_image, color: Colors.grey),
                     ),
                   ),
                 ),
-
-                // Content Section (Left in RTL)
-                Expanded(
-                  flex: 6,
-                  child: Padding(
-                    padding: EdgeInsets.all(12.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // Rating Badge
+                Positioned(
+                  top: 12.h,
+                  right: 12.w,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Tag
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8.w,
-                                vertical: 4.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFE8F1FF), // Light Blue
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                              child: Text(
-                                tag,
-                                style: TextStyle(
-                                  fontFamily: 'Madani Arabic',
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF161616),
-                                ),
-                              ),
-                            ),
-                          ],
+                        Icon(
+                          Icons.star,
+                          color: const Color(0xFFFFB211),
+                          size: 14.sp,
                         ),
-
-                        // Title
+                        SizedBox(width: 4.w),
                         Text(
-                          title,
+                          '4.9',
                           style: TextStyle(
-                            fontFamily: 'Madani Arabic',
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
                             color: const Color(0xFF161616),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Madani Arabic',
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-
-                        // Location
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/location.svg',
-                              width: 24.w,
-                              height: 24.h,
-                              fit: BoxFit.scaleDown,
-                            ),
-                            SizedBox(width: 4.w),
-                            Text(
-                              location,
-                              style: TextStyle(
-                                fontFamily: 'Madani Arabic',
-                                fontSize: 12.sp,
-                                color: const Color(0xFF8E8E93),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        // Distance
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/map.svg',
-                              width: 24.w,
-                              height: 24.h,
-                              fit: BoxFit.scaleDown,
-                            ),
-                            SizedBox(width: 4.w),
-                            Expanded(
-                              child: Text(
-                                distance,
-                                style: TextStyle(
-                                  fontFamily: 'Madani Arabic',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF8E8E93),
-                                ),
-                                maxLines: 1,
-                                // overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        // Price & Button
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Price
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      '$price',
-                                      style: TextStyle(
-                                        fontFamily:
-                                            GoogleFonts.ibmPlexSansArabic()
-                                                .fontFamily,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color(0xFF161616),
-                                      ),
-                                    ),
-                                    SizedBox(width: 2.w),
-                                    Text(
-                                      'common.price_sar'.tr(),
-                                      style: TextStyle(
-                                        fontFamily: 'Madani Arabic',
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: const Color(0xFF161616),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  'common.per_night'.tr(), // "/ Night"
-                                  style: TextStyle(
-                                    fontFamily: 'Madani Arabic',
-                                    fontSize: 10.sp,
-                                    color: const Color(0xFF8E8E93),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // Explore Button
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 16.w,
-                                vertical: 8.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF282A51),
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: Text(
-                                'common.explore'.tr(), // "Istikshif"
-                                style: TextStyle(
-                                  fontFamily: 'Madani Arabic',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),
@@ -229,28 +96,140 @@ class HotelCard extends StatelessWidget {
                 ),
               ],
             ),
-            // Discount Badge (Top Left of Card Content)
-            if (discount.isNotEmpty)
-              Positioned(
-                top: 12.h,
-                left: 12.w, // Visually Top-Left of the card
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE31E24), // Red
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Text(
-                    discount,
-                    style: TextStyle(
-                      fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 12.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: const Color(0xFF161616),
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Madani Arabic',
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
+                    SizedBox(height: 4.h),
+                    // Subtitle
+                    Text(
+                      'home.minutes_to_center'.tr(args: ['5']),
+                      style: TextStyle(
+                        color: const Color(0xFF1B2136),
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Madani Arabic',
+                      ),
+                    ),
+                    const Spacer(),
+                    // Location Row
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_outlined,
+                          color: const Color(0xFF8E8E93),
+                          size: 14.sp,
+                        ),
+                        SizedBox(width: 4.w),
+                        Expanded(
+                          child: Text(
+                            location,
+                            style: TextStyle(
+                              color: const Color(0xFF8E8E93),
+                              fontSize: 12.sp,
+                              fontFamily: 'Madani Arabic',
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4.h),
+                    // Airport Row
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.business_outlined,
+                          color: const Color(0xFF8E8E93),
+                          size: 14.sp,
+                        ),
+                        SizedBox(width: 4.w),
+                        Expanded(
+                          child: Text(
+                            distance,
+                            style: TextStyle(
+                              color: const Color(0xFF8E8E93),
+                              fontSize: 12.sp,
+                              fontFamily: 'Madani Arabic',
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    // Bottom Row: Explore & Price
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Explore Button
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 8.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF282A51),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Text(
+                            'common.explore'.tr(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Madani Arabic',
+                            ),
+                          ),
+                        ),
+                        // Price
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              '$price',
+                              style: TextStyle(
+                                color: const Color(0xFF1B2136),
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Madani Arabic',
+                              ),
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              'common.price_per_night'.tr(),
+                              style: TextStyle(
+                                color: const Color(0xFF6B6E82),
+                                fontSize: 12.sp,
+                                fontFamily: 'Madani Arabic',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+            ),
           ],
         ),
       ),

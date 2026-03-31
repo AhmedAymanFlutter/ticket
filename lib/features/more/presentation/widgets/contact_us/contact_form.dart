@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ticket/core/widgets/custom_snackbar.dart';
 import '../../../../../core/network/api_helper.dart';
 import '../../../data/models/contact_request.dart';
 import '../../../data/datasources/contact_remote_data_source.dart';
@@ -52,33 +53,20 @@ class _ContactFormState extends State<ContactForm> {
 
       if (mounted) {
         if (response.isSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('contact.message_sent'.tr()),
-              backgroundColor: Colors.green,
-            ),
-          );
+          context.showSuccessSnackBar('contact.message_sent'.tr());
           _nameController.clear();
           _emailController.clear();
           _phoneController.clear();
           _messageController.clear();
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(response.message ?? 'contact.error_message'.tr()),
-              backgroundColor: Colors.red,
-            ),
+          context.showErrorSnackBar(
+            response.message ?? 'contact.error_message'.tr(),
           );
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('contact.error_message'.tr()),
-            backgroundColor: Colors.red,
-          ),
-        );
+        context.showErrorSnackBar('contact.error_message'.tr());
       }
     } finally {
       if (mounted) {

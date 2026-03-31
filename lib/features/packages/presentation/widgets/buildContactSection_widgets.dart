@@ -80,13 +80,18 @@ class PackageContactSection extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '${'more.contact_whatsapp'.tr()} ${whatsappNumber != null ? '($whatsappNumber)' : ''}',
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Madani Arabic',
-                color: Colors.white,
+            Flexible(
+              child: Text(
+                '${'more.contact_whatsapp'.tr()} ${whatsappNumber != null ? '($whatsappNumber)' : ''}',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Madani Arabic',
+                  color: Colors.white,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
               ),
             ),
             SizedBox(width: 12.w),

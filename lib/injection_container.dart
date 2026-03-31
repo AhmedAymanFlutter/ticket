@@ -30,6 +30,18 @@ import 'package:ticket/core/network/api_helper.dart';
 import 'package:ticket/features/travel_guide/data/datasources/travel_guide_remote_data_source.dart';
 import 'package:ticket/features/travel_guide/data/repositories/travel_guide_repository.dart';
 import 'package:ticket/features/travel_guide/presentation/manager/travel_guide_details_cubit.dart';
+import 'package:ticket/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:ticket/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:ticket/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ticket/features/auth/domain/usecases/signup_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/login_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/get_me_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/send_otp_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/reset_password_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/verify_otp_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/google_sign_in_usecase.dart';
+import 'package:ticket/features/auth/domain/usecases/facebook_sign_in_usecase.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -66,6 +78,18 @@ Future<void> init() async {
   sl.registerFactory<TravelGuideDetailsCubit>(
     () => TravelGuideDetailsCubit(sl()),
   );
+  sl.registerFactory<AuthCubit>(
+    () => AuthCubit(
+      signupUseCase: sl(),
+      loginUseCase: sl(),
+      getMeUseCase: sl(),
+      sendOtpUseCase: sl(),
+      resetPasswordUseCase: sl(),
+      verifyOtpUseCase: sl(),
+      googleSignInUseCase: sl(),
+      facebookSignInUseCase: sl(),
+    ),
+  );
 
   // Repository
   sl.registerLazySingleton<HomeRepository>(
@@ -83,6 +107,9 @@ Future<void> init() async {
   sl.registerLazySingleton<TravelGuideRepository>(
     () => TravelGuideRepository(sl()),
   );
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(remoteDataSource: sl()),
+  );
 
   // Data sources
   sl.registerLazySingleton<HomeRemoteDataSource>(
@@ -99,6 +126,29 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ServicesRemoteDataSource>(
     () => ServicesRemoteDataSourceImpl(),
+  );
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(apiHelper: sl()),
+  );
+  sl.registerLazySingleton<SignupUseCase>(
+    () => SignupUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<LoginUseCase>(() => LoginUseCase(repository: sl()));
+  sl.registerLazySingleton<GetMeUseCase>(() => GetMeUseCase(repository: sl()));
+  sl.registerLazySingleton<SendOtpUseCase>(
+    () => SendOtpUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<ResetPasswordUseCase>(
+    () => ResetPasswordUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<VerifyOtpUseCase>(
+    () => VerifyOtpUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<GoogleSignInUseCase>(
+    () => GoogleSignInUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<FacebookSignInUseCase>(
+    () => FacebookSignInUseCase(repository: sl()),
   );
 
   //! External

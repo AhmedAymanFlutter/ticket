@@ -18,7 +18,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<ApiResponse<List<CityModel>>> getCities() async {
     return await APIHelper().getRequest<List<CityModel>>(
       endPoint: '/cities',
-      isProtected: false,
       parser: (json) {
         print('getCities Parser: Raw JSON received: $json');
         if (json == null) return [];
@@ -65,7 +64,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   Future<ApiResponse<List<BranchHomeModel>>> getBranches(String lang) async {
     return await APIHelper().getRequest<List<BranchHomeModel>>(
       endPoint: '/branches',
-      isProtected: false,
       parser: (json) {
         if (json != null && json is Map<String, dynamic>) {
           // Robust parsing: check for 'data' directly being a list or 'data' containing a 'branches' key
@@ -105,7 +103,6 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     return await APIHelper().getRequest<List<OfferModel>>(
       endPoint: '/offers',
       queryParameters: queryParams,
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&

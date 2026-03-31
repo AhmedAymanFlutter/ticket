@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/core/widgets/ExitConfirmWrapper_widget.dart';
 import 'package:ticket/features/flights/presentation/pages/flights_view.dart';
 import 'package:ticket/features/activities/presentation/pages/activities_view.dart';
@@ -9,7 +8,7 @@ import 'package:ticket/features/home/presentation/widgets/best_destinations_sect
 import 'package:ticket/features/home/presentation/widgets/best_hotels_section.dart';
 import 'package:ticket/features/home/presentation/widgets/custom_bottom_nav_bar.dart';
 import 'package:ticket/features/home/presentation/widgets/home_header.dart';
-import 'package:ticket/features/home/presentation/widgets/plan_adventure_section.dart';
+import 'package:ticket/features/home/presentation/widgets/plan_your_trip_section.dart';
 import 'package:ticket/features/home/presentation/widgets/reviews_section.dart';
 import 'package:ticket/features/home/presentation/widgets/special_offers_section.dart';
 import 'package:ticket/features/more/presentation/more_view.dart';
@@ -25,6 +24,7 @@ import 'package:ticket/features/home/presentation/manager/offers_state.dart';
 import 'package:ticket/features/packages/presentation/manager/package_types_cubit.dart';
 import 'package:ticket/features/services/presentation/manager/contact_us_cubit.dart';
 import 'package:ticket/features/services/presentation/manager/contact_us_state.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
 
 import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
 
@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
     final List<Widget> pages = [
       SingleChildScrollView(
         child: Container(
-          color: AppColors.primary,
+          color: Colors.white,
           child: Column(
             children: [
               const HomeHeader(),
@@ -61,11 +61,12 @@ class _HomeState extends State<Home> {
                   children: [
                     BestDestinationsSection(),
                     SizedBox(height: 24.h),
+                    const PlanYourTripSection(),
+                    SizedBox(height: 24.h),
                     SpecialOffersSection(),
                     SizedBox(height: 24.h),
                     BestHotelsSection(),
                     SizedBox(height: 24.h),
-                    PlanAdventureSection(),
                     SizedBox(height: 24.h),
                     ReviewsSection(),
                     SizedBox(height: 100.h),
@@ -90,6 +91,7 @@ class _HomeState extends State<Home> {
         BlocProvider(create: (context) => sl<PackageTypesCubit>()),
         BlocProvider(create: (context) => sl<ToursCubit>()),
         BlocProvider(create: (context) => sl<ContactUsCubit>()),
+        BlocProvider(create: (context) => sl<AuthCubit>()),
       ],
       child: Builder(
         builder: (context) {
@@ -138,6 +140,8 @@ class _HomeState extends State<Home> {
                   } else if (index == 3) {
                     context.read<ToursCubit>().getTours(lang);
                     context.read<CitiesCubit>().getCities();
+                  } else if (index == 4) {
+                    context.read<AuthCubit>().getMe();
                   }
                 },
               ),

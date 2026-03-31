@@ -4,7 +4,7 @@ import 'package:ticket/core/helper/app_text_style.dart';
 
 class CustomGradientButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const CustomGradientButton({
     super.key,

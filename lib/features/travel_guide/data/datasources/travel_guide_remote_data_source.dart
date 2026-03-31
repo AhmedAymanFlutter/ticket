@@ -12,7 +12,6 @@ class TravelGuideRemoteDataSource {
   Future<ApiResponse<List<CountryModel>>> getCountries() async {
     return await _apiHelper.getRequest<List<CountryModel>>(
       endPoint: EndPoints.countries,
-      isProtected: false,
       parser: (json) {
         if (json is Map<String, dynamic> && json['data'] is List) {
           return (json['data'] as List)
@@ -27,7 +26,6 @@ class TravelGuideRemoteDataSource {
   Future<ApiResponse<CountryModel>> getCountryDetails(String slug) async {
     return await _apiHelper.getRequest<CountryModel>(
       endPoint: EndPoints.countryDetails(slug),
-      isProtected: false,
       parser: (json) {
         if (json is Map<String, dynamic> && json['data'] != null) {
           return CountryModel.fromJson(json['data']);
@@ -40,7 +38,6 @@ class TravelGuideRemoteDataSource {
   Future<ApiResponse<GuideDetailsModel>> getGuideDetails(String slug) async {
     return await _apiHelper.getRequest<GuideDetailsModel>(
       endPoint: EndPoints.guideDetails(slug),
-      isProtected: false,
       parser: (json) {
         if (json is Map<String, dynamic> && json['data'] != null) {
           return GuideDetailsModel.fromJson(json['data']);

@@ -1,11 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
 import 'package:ticket/core/widgets/custom_gradient_button.dart';
-import 'package:ticket/features/Auth/presentation/pages/widgets/PhoneFieldWithCountryPicker_widget.dart';
-import 'package:ticket/features/Auth/presentation/pages/otp_view.dart';
+import 'package:ticket/core/widgets/custom_text_field.dart';
+import 'package:ticket/features/auth/presentation/pages/otp_view.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ticket/features/auth/data/models/send_otp_request_model.dart';
 
 class ForgetPasswordView extends StatefulWidget {
   const ForgetPasswordView({super.key});
@@ -15,12 +18,12 @@ class ForgetPasswordView extends StatefulWidget {
 }
 
 class _ForgetPasswordViewState extends State<ForgetPasswordView> {
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -91,8 +94,8 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       SizedBox(height: 16.h),
                       // Helper Text
                       Text(
-                        'auth.enter_phone_reset'
-                            .tr(), // "ادخل رقم جوالك سيتم إرسال رمز التحقق إلى رقم هاتفك."
+                        'auth.enter_email_reset'
+                            .tr(), // "ادخل بريدك الإلكتروني سيتم إرسال رمز التحقق إليه."
                         textAlign: TextAlign.center,
                         style: AppTextStyle.bodyRegular.copyWith(
                           color: Colors.grey[600],
@@ -100,23 +103,53 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       ),
                       SizedBox(height: 32.h),
 
-                      PhoneFieldWithCountryPicker(
-                        controller: _phoneController,
-                        initialCountryCode: 'SA',
-                        onCountryChanged: (code) {
-                          print(code.dialCode);
+                      CustomTextField(
+                        controller: _emailController,
+                        hintText: 'auth.email'.tr(),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'auth.email_required'.tr();
+                          }
+                          if (!RegExp(
+                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          ).hasMatch(value)) {
+                            return 'auth.invalid_email'.tr();
+                          }
+                          return null;
                         },
                       ),
                       SizedBox(height: 24.h),
 
                       // Send Code Button
-                      CustomGradientButton(
-                        text: 'auth.send_verification_code'
-                            .tr(), // "ارسل رمز التحقق"
-                        onPressed: () {
-                          // Validate and Navigate to OTP
-                          // Validate and Navigate to OTP
-                          FadeNavigation.pushFade(context, const OtpView());
+                      BlocConsumer<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthOtpSent) {
+                            FadeNavigation.pushFade(
+                              context,
+                              OtpView(email: state.email),
+                            );
+                          } else if (state is AuthError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomGradientButton(
+                            text: 'auth.send_verification_code'.tr(),
+                            onPressed: state is AuthLoading
+                                ? null
+                                : () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthCubit>().sendOtp(
+                                        SendOtpRequestModel(
+                                          email: _emailController.text,
+                                        ),
+                                      );
+                                    }
+                                  },
+                          );
                         },
                       ),
                     ],

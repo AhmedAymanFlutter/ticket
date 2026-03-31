@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/features/more/presentation/widgets/setting/settingsRow_widgets.dart';
 import 'package:ticket/features/more/presentation/contact_us_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ticket/features/auth/presentation/pages/login_view.dart';
+import 'package:ticket/core/navigation/fade_navigation.dart';
 
 class SettingsList extends StatelessWidget {
   const SettingsList({super.key});
@@ -70,7 +74,10 @@ class SettingsList extends StatelessWidget {
             icon: 'assets/icons/logout-01.svg',
             label: 'more.logout'.tr(),
             isDestructive: true,
-            onTap: () {},
+            onTap: () {
+              context.read<AuthCubit>().logout();
+              FadeNavigation.pushSplash(context, const LoginView());
+            },
             showDivider: false,
           ),
         ],

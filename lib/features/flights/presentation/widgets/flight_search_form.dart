@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticket/core/widgets/custom_snackbar.dart';
 import '../manager/flight_search_cubit.dart';
 import 'trip_type_toggle.dart';
 import 'station_selection_section.dart';
@@ -57,9 +58,7 @@ class FlightSearchForm extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 context.read<FlightSearchCubit>().submitRequest();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('flights.request_sent'.tr())),
-                );
+                context.showSuccessSnackBar('flights.request_sent'.tr());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

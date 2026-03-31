@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ticket/core/helper/app_text_style.dart';
@@ -7,9 +8,20 @@ import 'package:ticket/core/widgets/custom_gradient_button.dart';
 import 'package:ticket/core/widgets/custom_text_field.dart';
 import 'package:ticket/features/auth/presentation/pages/login_view.dart';
 import 'package:ticket/core/navigation/fade_navigation.dart';
+import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ticket/features/auth/data/models/reset_password_request_model.dart';
 
 class ResetPasswordView extends StatefulWidget {
-  const ResetPasswordView({super.key});
+  final String email;
+  final String? otp;
+  final String? resetToken;
+
+  const ResetPasswordView({
+    super.key,
+    required this.email,
+    this.otp,
+    this.resetToken,
+  });
 
   @override
   State<ResetPasswordView> createState() => _ResetPasswordViewState();
@@ -102,17 +114,68 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           Icons.visibility_off_outlined,
                           color: Colors.grey[600],
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'auth.password_required'.tr();
+                          }
+                          if (value.length < 8) {
+                            return 'auth.password_too_short'.tr();
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16.h),
+
+                      // Confirm Password Field
+                      CustomTextField(
+                        controller: _confirmPasswordController,
+                        hintText: 'auth.confirm_new_password'.tr(),
+                        obscureText: true,
+                        suffixIcon: Icon(
+                          Icons.visibility_off_outlined,
+                          color: Colors.grey[600],
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'auth.confirm_password_required'.tr();
+                          }
+                          if (value != _passwordController.text) {
+                            return 'auth.passwords_do_not_match'.tr();
+                          }
+                          return null;
+                        },
                       ),
                       SizedBox(height: 24.h),
 
                       // Confirm Button
-                      CustomGradientButton(
-                        text: 'auth.confirm'.tr(), // "تأكيد"
-                        onPressed: () {
-                          // Update Password Logic here
-
-                          // Show Success Dialog
-                          _showSuccessDialog(context);
+                      BlocConsumer<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is AuthPasswordResetSuccess) {
+                            _showSuccessDialog(context);
+                          } else if (state is AuthError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomGradientButton(
+                            text: 'auth.confirm'.tr(),
+                            onPressed: state is AuthLoading
+                                ? null
+                                : () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthCubit>().resetPassword(
+                                        ResetPasswordRequestModel(
+                                          resetToken: widget.resetToken!,
+                                          newPassword: _passwordController.text,
+                                          passwordConfirm:
+                                              _confirmPasswordController.text,
+                                        ),
+                                      );
+                                    }
+                                  },
+                          );
                         },
                       ),
                     ],

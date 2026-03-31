@@ -22,7 +22,6 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
     final response = await APIHelper().getRequest<List<PackageTypeModel>>(
       endPoint: '/packageTypes',
       queryParameters: {'lang': lang},
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&
@@ -49,7 +48,6 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
         .getRequest<List<PackageTypeCountryModel>>(
           endPoint: '/packageTypes/$slug',
           queryParameters: {'lang': lang},
-          isProtected: false,
           parser: (json) {
             if (json != null &&
                 json is Map<String, dynamic> &&
@@ -78,7 +76,6 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
     final response = await APIHelper().getRequest<PackageDetailsModel>(
       endPoint: '/packageTypes/$packageTypeSlug/countries/$packageSlug',
       queryParameters: {'lang': lang},
-      isProtected: false,
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&

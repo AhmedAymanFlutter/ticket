@@ -11,6 +11,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+ticket/lib/core/network/api_endpoint.dart
 
 # IntelliJ related
 *.iml

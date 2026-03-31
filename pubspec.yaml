@@ -47,9 +47,11 @@ dependencies:
   shared_preferences: ^2.3.5
   country_code_picker: ^3.4.1
   pinput: ^6.0.2
-  flutter_secure_storage: ^10.0.0
+  flutter_secure_storage: ^9.2.2
   skeletonizer: ^2.1.3
   url_launcher: ^6.3.2
+  google_sign_in: ^6.2.2
+  flutter_facebook_auth: ^7.1.1
 
 dev_dependencies:
   flutter_test:
