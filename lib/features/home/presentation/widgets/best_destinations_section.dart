@@ -44,7 +44,7 @@ class _BestDestinationsSectionState extends State<BestDestinationsSection> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'الدليل السياحي',
+                'home.best_destinations'.tr(),
                 style: TextStyle(
                   fontFamily: 'Madani Arabic',
                   fontSize: 18.sp,
@@ -117,9 +117,7 @@ class _BestDestinationsSectionState extends State<BestDestinationsSection> {
               final countries = snapshot.data?.data ?? [];
 
               if (countries.isEmpty) {
-                return const Center(
-                  child: Text('No destinations available'),
-                );
+                return const Center(child: Text('No destinations available'));
               }
 
               return ListView.separated(
@@ -141,7 +139,8 @@ class _BestDestinationsSectionState extends State<BestDestinationsSection> {
                       );
                     },
                     child: SimpleDestinationCard(
-                      imagePath: (country.imageCover != null &&
+                      imagePath:
+                          (country.imageCover != null &&
                               country.imageCover!.isNotEmpty)
                           ? country.imageCover!
                           : 'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
