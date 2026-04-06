@@ -14,7 +14,7 @@ import 'package:ticket/features/tours/data/repositories/tours_repository_impl.da
 import 'package:ticket/features/tours/domain/repositories/tours_repository.dart';
 import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
 import 'package:ticket/features/tours/presentation/manager/tour_details_cubit.dart';
-import 'package:ticket/features/flights/presentation/manager/flight_search_cubit.dart';
+import 'package:ticket/features/flights/domain/entities/presentation/manager/flight_search_cubit.dart';
 import 'package:ticket/features/packages/data/datasources/packages_remote_data_source.dart';
 import 'package:ticket/features/packages/data/repositories/packages_repository_impl.dart';
 import 'package:ticket/features/packages/domain/repositories/packages_repository.dart';
@@ -26,6 +26,11 @@ import 'package:ticket/features/services/data/repositories/services_repository_i
 import 'package:ticket/features/services/domain/repositories/services_repository.dart';
 import 'package:ticket/features/services/presentation/manager/services_cubit.dart';
 import 'package:ticket/features/services/presentation/manager/contact_us_cubit.dart';
+import 'package:ticket/features/hotels/data/datasources/hotels_remote_data_source.dart';
+import 'package:ticket/features/hotels/data/repositories/hotels_repository_impl.dart';
+import 'package:ticket/features/hotels/domain/repositories/hotels_repository.dart';
+import 'package:ticket/features/hotels/presentation/manager/hotels_cubit.dart';
+import 'package:ticket/features/hotels/presentation/manager/hotel_details_cubit.dart';
 import 'package:ticket/core/network/api_helper.dart';
 import 'package:ticket/features/travel_guide/data/datasources/travel_guide_remote_data_source.dart';
 import 'package:ticket/features/travel_guide/data/repositories/travel_guide_repository.dart';
@@ -78,6 +83,10 @@ Future<void> init() async {
   sl.registerFactory<TravelGuideDetailsCubit>(
     () => TravelGuideDetailsCubit(sl()),
   );
+  sl.registerFactory<HotelsCubit>(() => HotelsCubit(repository: sl()));
+  sl.registerFactory<HotelDetailsCubit>(
+    () => HotelDetailsCubit(repository: sl()),
+  );
   sl.registerFactory<AuthCubit>(
     () => AuthCubit(
       signupUseCase: sl(),
@@ -110,6 +119,9 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
+  sl.registerLazySingleton<HotelsRepository>(
+    () => HotelsRepositoryImpl(remoteDataSource: sl()),
+  );
 
   // Data sources
   sl.registerLazySingleton<HomeRemoteDataSource>(
@@ -129,6 +141,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(apiHelper: sl()),
+  );
+  sl.registerLazySingleton<HotelsRemoteDataSource>(
+    () => HotelsRemoteDataSourceImpl(apiHelper: sl()),
   );
   sl.registerLazySingleton<SignupUseCase>(
     () => SignupUseCase(repository: sl()),

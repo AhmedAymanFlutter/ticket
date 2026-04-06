@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HotelAmenities extends StatelessWidget {
-  const HotelAmenities({super.key});
+  final List<String>? facilities;
+  const HotelAmenities({super.key, this.facilities});
 
   @override
   Widget build(BuildContext context) {
+    final displayFacilities =
+        facilities ?? List.generate(6, (index) => 'Loading...');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -14,7 +18,7 @@ class HotelAmenities extends StatelessWidget {
           child: _buildHeader(),
         ),
         SizedBox(height: 16.h),
-        _buildAmenitiesContainer(),
+        _buildAmenitiesContainer(displayFacilities),
       ],
     );
   }
@@ -32,7 +36,6 @@ class HotelAmenities extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
-
         Text(
           'المرافق الرئيسية',
           style: TextStyle(
@@ -46,9 +49,9 @@ class HotelAmenities extends StatelessWidget {
     );
   }
 
-  Widget _buildAmenitiesContainer() {
+  Widget _buildAmenitiesContainer(List<String> labels) {
     return Container(
-      width: 343.w,
+      width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 16.w),
       decoration: BoxDecoration(
@@ -70,29 +73,11 @@ class HotelAmenities extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildAmenityCard(Icons.pool_rounded, 'حمام سباحة'),
-              _buildAmenityCard(
-                Icons.directions_car_filled_rounded,
-                'موقف سيارات',
-              ),
-              _buildAmenityCard(Icons.wifi_rounded, 'شبكة واي فاي'),
-            ],
-          ),
-          SizedBox(height: 16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildAmenityCard(Icons.spa_rounded, 'منتجع صحي'),
-              _buildAmenityCard(Icons.fitness_center_rounded, 'نادي رياضي'),
-              _buildAmenityCard(Icons.restaurant_rounded, 'مطعم'),
-            ],
-          ),
-        ],
+      child: Wrap(
+        spacing: 16.w,
+        runSpacing: 16.h,
+        alignment: WrapAlignment.start,
+        children: labels.map((label) => _buildAmenityCard(_getIconForFacility(label), label)).toList(),
       ),
     );
   }
@@ -113,14 +98,31 @@ class HotelAmenities extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Madani Arabic',
               color: const Color(0xFF1D2939),
             ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
     );
+  }
+
+  IconData _getIconForFacility(String facility) {
+    facility = facility.toLowerCase();
+    if (facility.contains('wifi') || facility.contains('internet')) return Icons.wifi_rounded;
+    if (facility.contains('pool')) return Icons.pool_rounded;
+    if (facility.contains('parking')) return Icons.directions_car_filled_rounded;
+    if (facility.contains('spa')) return Icons.spa_rounded;
+    if (facility.contains('gym') || facility.contains('fitness')) return Icons.fitness_center_rounded;
+    if (facility.contains('restaurant') || facility.contains('dining')) return Icons.restaurant_rounded;
+    if (facility.contains('bar')) return Icons.local_bar_rounded;
+    if (facility.contains('ac') || facility.contains('air condition')) return Icons.ac_unit_rounded;
+    if (facility.contains('tv')) return Icons.tv_rounded;
+    return Icons.check_circle_outline_rounded;
   }
 }

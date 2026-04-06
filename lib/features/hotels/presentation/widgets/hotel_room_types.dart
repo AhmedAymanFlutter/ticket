@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticket/core/utils/app_colors.dart';
+import 'package:ticket/features/hotels/domain/entities/hotel_entity.dart';
 
 class HotelRoomTypes extends StatelessWidget {
-  const HotelRoomTypes({super.key});
+  final List<HotelRoomEntity>? rooms;
+  const HotelRoomTypes({super.key, this.rooms});
 
   @override
   Widget build(BuildContext context) {
@@ -64,28 +65,47 @@ class HotelRoomTypes extends StatelessWidget {
   }
 
   Widget _buildRoomList() {
+    if (rooms == null) {
+      return Column(
+        children: List.generate(
+          2,
+          (index) => Padding(
+            padding: EdgeInsets.only(bottom: 16.h),
+            child: const RoomCard(
+              image: 'loading',
+              title: 'Loading...',
+              rating: '0.0',
+              guests: '...',
+              area: '...',
+              bedType: '...',
+              price: '0',
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (rooms!.isEmpty) {
+      return const Center(child: Text('No rooms available'));
+    }
+
     return Column(
-      children: [
-        const RoomCard(
-          image: 'assets/photo/image (1).png',
-          title: 'جناح فاخر',
-          rating: '4.9',
-          guests: 'ضيفان',
-          area: '35 متر مربع',
-          bedType: 'سرير كينج',
-          price: '1836',
-        ),
-        SizedBox(height: 16.h),
-        const RoomCard(
-          image: 'assets/photo/image (1).png',
-          title: 'جناح فاخر',
-          rating: '4.9',
-          guests: 'ضيفان',
-          area: '35 متر مربع',
-          bedType: 'سرير كينج',
-          price: '1836',
-        ),
-      ],
+      children: rooms!.map((room) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 16.h),
+          child: RoomCard(
+            image: room.photos.isNotEmpty ? room.photos.first : '',
+            title: room.name,
+            rating: '4.9', // API doesn't seem to provide per-room rating
+            guests: '${room.adults} ضيوف',
+            area: '35 متر مربع', // API doesn't seem to provide area
+            bedType: room.bedOptions,
+            price: room.price,
+            mealPlan: room.mealPlan,
+            cancellationText: room.cancellationText,
+          ),
+        );
+      }).toList(),
     );
   }
 }
@@ -98,6 +118,8 @@ class RoomCard extends StatelessWidget {
   final String area;
   final String bedType;
   final String price;
+  final String? mealPlan;
+  final String? cancellationText;
 
   const RoomCard({
     super.key,
@@ -108,6 +130,8 @@ class RoomCard extends StatelessWidget {
     required this.area,
     required this.bedType,
     required this.price,
+    this.mealPlan,
+    this.cancellationText,
   });
 
   @override
@@ -133,21 +157,38 @@ class RoomCard extends StatelessWidget {
           // Room Image
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-            child: Image.asset(
-              image,
-              width: double.infinity,
-              height: 200.h,
-              fit: BoxFit.cover,
-            ),
+            child: image == 'loading' || image.isEmpty
+                ? Container(
+                    width: double.infinity,
+                    height: 200.h,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.image),
+                  )
+                : Image.network(
+                    image,
+                    width: double.infinity,
+                    height: 200.h,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      width: double.infinity,
+                      height: 200.h,
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.image),
+                    ),
+                  ),
           ),
           Padding(
             padding: EdgeInsets.all(16.w),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildTitleAndRating(),
                 SizedBox(height: 12.h),
                 _buildSpecs(),
+                if (mealPlan != null || cancellationText != null) ...[
+                  SizedBox(height: 12.h),
+                  _buildExtraInfo(),
+                ],
                 SizedBox(height: 16.h),
                 _buildPriceAndAction(),
               ],
@@ -199,42 +240,93 @@ class RoomCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SvgPicture.asset(
-          'assets/icons/user-group.svg',
-          width: 15.w,
-          height: 15.h,
-          fit: BoxFit.scaleDown,
-        ),
-        SizedBox(width: 8.w),
-        Text(
-          guests,
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Madani Arabic',
-            color: const Color(0xFF667085),
+        Icon(Icons.people_outline, size: 16.sp, color: const Color(0xFF667085)),
+        SizedBox(width: 4.w),
+        Flexible(
+          child: Text(
+            guests,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Madani Arabic',
+              color: const Color(0xFF667085),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         _buildDivider(),
-        Text(
-          area,
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Madani Arabic',
-            color: const Color(0xFF667085),
+        Icon(Icons.square_foot, size: 16.sp, color: const Color(0xFF667085)),
+        SizedBox(width: 4.w),
+        Flexible(
+          child: Text(
+            area,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Madani Arabic',
+              color: const Color(0xFF667085),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         _buildDivider(),
-        Text(
-          bedType,
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Madani Arabic',
-            color: const Color(0xFF667085),
+        Icon(Icons.king_bed_outlined, size: 16.sp, color: const Color(0xFF667085)),
+        SizedBox(width: 4.w),
+        Flexible(
+          child: Text(
+            bedType,
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Madani Arabic',
+              color: const Color(0xFF667085),
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildExtraInfo() {
+    return Column(
+      children: [
+        if (mealPlan != null)
+          Row(
+            children: [
+              Icon(Icons.restaurant, size: 14.sp, color: const Color(0xFF039855)),
+              SizedBox(width: 8.w),
+              Text(
+                mealPlan!,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Madani Arabic',
+                  color: const Color(0xFF039855),
+                ),
+              ),
+            ],
+          ),
+        if (mealPlan != null && cancellationText != null) SizedBox(height: 4.h),
+        if (cancellationText != null)
+          Row(
+            children: [
+              Icon(Icons.event_available, size: 14.sp, color: const Color(0xFF039855)),
+              SizedBox(width: 8.w),
+              Text(
+                cancellationText!,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Madani Arabic',
+                  color: const Color(0xFF039855),
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }
@@ -298,20 +390,6 @@ class RoomCard extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: AppColors.secondary,
             borderRadius: BorderRadius.circular(15.r),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0x1A000000),
-                offset: const Offset(0, 4),
-                blurRadius: 6,
-                spreadRadius: -4,
-              ),
-              BoxShadow(
-                color: const Color(0x1A000000),
-                offset: const Offset(0, 10),
-                blurRadius: 15,
-                spreadRadius: -3,
-              ),
-            ],
           ),
           child: Center(
             child: Text(

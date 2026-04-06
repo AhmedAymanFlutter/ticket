@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HotelOverview extends StatelessWidget {
-  const HotelOverview({super.key});
+  final String? description;
+  const HotelOverview({super.key, this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class HotelOverview extends StatelessWidget {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w400,
-            fontFamily: 'Madani Arabic', // Using Madani Arabic as requested
+            fontFamily: 'Madani Arabic',
             height: 48 / 20,
             color: const Color(0xFF1D2939),
           ),
@@ -58,13 +59,13 @@ class HotelOverview extends StatelessWidget {
         border: Border.all(color: const Color(0xFFF3F4F6), width: 1.6.w),
         boxShadow: [
           BoxShadow(
-            color: const Color(0x1A000000), // #0000001A
+            color: const Color(0x1A000000),
             offset: const Offset(0, 4),
             blurRadius: 6,
             spreadRadius: -4,
           ),
           BoxShadow(
-            color: const Color(0x1A000000), // #0000001A
+            color: const Color(0x1A000000),
             offset: const Offset(0, 10),
             blurRadius: 15,
             spreadRadius: -3,
@@ -72,9 +73,8 @@ class HotelOverview extends StatelessWidget {
         ],
       ),
       child: Text(
-        'استمتع بتجربة فخامة لا مثيل لها في فندق برج العرب جميرا الأيقوني، أفخم فندق في العالم. يقف هذا الفندق شامخاً على جزيرته الخاصة، ويُقدم تحفة معمارية تُطل على مناظر خلابة للخليج العربي وأفق دبي الساحر.\n\n'
-        'لقد صُممت كل التفاصيل بعناية فائقة لتوفير تجربة استثنائية للضيوف. فمنذ لحظة وصولكم عبر خدمة النقل الخاصة بنا من المطار، ستنغمسون في خدمة عالمية المستوى، وتناول طعام فاخر في مطاعمنا الحائزة على نجمة ميشلان، وإقامة تُعيد تعريف الفخامة.\n\n'
-        'مثالي للمسافرين المميزين، والعرسان، والباحثين عن أرقى مستويات الضيافة. سواء كنتم هنا للعمل أو للترفيه، يضمن فريقنا المتفاني أن تتجاوز كل لحظة من إقامتكم توقعاتكم.',
+        description ??
+            'استمتع بتجربة فخامة لا مثيل لها في هذا الفندق الأيقوني. صُممت كل التفاصيل بعناية فائقة لتوفير تجربة استثنائية للضيوف.',
         textAlign: TextAlign.right,
         style: GoogleFonts.ibmPlexSansArabic(
           fontSize: 16.sp,

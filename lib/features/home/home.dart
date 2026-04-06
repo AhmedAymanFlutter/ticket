@@ -10,7 +10,7 @@ import 'package:ticket/features/home/presentation/widgets/custom_bottom_nav_bar.
 import 'package:ticket/features/home/presentation/widgets/home_header.dart';
 import 'package:ticket/features/home/presentation/widgets/plan_your_trip_section.dart';
 import 'package:ticket/features/home/presentation/widgets/reviews_section.dart';
-import 'package:ticket/features/home/presentation/widgets/special_offers_section.dart';
+// import 'package:ticket/features/home/presentation/widgets/special_offers_section.dart';
 import 'package:ticket/features/more/presentation/more_view.dart';
 import 'package:ticket/features/packages/presentation/pages/packages_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,8 +62,8 @@ class _HomeState extends State<Home> {
                     BestDestinationsSection(),
                     SizedBox(height: 24.h),
                     const PlanYourTripSection(),
-                    SizedBox(height: 24.h),
-                    SpecialOffersSection(),
+                    // SizedBox(height: 24.h),
+                    // SpecialOffersSection(),
                     SizedBox(height: 24.h),
                     BestHotelsSection(),
                     SizedBox(height: 24.h),

@@ -21,8 +21,13 @@ class PackageDetailsSuccess extends PackageDetailsState {
     this.selectedBranchIndex = 0,
   });
 
-  PackageBranchModel get selectedBranch =>
-      packageDetails.branches[selectedBranchIndex];
+  PackageBranchModel? get selectedBranch {
+    if (packageDetails.branches.isEmpty) return null;
+    if (selectedBranchIndex < 0 || selectedBranchIndex >= packageDetails.branches.length) {
+      return packageDetails.branches.first;
+    }
+    return packageDetails.branches[selectedBranchIndex];
+  }
 
   PackageDetailsSuccess copyWith({
     PackageDetailsModel? packageDetails,

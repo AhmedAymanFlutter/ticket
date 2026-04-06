@@ -40,28 +40,34 @@ class BookingPricingBreakdown extends StatelessWidget {
                 fontFamily: 'Madani Arabic',
               ),
             ),
-            Row(
-              children: [
-                Text(
-                  totalAmount,
-                  style: TextStyle(
-                    color: const Color(0xFFFE406F),
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      double.tryParse(totalAmount)?.toStringAsFixed(2) ?? totalAmount,
+                      style: TextStyle(
+                        color: const Color(0xFFFE406F),
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                SizedBox(width: 8.w),
-                Text(
-                  '﷼',
-                  style: TextStyle(
-                    color: const Color(0xFFFE406F),
-                    fontSize: 28.sp,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+                  SizedBox(width: 8.w),
+                  Text(
+                    '﷼',
+                    style: TextStyle(
+                      color: const Color(0xFFFE406F),
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -99,28 +105,34 @@ class BookingPricingBreakdown extends StatelessWidget {
           ),
         ),
         SizedBox(width: 12.w),
-        Row(
-          children: [
-            Text(
-              value,
-              style: TextStyle(
-                color: const Color(0xFF101828),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
-                fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Flexible(
+                child: Text(
+                  double.tryParse(value)?.toStringAsFixed(2) ?? value,
+                  style: TextStyle(
+                    color: const Color(0xFF101828),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            SizedBox(width: 4.w),
-            Text(
-              '﷼',
-              style: TextStyle(
-                color: const Color(0xFF101828),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
-                fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+              SizedBox(width: 4.w),
+              Text(
+                '﷼',
+                style: TextStyle(
+                  color: const Color(0xFF101828),
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: GoogleFonts.ibmPlexSansArabic().fontFamily,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

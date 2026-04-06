@@ -17,4 +17,6 @@ abstract class EndPoints {
   static const String verifyOtp = "/auth/verify-otp";
   static const String googleLogin = '/auth/login-google';
   static const String facebookLogin = '/auth/login-facebook';
+  static const String hotels = '/hotels';
+  static String hotelDetails(dynamic id) => '/hotels/$id';
 }
