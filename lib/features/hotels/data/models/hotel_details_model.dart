@@ -22,6 +22,7 @@ class HotelDetailsModel extends HotelDetailsEntity {
     required super.rooms,
     required super.reviews,
     super.policies,
+    super.contact,
   });
 
   factory HotelDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -47,7 +48,7 @@ class HotelDetailsModel extends HotelDetailsEntity {
       ratingWord: hotel['ratingWord'] ?? '',
       ratingCount: hotel['ratingCount'] ?? 0,
       price: (hotel['price'] as num?)?.toDouble() ?? 0.0,
-      facilities: (hotel['facilities'] as List?)?.cast<String>() ?? [],
+      facilities: _parseStringList(hotel['facilities']),
       rooms: (hotel['rooms'] as List?)
               ?.map((e) => HotelRoomModel.fromJson(e))
               .toList() ??
@@ -59,7 +60,33 @@ class HotelDetailsModel extends HotelDetailsEntity {
       policies: hotel['policies'] != null 
           ? HotelPoliciesModel.fromJson(hotel['policies']) 
           : null,
+      contact: hotel['contact'] != null
+          ? HotelContactModel.fromJson(hotel['contact'])
+          : null,
     );
+  }
+
+  static String? _parseToString(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value.trim().isEmpty ? null : value.trim();
+    if (value is Map && value.isEmpty) return null;
+    return value.toString();
+  }
+
+  static List<String> _parseStringList(dynamic list) {
+    if (list == null || list is! List) return [];
+    return list.map((e) {
+      if (e == null) return '';
+      if (e is String) return e;
+      if (e is Map) {
+        return e['text']?.toString() ?? 
+               e['description']?.toString() ?? 
+               e['content']?.toString() ?? 
+               e['name']?.toString() ?? 
+               e.toString();
+      }
+      return e.toString();
+    }).where((element) => element.isNotEmpty).toList();
   }
 }
 
@@ -77,6 +104,9 @@ class HotelRoomModel extends HotelRoomEntity {
     required super.facilities,
     super.mealPlan,
     super.cancellationText,
+    required super.highlights,
+    super.maxOccupancy,
+    super.isFreeCancellation,
   });
 
   factory HotelRoomModel.fromJson(Map<String, dynamic> json) {
@@ -86,13 +116,27 @@ class HotelRoomModel extends HotelRoomEntity {
       description: json['description'] ?? '',
       price: json['price']?.toString() ?? '0',
       currency: json['currency'] ?? 'SAR',
-      photos: (json['photos'] as List?)?.cast<String>() ?? [],
+      photos: HotelDetailsModel._parseStringList(json['photos']),
       bedOptions: json['bedOptions'] ?? '',
       adults: json['occupancy']?['adults'] ?? 0,
       children: json['occupancy']?['children'] ?? 0,
-      facilities: (json['facilities'] as List?)?.cast<String>() ?? [],
+      facilities: HotelDetailsModel._parseStringList(json['facilities']),
       mealPlan: json['mealPlan'],
       cancellationText: json['cancellation']?['text'],
+      highlights: HotelDetailsModel._parseStringList(json['highlights']),
+      maxOccupancy: json['occupancy']?['maxOccupancy'],
+      isFreeCancellation: json['cancellation']?['free'],
+    );
+  }
+}
+
+class HotelContactModel extends HotelContactEntity {
+  const HotelContactModel({super.phone, super.email});
+
+  factory HotelContactModel.fromJson(Map<String, dynamic> json) {
+    return HotelContactModel(
+      phone: json['phone']?.toString(),
+      email: json['email']?.toString(),
     );
   }
 }
@@ -140,15 +184,15 @@ class HotelPoliciesModel extends HotelPoliciesEntity {
 
   factory HotelPoliciesModel.fromJson(Map<String, dynamic> json) {
     return HotelPoliciesModel(
-      checkInFrom: json['checkIn']?['from']?.toString(),
-      checkInUntil: json['checkIn']?['until']?.toString(),
-      checkOutFrom: json['checkOut']?['from']?.toString(),
-      checkOutUntil: json['checkOut']?['until']?.toString(),
-      rules: (json['rules'] as List?)?.cast<String>() ?? [],
-      children: (json['children'] as List?)?.cast<String>() ?? [],
-      internet: (json['internet'] as List?)?.cast<String>() ?? [],
-      pets: (json['pets'] as List?)?.cast<String>() ?? [],
-      parking: (json['parking'] as List?)?.cast<String>() ?? [],
+      checkInFrom: HotelDetailsModel._parseToString(json['checkIn']?['from']),
+      checkInUntil: HotelDetailsModel._parseToString(json['checkIn']?['until']),
+      checkOutFrom: HotelDetailsModel._parseToString(json['checkOut']?['from']),
+      checkOutUntil: HotelDetailsModel._parseToString(json['checkOut']?['until']),
+      rules: HotelDetailsModel._parseStringList(json['rules']),
+      children: HotelDetailsModel._parseStringList(json['children']),
+      internet: HotelDetailsModel._parseStringList(json['internet']),
+      pets: HotelDetailsModel._parseStringList(json['pets']),
+      parking: HotelDetailsModel._parseStringList(json['parking']),
     );
   }
 }

@@ -18,6 +18,7 @@ class HotelsRemoteDataSourceImpl implements HotelsRemoteDataSource {
     final response = await apiHelper.getRequest(
       endPoint: EndPoints.hotels,
       isProtected: true,
+      queryParameters: {'lang': 'ar'},
     );
 
     if (response.isSuccess && response.data != null) {
@@ -33,6 +34,7 @@ class HotelsRemoteDataSourceImpl implements HotelsRemoteDataSource {
     final response = await apiHelper.getRequest(
       endPoint: EndPoints.hotelDetails(id),
       isProtected: true,
+      queryParameters: {'lang': 'ar'},
     );
 
     if (response.isSuccess && response.data != null) {

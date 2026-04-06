@@ -53,7 +53,7 @@ class _PassengerContactSectionState extends State<PassengerContactSection> {
               children: [
                 IconButton(
                   onPressed: () {
-                    cubit.updatePassengerCount(cubit.state.passengerCount - 1);
+                    cubit.updatePassengers(adults: cubit.state.adults - 1);
                     setDialogState(() {});
                   },
                   icon: const Icon(Icons.remove),
@@ -61,7 +61,7 @@ class _PassengerContactSectionState extends State<PassengerContactSection> {
                 Text('${cubit.state.passengerCount}'),
                 IconButton(
                   onPressed: () {
-                    cubit.updatePassengerCount(cubit.state.passengerCount + 1);
+                    cubit.updatePassengers(adults: cubit.state.adults + 1);
                     setDialogState(() {});
                   },
                   icon: const Icon(Icons.add),
@@ -73,7 +73,7 @@ class _PassengerContactSectionState extends State<PassengerContactSection> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),

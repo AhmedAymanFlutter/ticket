@@ -283,7 +283,10 @@
         "secure_payments": "Secure and Reliable Payments",
         "secure_payments_desc": "Multiple payment options with full protection",
         "best_prices": "Best Available Prices",
-        "best_prices_desc": "Compare flights and find the best offers"
+        "best_prices_desc": "Compare flights and find the best offers",
+        "search_hint": "Search for a city or airport...",
+        "no_results": "No results found",
+        "request_sent": "Search request sent successfully"
     },
     "packages": {
         "title": "Distinctive travel packages that meet all your needs",

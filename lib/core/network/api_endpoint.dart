@@ -1,5 +1,5 @@
 abstract class EndPoints {
-  static const String baseUrl = 'http://192.168.1.230:3001/api/v1/mobile';
+  static const String baseUrl = 'http://192.168.1.230:3001/api/v1/mobile/';
   static const String serverClientId =
       '742535730094-ljv9dcdntv3afkacp0hhfsdrl64r2t9v.apps.googleusercontent.com';
   static const String refreshToken = 'refreshToken';
@@ -19,4 +19,7 @@ abstract class EndPoints {
   static const String facebookLogin = '/auth/login-facebook';
   static const String hotels = '/hotels';
   static String hotelDetails(dynamic id) => '/hotels/$id';
+  static const String flightSearchDestination = 'flights/search-destination';
+  static const String flightAirlines = 'airlines';
+  static const String flightSearch = 'flights/search';
 }

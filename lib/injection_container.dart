@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ticket/features/flights/presentation/manager/flight_search_cubit.dart';
 import 'package:ticket/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:ticket/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:ticket/features/onboarding/presentation/cubit/onboarding_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:ticket/features/tours/data/repositories/tours_repository_impl.da
 import 'package:ticket/features/tours/domain/repositories/tours_repository.dart';
 import 'package:ticket/features/tours/presentation/manager/tours_cubit.dart';
 import 'package:ticket/features/tours/presentation/manager/tour_details_cubit.dart';
-import 'package:ticket/features/flights/domain/entities/presentation/manager/flight_search_cubit.dart';
 import 'package:ticket/features/packages/data/datasources/packages_remote_data_source.dart';
 import 'package:ticket/features/packages/data/repositories/packages_repository_impl.dart';
 import 'package:ticket/features/packages/domain/repositories/packages_repository.dart';
@@ -47,6 +47,12 @@ import 'package:ticket/features/auth/domain/usecases/verify_otp_usecase.dart';
 import 'package:ticket/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:ticket/features/auth/domain/usecases/facebook_sign_in_usecase.dart';
 import 'package:ticket/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ticket/features/flights/data/data_sources/trips_remote_data_source.dart';
+import 'package:ticket/features/flights/data/repositories/trips_repository_impl.dart';
+import 'package:ticket/features/flights/domain/repositories/trips_repository.dart';
+import 'package:ticket/features/flights/domain/use_cases/get_airlines_use_case.dart';
+import 'package:ticket/features/flights/domain/use_cases/search_flight_destinations_use_case.dart';
+import 'package:ticket/features/flights/domain/use_cases/search_flights_use_case.dart';
 
 final sl = GetIt.instance;
 
@@ -77,7 +83,9 @@ Future<void> init() async {
   sl.registerFactory<PackageDetailsCubit>(
     () => PackageDetailsCubit(repository: sl()),
   );
-  sl.registerFactory<FlightSearchCubit>(() => FlightSearchCubit());
+    sl.registerFactory<FlightSearchCubit>(
+      () => FlightSearchCubit(sl(), sl(), sl()),
+    );
   sl.registerFactory<ServicesCubit>(() => ServicesCubit(repository: sl()));
   sl.registerFactory<ContactUsCubit>(() => ContactUsCubit(repository: sl()));
   sl.registerFactory<TravelGuideDetailsCubit>(
@@ -164,6 +172,24 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<FacebookSignInUseCase>(
     () => FacebookSignInUseCase(repository: sl()),
+  );
+
+  sl.registerLazySingleton<SearchFlightsUseCase>(
+    () => SearchFlightsUseCase(sl()),
+  );
+  sl.registerLazySingleton<SearchFlightDestinationsUseCase>(
+    () => SearchFlightDestinationsUseCase(sl()),
+  );
+  sl.registerLazySingleton<GetAirlinesUseCase>(
+    () => GetAirlinesUseCase(sl()),
+  );
+
+  sl.registerLazySingleton<TripsRepository>(
+    () => TripsRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  sl.registerLazySingleton<TripsRemoteDataSource>(
+    () => TripsRemoteDataSourceImpl(apiHelper: sl()),
   );
 
   //! External

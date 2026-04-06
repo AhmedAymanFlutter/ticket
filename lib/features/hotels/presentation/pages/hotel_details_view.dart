@@ -9,6 +9,7 @@ import 'package:ticket/features/hotels/presentation/widgets/hotel_amenities.dart
 import 'package:ticket/features/hotels/presentation/widgets/hotel_room_types.dart';
 import 'package:ticket/features/hotels/presentation/widgets/hotel_reviews_section.dart';
 import 'package:ticket/features/hotels/presentation/widgets/hotel_policies_section.dart';
+import 'package:ticket/features/hotels/presentation/widgets/hotel_contact_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/injection_container.dart';
@@ -91,6 +92,13 @@ class _HotelDetailsViewState extends State<HotelDetailsView> {
                             HotelReviewsSection(reviews: hotel!.reviews),
                           SizedBox(height: 32.h),
                           HotelPoliciesSection(policies: hotel?.policies),
+                          SizedBox(height: 32.h),
+                          HotelContactSection(
+                            contact: hotel?.contact,
+                            address: hotel?.address ?? '',
+                            latitude: hotel?.latitude,
+                            longitude: hotel?.longitude,
+                          ),
                           SizedBox(height: 60.h),
                         ],
                       ),

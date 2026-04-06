@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ticket/features/activities/presentation/widgets/city_filter_sheet.dart';
-import 'package:ticket/features/home/presentation/manager/cities_cubit.dart';
 import '../manager/flight_search_cubit.dart';
 import '../manager/flight_search_state.dart';
+import 'flight_destination_search_sheet.dart';
 import 'build_textField_widgets.dart';
 
 class StationSelectionSection extends StatelessWidget {
@@ -14,21 +13,10 @@ class StationSelectionSection extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (modalContext) => BlocProvider.value(
-        value: context.read<CitiesCubit>(),
-        child: CityFilterBottomSheet(
-          selectedCitySlug: isFrom
-              ? context.read<FlightSearchCubit>().state.fromCity
-              : context.read<FlightSearchCubit>().state.toCity,
-          onCitySelected: (slug, name) {
-            if (isFrom) {
-              context.read<FlightSearchCubit>().updateFromCity(name);
-            } else {
-              context.read<FlightSearchCubit>().updateToCity(name);
-            }
-            Navigator.pop(modalContext);
-          },
-        ),
+        value: context.read<FlightSearchCubit>(),
+        child: FlightDestinationSearchSheet(isFrom: isFrom),
       ),
     );
   }
@@ -51,7 +39,7 @@ class StationSelectionSection extends StatelessWidget {
                     hint: 'flights.departure_station',
                     svgPath: 'assets/icons/flight.svg',
                     width: 135.w,
-                    value: state.fromCity,
+                    value: state.fromCity?.name,
                     onTap: () => _selectCity(context, true),
                   ),
                 ),
@@ -62,7 +50,7 @@ class StationSelectionSection extends StatelessWidget {
                     hint: 'flights.arrival_station',
                     svgPath: 'assets/icons/flight.svg',
                     width: 135.w,
-                    value: state.toCity,
+                    value: state.toCity?.name,
                     onTap: () => _selectCity(context, false),
                   ),
                 ),

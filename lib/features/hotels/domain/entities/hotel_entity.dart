@@ -64,6 +64,7 @@ class HotelDetailsEntity extends Equatable {
   final List<HotelRoomEntity> rooms;
   final List<HotelReviewEntity> reviews;
   final HotelPoliciesEntity? policies;
+  final HotelContactEntity? contact;
 
   const HotelDetailsEntity({
     required this.hotelId,
@@ -86,6 +87,7 @@ class HotelDetailsEntity extends Equatable {
     required this.rooms,
     required this.reviews,
     this.policies,
+    this.contact,
   });
 
   @override
@@ -110,7 +112,18 @@ class HotelDetailsEntity extends Equatable {
         rooms,
         reviews,
         policies,
+        contact,
       ];
+}
+
+class HotelContactEntity extends Equatable {
+  final String? phone;
+  final String? email;
+
+  const HotelContactEntity({this.phone, this.email});
+
+  @override
+  List<Object?> get props => [phone, email];
 }
 
 class HotelRoomEntity extends Equatable {
@@ -126,6 +139,9 @@ class HotelRoomEntity extends Equatable {
   final List<String> facilities;
   final String? mealPlan;
   final String? cancellationText;
+  final List<String> highlights;
+  final String? maxOccupancy;
+  final bool? isFreeCancellation;
 
   const HotelRoomEntity({
     required this.id,
@@ -140,6 +156,9 @@ class HotelRoomEntity extends Equatable {
     required this.facilities,
     this.mealPlan,
     this.cancellationText,
+    required this.highlights,
+    this.maxOccupancy,
+    this.isFreeCancellation,
   });
 
   @override
@@ -156,6 +175,9 @@ class HotelRoomEntity extends Equatable {
         facilities,
         mealPlan,
         cancellationText,
+        highlights,
+        maxOccupancy,
+        isFreeCancellation,
       ];
 }
 

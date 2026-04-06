@@ -79,6 +79,7 @@ class HotelRoomTypes extends StatelessWidget {
               area: '...',
               bedType: '...',
               price: '0',
+              highlights: [],
             ),
           ),
         ),
@@ -96,13 +97,15 @@ class HotelRoomTypes extends StatelessWidget {
           child: RoomCard(
             image: room.photos.isNotEmpty ? room.photos.first : '',
             title: room.name,
-            rating: '4.9', // API doesn't seem to provide per-room rating
-            guests: '${room.adults} ضيوف',
-            area: '35 متر مربع', // API doesn't seem to provide area
+            rating: '4.9',
+            guests: room.maxOccupancy ?? '${room.adults} ضيوف',
+            area: '35 متر مربع',
             bedType: room.bedOptions,
             price: room.price,
             mealPlan: room.mealPlan,
             cancellationText: room.cancellationText,
+            isFreeCancellation: room.isFreeCancellation,
+            highlights: room.highlights,
           ),
         );
       }).toList(),
@@ -120,6 +123,8 @@ class RoomCard extends StatelessWidget {
   final String price;
   final String? mealPlan;
   final String? cancellationText;
+  final bool? isFreeCancellation;
+  final List<String> highlights;
 
   const RoomCard({
     super.key,
@@ -132,6 +137,8 @@ class RoomCard extends StatelessWidget {
     required this.price,
     this.mealPlan,
     this.cancellationText,
+    this.isFreeCancellation,
+    required this.highlights,
   });
 
   @override
@@ -185,7 +192,11 @@ class RoomCard extends StatelessWidget {
                 _buildTitleAndRating(),
                 SizedBox(height: 12.h),
                 _buildSpecs(),
-                if (mealPlan != null || cancellationText != null) ...[
+                if (highlights.isNotEmpty) ...[
+                  SizedBox(height: 12.h),
+                  _buildHighlights(),
+                ],
+                if (mealPlan != null || cancellationText != null || isFreeCancellation == true) ...[
                   SizedBox(height: 12.h),
                   _buildExtraInfo(),
                 ],
@@ -199,19 +210,49 @@ class RoomCard extends StatelessWidget {
     );
   }
 
+  Widget _buildHighlights() {
+    return Wrap(
+      spacing: 8.w,
+      runSpacing: 4.h,
+      children: highlights.take(4).map((highlight) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF9FAFB),
+            borderRadius: BorderRadius.circular(6.r),
+            border: Border.all(color: const Color(0xFFEAECF0), width: 1.w),
+          ),
+          child: Text(
+            highlight,
+            style: TextStyle(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Madani Arabic',
+              color: const Color(0xFF475467),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
   Widget _buildTitleAndRating() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Madani Arabic',
-            color: const Color(0xFF1A1A1A),
+        Expanded(
+          child: Text(
+            title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Madani Arabic',
+              color: const Color(0xFF1A1A1A),
+            ),
           ),
         ),
+        SizedBox(width: 8.w),
         Row(
           children: [
             Icon(
@@ -294,18 +335,42 @@ class RoomCard extends StatelessWidget {
   Widget _buildExtraInfo() {
     return Column(
       children: [
+        if (isFreeCancellation == true)
+          Padding(
+            padding: EdgeInsets.only(bottom: 4.h),
+            child: Row(
+              children: [
+                Icon(Icons.check_circle_outline_rounded, size: 14.sp, color: const Color(0xFF039855)),
+                SizedBox(width: 8.w),
+                Text(
+                  'إلغاء مجاني',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Madani Arabic',
+                    color: const Color(0xFF039855),
+                  ),
+                ),
+              ],
+            ),
+          ),
         if (mealPlan != null)
+// ... unchanged lines ...
           Row(
             children: [
               Icon(Icons.restaurant, size: 14.sp, color: const Color(0xFF039855)),
               SizedBox(width: 8.w),
-              Text(
-                mealPlan!,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Madani Arabic',
-                  color: const Color(0xFF039855),
+              Expanded(
+                child: Text(
+                  mealPlan!,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Madani Arabic',
+                    color: const Color(0xFF039855),
+                  ),
                 ),
               ),
             ],
@@ -316,13 +381,17 @@ class RoomCard extends StatelessWidget {
             children: [
               Icon(Icons.event_available, size: 14.sp, color: const Color(0xFF039855)),
               SizedBox(width: 8.w),
-              Text(
-                cancellationText!,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Madani Arabic',
-                  color: const Color(0xFF039855),
+              Expanded(
+                child: Text(
+                  cancellationText!,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Madani Arabic',
+                    color: const Color(0xFF039855),
+                  ),
                 ),
               ),
             ],
