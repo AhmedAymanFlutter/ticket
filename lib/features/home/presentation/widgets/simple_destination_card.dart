@@ -38,9 +38,9 @@ class SimpleDestinationCard extends StatelessWidget {
               child: Image.network(
                 imagePath,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.broken_image, color: Colors.grey),
+                errorBuilder: (context, error, stackTrace) => Image.asset(
+                  'assets/photo/image (1).png',
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

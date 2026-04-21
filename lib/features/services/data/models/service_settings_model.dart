@@ -8,10 +8,11 @@ class ServiceSettingsModel extends Equatable {
 
   factory ServiceSettingsModel.fromJson(Map<String, dynamic> json) {
     return ServiceSettingsModel(
-      id: json['_id'],
-      phones: (json['contactInfo']['phones'] as List)
-          .map((e) => ServiceContactPhoneModel.fromJson(e))
-          .toList(),
+      id: json['_id']?.toString() ?? '',
+      phones: (json['contactInfo']?['phones'] as List<dynamic>?)
+              ?.map((e) => ServiceContactPhoneModel.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 

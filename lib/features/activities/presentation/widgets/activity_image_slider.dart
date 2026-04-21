@@ -44,6 +44,13 @@ class _ActivityImageSliderState extends State<ActivityImageSlider> {
                   widget.images[index],
                   fit: BoxFit.cover,
                   width: double.infinity,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/photo/image (1).png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    );
+                  },
                 );
               },
             ),

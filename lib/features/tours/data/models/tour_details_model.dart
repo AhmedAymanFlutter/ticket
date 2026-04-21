@@ -66,7 +66,7 @@ class TourDetailsModel {
       cityName: json['city']?['name']?.toString(),
       slug: json['slug']?.toString(),
       images: (json['images'] as List<dynamic>?)
-          ?.map((e) => e.toString())
+          ?.map((e) => e['url']?.toString() ?? '')
           .toList(),
       cancellationPolicy: json['cancellationPolicy'] != null
           ? CancellationPolicy.fromJson(json['cancellationPolicy'])

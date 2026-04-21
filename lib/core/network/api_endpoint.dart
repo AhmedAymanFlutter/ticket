@@ -7,8 +7,8 @@ abstract class EndPoints {
   static const String settings = '/settings';
   static const String contact = '/contacts';
   static const String countries = '/countries';
-  static String countryDetails(String slug) => '/countries/$slug';
-  static String guideDetails(String slug) => '/guides/$slug';
+  static String countryDetails(String slug) => '/countries/slug/$slug';
+  static String guideDetails(String slug) => '/guides/slug/$slug';
   static const String signup = '/auth/signup';
   static const String login = '/auth/login';
   static const String getMe = '/auth/me';

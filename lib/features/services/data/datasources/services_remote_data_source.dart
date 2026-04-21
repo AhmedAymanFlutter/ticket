@@ -42,11 +42,17 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
       parser: (json) {
         if (json != null &&
             json is Map<String, dynamic> &&
-            json['data'] != null &&
-            json['data']['settings'] != null) {
-          return ServiceSettingsModel.fromJson(json['data']['settings']);
+            json['data'] != null) {
+          final data = json['data'];
+          // Try to get from 'settings' key (legacy/expected)
+          if (data['settings'] != null) {
+            return ServiceSettingsModel.fromJson(data['settings']);
+          }
+          if (data['contactInfo'] != null) {
+            return ServiceSettingsModel.fromJson(data);
+          }
         }
-        throw Exception('Invalid response for service settings');
+        return const ServiceSettingsModel(id: '', phones: []);
       },
     );
 

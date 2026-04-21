@@ -97,7 +97,7 @@ class PackagesView extends StatelessWidget {
                               (type) => PackageCard(
                                 imageUrl:
                                     type.imageCover ??
-                                    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05', // Default image
+                                    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05',
                                 title: type.name,
                                 subtitle: type.description,
                                 buttonText: 'packages.explore_now'.tr(),
@@ -117,7 +117,7 @@ class PackagesView extends StatelessWidget {
                           ],
                         ),
 
-                  SizedBox(height: 100.h), // Extra space for bottom nav bar
+                  SizedBox(height: 100.h),
                 ],
               ),
             ),

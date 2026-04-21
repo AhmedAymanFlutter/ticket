@@ -46,7 +46,7 @@ class PackagesRemoteDataSourceImpl implements PackagesRemoteDataSource {
   ) async {
     final response = await APIHelper()
         .getRequest<List<PackageTypeCountryModel>>(
-          endPoint: '/packageTypes/$slug',
+          endPoint: '/packageTypes/slug/$slug',
           queryParameters: {'lang': lang},
           parser: (json) {
             if (json != null &&

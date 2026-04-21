@@ -48,11 +48,11 @@ class BestDestinationCard extends StatelessWidget {
               width: double.infinity,
               height: 190.h,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
+              errorBuilder: (context, error, stackTrace) => Image.asset(
+                'assets/photo/image (1).png',
                 width: double.infinity,
                 height: 190.h,
-                color: Colors.grey[200],
-                child: const Icon(Icons.broken_image, color: Colors.grey),
+                fit: BoxFit.cover,
               ),
             ),
           ),
