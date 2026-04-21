@@ -27,12 +27,23 @@ class _ServiceDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final whatsAppPhone = settings.phones
-        .firstWhere((p) => p.isWhatsApp, orElse: () => settings.phones.first)
-        .number;
-    final primaryPhone = settings.phones
-        .firstWhere((p) => p.isPrimary, orElse: () => settings.phones.first)
-        .number;
+    // Safe extraction of phone numbers
+    String getPhoneNumber({bool whatsApp = false, bool primary = false}) {
+      if (settings.phones.isEmpty) return "";
+      try {
+        return settings.phones
+            .firstWhere(
+              (p) => whatsApp ? p.isWhatsApp : (primary ? p.isPrimary : true),
+              orElse: () => settings.phones.first,
+            )
+            .number;
+      } catch (_) {
+        return "";
+      }
+    }
+
+    final whatsAppPhone = getPhoneNumber(whatsApp: true);
+    final primaryPhone = getPhoneNumber(primary: true);
 
     return Container(
       height: 636.h,
@@ -47,7 +58,7 @@ class _ServiceDetailSheet extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 12.h),
-          // ── Drag Handle ────────────────────────────────────────
+          //  Drag Handle
           Container(
             width: 40.w,
             height: 4.h,
@@ -95,7 +106,7 @@ class _ServiceDetailSheet extends StatelessWidget {
                   const Divider(color: Color(0xFFF0F0F0), thickness: 1),
                   SizedBox(height: 16.h),
 
-                  // ── Description ───────────────────────────────
+                  // ── Description
                   Text(
                     service.description,
                     style: TextStyle(
@@ -164,23 +175,24 @@ class _ServiceDetailSheet extends StatelessWidget {
             child: Column(
               children: [
                 // WhatsApp Button
-                _ActionButton(
-                  label: '${'more.contact_whatsapp'.tr()} ($whatsAppPhone)',
-                  icon: 'assets/icons/watsapp.svg',
-                  backgroundColor: const Color(0xFF25D366),
-                  textColor: Colors.white,
-                  onTap: () =>
-                      ContactHelper.launchWhatsApp(number: whatsAppPhone),
-                ),
-                SizedBox(height: 12.h),
-                // Call Now Button
-                _ActionButton(
-                  label: 'more.call_now'.tr(),
-                  icon: 'assets/icons/customer-service.svg',
-                  backgroundColor: const Color(0xFFEAEAEA),
-                  textColor: const Color(0xFF1A1A1A),
-                  onTap: () => ContactHelper.launchCall(primaryPhone),
-                ),
+                if (whatsAppPhone.isNotEmpty)
+                  _ActionButton(
+                    label: '${'more.contact_whatsapp'.tr()} ($whatsAppPhone)',
+                    icon: 'assets/icons/watsapp.svg',
+                    backgroundColor: const Color(0xFF25D366),
+                    textColor: Colors.white,
+                    onTap: () =>
+                        ContactHelper.launchWhatsApp(number: whatsAppPhone),
+                  ),
+                if (whatsAppPhone.isNotEmpty) SizedBox(height: 12.h),
+                if (primaryPhone.isNotEmpty)
+                  _ActionButton(
+                    label: 'more.call_now'.tr(),
+                    icon: 'assets/icons/customer-service.svg',
+                    backgroundColor: const Color(0xFFEAEAEA),
+                    textColor: const Color(0xFF1A1A1A),
+                    onTap: () => ContactHelper.launchCall(primaryPhone),
+                  ),
               ],
             ),
           ),

@@ -78,7 +78,7 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
             appBar: TicketsAppBarDetails(
               title: isLoading
                   ? '...'
-                  : (country?.displayName ?? 'تفاصيل الوجهة'),
+                  : (country?.getName(context.locale.languageCode) ?? 'تفاصيل الوجهة'),
               showBack: true,
             ),
             body: Skeletonizer(
@@ -103,7 +103,7 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
                           country?.cities
                               ?.map<PlaceItem>(
                                 (city) => PlaceItem(
-                                  name: city.name ?? '',
+                                  name: city.getName(context.locale.languageCode),
                                   imageUrl: city.imageCover ?? '',
                                   desc: '',
                                 ),
@@ -131,7 +131,7 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
                                 SizedBox(height: 24.h),
                                 GuideSectionSlider(
                                   title:
-                                      'أفضل المطاعم في ${country?.displayName ?? ''}',
+                                      'أفضل المطاعم في ${country?.getName(context.locale.languageCode) ?? ''}',
                                   subtitle:
                                       'اكتشف تجارب طعام متنوعة تشمل المطاعم الشهيرة والوجبات التقليدية.',
                                   places: guide.restaurants
@@ -149,7 +149,7 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
                                 SizedBox(height: 24.h),
                                 GuideSectionSlider(
                                   title:
-                                      'أفضل المعالم في ${country?.displayName ?? ''}',
+                                      'أفضل المعالم في ${country?.getName(context.locale.languageCode) ?? ''}',
                                   subtitle:
                                       'اكتشف أبرز المناطق السياحية وأكثر الأماكن زيارة في المنطقة.',
                                   places: guide.placesToVisit
@@ -167,7 +167,7 @@ class _TourGuideDetailsViewState extends State<TourGuideDetailsView> {
                                 SizedBox(height: 24.h),
                                 GuideSectionSlider(
                                   title:
-                                      'أفضل الأنشطة في ${country?.displayName ?? ''}',
+                                      'أفضل الأنشطة في ${country?.getName(context.locale.languageCode) ?? ''}',
                                   subtitle:
                                       'استمتع بتجارب متنوعة تشمل المعالم الشهيرة، والتسوق، والأنشطة الترفيهية الفريدة.',
                                   places: guide.thingsToDo

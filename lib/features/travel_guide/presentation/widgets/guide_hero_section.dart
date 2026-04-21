@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/models/country_model.dart';
@@ -11,6 +12,8 @@ class GuideHeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = context.locale.languageCode;
+
     return Stack(
       children: [
         // ── Background image
@@ -51,7 +54,7 @@ class GuideHeroSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                country?.displayName ?? 'جاري التحميل...',
+                country?.getName(lang) ?? 'جاري التحميل...',
                 style: TextStyle(
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w700,
@@ -65,21 +68,21 @@ class GuideHeroSection extends StatelessWidget {
                 children: [
                   _GuideHeroChip(
                     icon: Icons.language,
-                    label: country?.language ?? '',
+                    label: country?.getLanguage(lang) ?? '',
                   ),
                   SizedBox(width: 8.w),
                   const _HeroChipDivider(),
                   SizedBox(width: 8.w),
                   _GuideHeroChip(
                     icon: Icons.attach_money,
-                    label: country?.currency ?? '',
+                    label: country?.getCurrency(lang) ?? '',
                   ),
                   SizedBox(width: 8.w),
                   const _HeroChipDivider(),
                   SizedBox(width: 8.w),
                   _GuideHeroChip(
                     icon: Icons.public,
-                    label: country?.displayContinent ?? '',
+                    label: country?.getContinent(lang) ?? '',
                   ),
                 ],
               ),

@@ -53,12 +53,15 @@ class CityFilterBottomSheet extends StatelessWidget {
                       final city = state.cities[index];
                       final isSelected = selectedCitySlug == city.slug;
                       return ListTile(
-                        title: Text(city.name),
+                        title: Text(city.getName(context.locale.languageCode)),
                         trailing: isSelected
                             ? const Icon(Icons.check, color: Colors.blue)
                             : null,
                         onTap: () {
-                          onCitySelected(city.slug, city.name);
+                          onCitySelected(
+                            city.slug,
+                            city.getName(context.locale.languageCode),
+                          );
                         },
                       );
                     },

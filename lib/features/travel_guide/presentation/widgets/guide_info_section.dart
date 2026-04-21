@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
@@ -13,6 +14,8 @@ class GuideInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = context.locale.languageCode;
+
     return Container(
       width: 343.w,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -28,15 +31,23 @@ class GuideInfoSection extends StatelessWidget {
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 16.h),
           // ── Section Header with red bar
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Container(
+                  width: 4.w,
+                  height: 24.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF5252),
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                ),
+                SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
                     'معلومات الوجهة',
@@ -46,16 +57,6 @@ class GuideInfoSection extends StatelessWidget {
                       color: AppColors.primary,
                       fontFamily: 'Madani Arabic',
                     ),
-                    textAlign: TextAlign.right,
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                Container(
-                  width: 4.w,
-                  height: 24.h,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFF5252),
-                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 ),
               ],
@@ -66,7 +67,7 @@ class GuideInfoSection extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Text(
-              country?.description ?? 'جاري تحميل الوصف...',
+              country?.getDescription(lang) ?? 'جاري تحميل الوصف...',
               style: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w400,
@@ -74,7 +75,6 @@ class GuideInfoSection extends StatelessWidget {
                 fontFamily: 'Madani Arabic',
                 height: 1.8,
               ),
-              textAlign: TextAlign.right,
             ),
           ),
           SizedBox(height: 20.h),

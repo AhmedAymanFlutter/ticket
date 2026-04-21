@@ -16,6 +16,8 @@ class CountryModel {
   final String? languageAr;
   final String? languageEn;
   final String? description;
+  final String? descriptionAr;
+  final String? descriptionEn;
   final String? imageCover;
   final String? slug;
   final List<CityModel>? cities;
@@ -36,6 +38,8 @@ class CountryModel {
     this.languageAr,
     this.languageEn,
     this.description,
+    this.descriptionAr,
+    this.descriptionEn,
     this.imageCover,
     this.slug,
     this.cities,
@@ -58,6 +62,8 @@ class CountryModel {
       languageAr: json['languageAr'],
       languageEn: json['languageEn'],
       description: json['description'],
+      descriptionAr: json['descTextAr'] ?? json['descriptionAr'],
+      descriptionEn: json['descTextEn'] ?? json['descriptionEn'],
       imageCover: json['imageCover'],
       slug: json['slug'],
       cities: json['cities'] != null
@@ -68,6 +74,20 @@ class CountryModel {
     );
   }
 
+  String getName(String lang) => lang == 'ar' ? (nameAr ?? name ?? '') : (nameEn ?? name ?? '');
+  String getContinent(String lang) => lang == 'ar' ? (continentAr ?? continent ?? '') : (continentEn ?? continent ?? '');
+  String getCurrency(String lang) => lang == 'ar' ? (currencyAr ?? currency ?? '') : (currencyEn ?? currency ?? '');
+  String getLanguage(String lang) => lang == 'ar' ? (languageAr ?? language ?? '') : (languageEn ?? language ?? '');
+  String getDescription(String lang) {
+    String text = lang == 'ar'
+        ? (descriptionAr ?? description ?? '')
+        : (descriptionEn ?? description ?? '');
+    // Basic regex to strip HTML tags if they still exist
+    return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ').trim();
+  }
+
+  @Deprecated('Use getName(lang)')
   String get displayName => nameEn ?? nameAr ?? name ?? '';
+  @Deprecated('Use getContinent(lang)')
   String get displayContinent => continentEn ?? continentAr ?? continent ?? '';
 }

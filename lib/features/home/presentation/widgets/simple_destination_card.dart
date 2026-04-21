@@ -55,10 +55,7 @@ class SimpleDestinationCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
-                colors: [
-                  Colors.black.withOpacity(0.6),
-                  Colors.transparent,
-                ],
+                colors: [Colors.black.withOpacity(0.6), Colors.transparent],
                 stops: const [0.0, 0.4],
               ),
             ),
@@ -67,28 +64,30 @@ class SimpleDestinationCard extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.white,
-                    size: 10.sp,
-                  ),
+                  Icon(Icons.location_on, color: Colors.white, size: 14.sp),
                   SizedBox(width: 4.w),
-                  Expanded(
+                  Flexible(
                     child: Text(
                       title,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
                         fontFamily: 'Madani Arabic',
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(0, 1),
+                            blurRadius: 4,
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                        ],
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],

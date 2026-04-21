@@ -144,7 +144,7 @@ class _BestDestinationsSectionState extends State<BestDestinationsSection> {
                               country.imageCover!.isNotEmpty)
                           ? country.imageCover!
                           : 'https://images.unsplash.com/photo-1544551763-46a013bb70d5',
-                      title: country.displayName,
+                      title: country.getName(context.locale.languageCode),
                     ),
                   );
                 },

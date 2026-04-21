@@ -128,9 +128,9 @@ class _TravelGuideViewState extends State<TravelGuideView> {
                       return Padding(
                         padding: EdgeInsets.only(bottom: 24.h),
                         child: GuideCard(
-                          title: country.displayName,
-                          description: country.description ?? '',
-                          tag1: country.displayContinent,
+                          title: country.getName(context.locale.languageCode),
+                          description: country.getDescription(context.locale.languageCode),
+                          tag1: country.getContinent(context.locale.languageCode),
                           tag2: 'about.guide_trending'.tr(),
                           imagePath: country.imageCover ?? '',
                           slug: country.slug ?? '',
