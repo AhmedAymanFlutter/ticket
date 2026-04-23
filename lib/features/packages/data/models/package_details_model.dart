@@ -76,7 +76,7 @@ class PackageBranchModel extends Equatable {
       totalBranchPrice: json['totalBranchPrice'],
       daysCount: json['daysCount'],
       nightsCount: json['nightsCount'],
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       cities: (json['cities'] as List)
           .map((e) => BranchCityModel.fromJson(e))
           .toList(),

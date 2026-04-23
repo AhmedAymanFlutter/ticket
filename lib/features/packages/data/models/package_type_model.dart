@@ -23,7 +23,7 @@ class PackageTypeModel {
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       slug: json['slug'] ?? '',
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       alt: json['alt'],
       seo: json['seo'] != null ? SEOModel.fromJson(json['seo']) : null,
     );

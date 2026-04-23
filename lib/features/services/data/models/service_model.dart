@@ -26,7 +26,7 @@ class ServiceModel extends Equatable {
       id: json['_id'],
       name: json['name'],
       slug: json['slug'],
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       description: json['description'],
       summary: json['summary'],
       method: json['method'],

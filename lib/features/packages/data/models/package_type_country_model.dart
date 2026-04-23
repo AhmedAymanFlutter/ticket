@@ -20,7 +20,7 @@ class PackageTypeCountryModel extends Equatable {
       id: json['_id'],
       name: json['name'],
       slug: json['slug'],
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       cities: (json['cities'] as List? ?? [])
           .map((e) => PackageCountryCityModel.fromJson(e))
           .toList(),

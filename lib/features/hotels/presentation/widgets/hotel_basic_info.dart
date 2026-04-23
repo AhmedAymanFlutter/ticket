@@ -47,13 +47,17 @@ class HotelBasicInfo extends StatelessWidget {
               Icon(Icons.location_on_outlined,
                   color: const Color(0xFF667085), size: 16.sp),
               SizedBox(width: 4.w),
-              Text(
-                '${hotel!.city}, ${hotel!.address}',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Madani Arabic',
-                  color: const Color(0xFF667085),
+              Expanded(
+                child: Text(
+                  '${hotel!.city}, ${hotel!.address}',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Madani Arabic',
+                    color: const Color(0xFF667085),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -85,13 +89,17 @@ class HotelBasicInfo extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-              Text(
-                hotel!.ratingWord,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Madani Arabic',
-                  color: const Color(0xFF1D2939),
+              Flexible(
+                child: Text(
+                  hotel!.ratingWord,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Madani Arabic',
+                    color: const Color(0xFF1D2939),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               SizedBox(width: 8.w),

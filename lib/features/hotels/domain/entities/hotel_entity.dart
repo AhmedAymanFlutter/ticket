@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class HotelEntity extends Equatable {
-  final int hotelId;
+  final String hotelId;
   final String name;
   final String currency;
   final double price;
@@ -44,7 +44,7 @@ class HotelEntity extends Equatable {
 }
 
 class HotelDetailsEntity extends Equatable {
-  final int hotelId;
+  final String hotelId;
   final String name;
   final int stars;
   final String description;

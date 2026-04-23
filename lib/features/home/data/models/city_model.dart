@@ -41,7 +41,7 @@ class CityModel {
       description: json['description'] ?? '',
       descriptionAr: json['descTextAr'] ?? json['descriptionAr'] ?? '',
       descriptionEn: json['descTextEn'] ?? json['descriptionEn'] ?? '',
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??

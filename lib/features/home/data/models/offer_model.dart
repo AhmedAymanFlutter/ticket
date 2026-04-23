@@ -34,7 +34,7 @@ class OfferModel {
       id: json['id'] as String?,
       title: json['title'] as String?,
       description: json['description'] as String?,
-      imageCover: json['imageCover'] as String?,
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : (json['imageCover'] as String?),
       images: json['images'] != null ? List<String>.from(json['images']) : null,
       type: json['type'] as String?,
       details: json['details'] as Map<String, dynamic>?,

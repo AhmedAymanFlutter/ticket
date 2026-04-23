@@ -83,25 +83,22 @@ class GuideInfoSection extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
               children: [
-                const GuideInfoCard(
+                GuideInfoCard(
                   icon: Icons.calendar_today_outlined,
                   title: 'أفضل الأوقات لزيارة',
-                  description:
-                      'تختلف الأوقات المناسبة للزيارة حسب التفضيلات الشخصية والأنشطة المخطط لها.',
+                  description: country?.getBestTimeToVisit(lang) ?? '',
                 ),
                 SizedBox(height: 12.h),
-                const GuideInfoCard(
+                GuideInfoCard(
                   icon: Icons.description_outlined,
                   title: 'المستندات المطلوبة للتأشيرة',
-                  description:
-                      'تحتاج عادةً إلى جواز سفر ساري المفعول وتأمين طبي وصور شخصية.',
+                  description: country?.getRequiredVisaDocuments(lang) ?? '',
                 ),
                 SizedBox(height: 12.h),
-                const GuideInfoCard(
+                GuideInfoCard(
                   icon: Icons.timer_outlined,
                   title: 'مدة الرحلة',
-                  description:
-                      'المدة المقترحة لاستكشاف أبرز المعالم تتراوح عادةً بين 5 إلى 10 أيام.',
+                  description: country?.getTripDuration(lang) ?? '',
                 ),
               ],
             ),

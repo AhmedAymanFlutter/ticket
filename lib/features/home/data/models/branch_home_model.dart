@@ -29,7 +29,7 @@ class BranchHomeModel extends Equatable {
     return BranchHomeModel(
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       cities:
           (json['cities'] as List<dynamic>?)
               ?.map((e) => e.toString())

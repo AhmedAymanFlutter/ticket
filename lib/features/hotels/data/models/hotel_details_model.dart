@@ -29,11 +29,11 @@ class HotelDetailsModel extends HotelDetailsEntity {
     final hotel = json['hotel'] ?? (json['data']?['hotel'] ?? json);
     
     return HotelDetailsModel(
-      hotelId: hotel['hotelId'] ?? 0,
+      hotelId: hotel['hotelId']?.toString() ?? '',
       name: hotel['name'] ?? '',
       stars: hotel['stars'] ?? 0,
       description: hotel['description'] ?? '',
-      imageCover: hotel['imageCover'] ?? '',
+      imageCover: hotel['imageCover'] is Map ? (hotel['imageCover']['url'] ?? '') : (hotel['imageCover'] ?? ''),
       images: (hotel['images']?['all'] as List?)
               ?.map((e) => e['url'] as String)
               .toList() ??
@@ -79,7 +79,8 @@ class HotelDetailsModel extends HotelDetailsEntity {
       if (e == null) return '';
       if (e is String) return e;
       if (e is Map) {
-        return e['text']?.toString() ?? 
+        return e['url']?.toString() ??
+               e['text']?.toString() ?? 
                e['description']?.toString() ?? 
                e['content']?.toString() ?? 
                e['name']?.toString() ?? 

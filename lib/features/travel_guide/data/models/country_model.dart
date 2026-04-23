@@ -20,6 +20,12 @@ class CountryModel {
   final String? descriptionEn;
   final String? imageCover;
   final String? slug;
+  final String? bestTimeToVisitAr;
+  final String? bestTimeToVisitEn;
+  final String? requiredVisaDocumentsAr;
+  final String? requiredVisaDocumentsEn;
+  final String? tripDurationAr;
+  final String? tripDurationEn;
   final List<CityModel>? cities;
 
   CountryModel({
@@ -42,6 +48,12 @@ class CountryModel {
     this.descriptionEn,
     this.imageCover,
     this.slug,
+    this.bestTimeToVisitAr,
+    this.bestTimeToVisitEn,
+    this.requiredVisaDocumentsAr,
+    this.requiredVisaDocumentsEn,
+    this.tripDurationAr,
+    this.tripDurationEn,
     this.cities,
   });
 
@@ -64,8 +76,14 @@ class CountryModel {
       description: json['description'],
       descriptionAr: json['descTextAr'] ?? json['descriptionAr'],
       descriptionEn: json['descTextEn'] ?? json['descriptionEn'],
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       slug: json['slug'],
+      bestTimeToVisitAr: json['bestTimeToVisitAr'],
+      bestTimeToVisitEn: json['bestTimeToVisitEn'],
+      requiredVisaDocumentsAr: json['requiredVisaDocumentsAr'],
+      requiredVisaDocumentsEn: json['requiredVisaDocumentsEn'],
+      tripDurationAr: json['tripDurationAr'],
+      tripDurationEn: json['tripDurationEn'],
       cities: json['cities'] != null
           ? (json['cities'] as List)
                 .map((item) => CityModel.fromJson(item))
@@ -85,6 +103,15 @@ class CountryModel {
     // Basic regex to strip HTML tags if they still exist
     return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ').trim();
   }
+
+  String getBestTimeToVisit(String lang) =>
+      lang == 'ar' ? (bestTimeToVisitAr ?? '') : (bestTimeToVisitEn ?? '');
+
+  String getRequiredVisaDocuments(String lang) =>
+      lang == 'ar' ? (requiredVisaDocumentsAr ?? '') : (requiredVisaDocumentsEn ?? '');
+
+  String getTripDuration(String lang) =>
+      lang == 'ar' ? (tripDurationAr ?? '') : (tripDurationEn ?? '');
 
   @Deprecated('Use getName(lang)')
   String get displayName => nameEn ?? nameAr ?? name ?? '';

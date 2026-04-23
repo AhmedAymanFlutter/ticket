@@ -23,7 +23,7 @@ class CityModel {
       name: json['name'],
       nameAr: json['nameAr'],
       nameEn: json['nameEn'],
-      imageCover: json['imageCover'],
+      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
       slug: json['slug'],
       alt: json['alt'],
     );

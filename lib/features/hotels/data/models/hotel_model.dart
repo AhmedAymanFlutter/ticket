@@ -17,11 +17,11 @@ class HotelModel extends HotelEntity {
 
   factory HotelModel.fromJson(Map<String, dynamic> json) {
     return HotelModel(
-      hotelId: json['hotelId'],
+      hotelId: json['hotelId']?.toString() ?? '',
       name: json['name'],
       currency: json['currency'],
       price: (json['price'] as num).toDouble(),
-      image: json['image'],
+      image: json['image'] is Map ? (json['image']['url'] ?? '') : (json['image'] ?? ''),
       rating: (json['rating'] as num).toDouble(),
       ratingWord: json['ratingWord'],
       stars: json['stars'],
