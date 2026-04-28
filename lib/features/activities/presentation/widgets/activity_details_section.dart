@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/features/tours/data/models/tour_details_model.dart';
 import 'package:ticket/features/activities/presentation/widgets/activity_package_card.dart';
+import 'package:ticket/features/activities/presentation/widgets/activity_booking_bottom_sheet/widgets/view/activity_booking_bottom_sheet.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ActivityDetailsSection extends StatelessWidget {
   final TourDetailsModel? tour;
@@ -31,16 +33,15 @@ class ActivityDetailsSection extends StatelessWidget {
           _buildSectionHeader('لمحة عامة'),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-            child: Text(
+            child: HtmlWidget(
               tour?.description ??
                   'استمتع برحلة بحرية فاخرة على طول شواطئ جدة الساحرة على البحر الأحمر. صممت هذه التجربة خصيصاً للأزواج الراغبين في الاسترخاء والاستكشاف والاستمتاع بجمال البحر في أجواء خاصة وأنيقة. من المياه الصافية الكريستالية إلى الخدمات المميزة على متن القارب، تُقدم هذه الرحلة التوازن الأمثل بين الاسترخاء والمغامرة، مما يجعلها مثالية لقضاء عطلات رومانسية أو الاحتفال بمناسبات خاصة.',
-              style: TextStyle(
+              textStyle: TextStyle(
                 fontSize: 13.sp,
                 color: const Color(0xFF6B7280),
                 fontFamily: 'Madani Arabic',
                 height: 1.8,
               ),
-              textAlign: TextAlign.right,
             ),
           ),
 
@@ -91,6 +92,16 @@ class ActivityDetailsSection extends StatelessWidget {
                           title: option.title ?? 'باقة جولة',
                           price:
                               '${tour?.price?.amount ?? 0}', // Use tour price or option price if available
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              isScrollControlled: true,
+                              builder: (context) => ActivityBookingBottomSheet(
+                                productOption: option,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     )

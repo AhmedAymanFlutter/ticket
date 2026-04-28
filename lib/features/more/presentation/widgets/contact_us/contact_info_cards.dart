@@ -26,52 +26,44 @@ class ContactInfoCards extends StatelessWidget {
           ),
         ],
       ),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              child: ContactItem(
-                iconPath: 'assets/photo/mail-02.svg',
-                fallbackIcon: Icons.email_outlined,
-                title: 'contact.support_service'.tr(),
-                details: settings.contactInfo.emails
-                    .map((e) => e.email)
-                    .toList(),
-                onTap: (email) => ContactHelper.launchEmail(email),
-              ),
-            ),
-            VerticalDivider(
-              width: 32.w,
-              thickness: 1,
-              color: const Color(0xFFEEEEEE),
-            ),
-            Expanded(
-              child: ContactItem(
-                iconPath: 'assets/icons/customer-service.svg',
-                fallbackIcon: Icons.phone_outlined,
-                title: 'contact.support_team'.tr(),
-                details: settings.contactInfo.phones
-                    .map((p) => p.number)
-                    .toList(),
-                onTap: (phone) => ContactHelper.launchCall(phone),
-              ),
-            ),
-            VerticalDivider(
-              width: 32.w,
-              thickness: 1,
-              color: const Color(0xFFEEEEEE),
-            ),
-            Expanded(
-              child: ContactItem(
-                iconPath: 'assets/icons/location.svg',
-                fallbackIcon: Icons.location_on_outlined,
-                title: 'contact.visit_office'.tr(),
-                details: settings.contactInfo.addresses,
-                onTap: (address) => ContactHelper.launchMap(address),
-              ),
-            ),
-          ],
-        ),
+      child: Column(
+        children: [
+          ContactItem(
+            iconPath: 'assets/photo/mail-02.svg',
+            fallbackIcon: Icons.email_outlined,
+            title: 'contact.support_service'.tr(),
+            details: settings.contactInfo.emails
+                .map((e) => e.email)
+                .toList(),
+            onTap: (email) => ContactHelper.launchEmail(email),
+          ),
+          Divider(
+            height: 32.h,
+            thickness: 1,
+            color: const Color(0xFFEEEEEE),
+          ),
+          ContactItem(
+            iconPath: 'assets/icons/customer-service.svg',
+            fallbackIcon: Icons.phone_outlined,
+            title: 'contact.support_team'.tr(),
+            details: settings.contactInfo.phones
+                .map((p) => p.number)
+                .toList(),
+            onTap: (phone) => ContactHelper.launchCall(phone),
+          ),
+          Divider(
+            height: 32.h,
+            thickness: 1,
+            color: const Color(0xFFEEEEEE),
+          ),
+          ContactItem(
+            iconPath: 'assets/icons/location.svg',
+            fallbackIcon: Icons.location_on_outlined,
+            title: 'contact.visit_office'.tr(),
+            details: settings.contactInfo.addresses,
+            onTap: (address) => ContactHelper.launchMap(address),
+          ),
+        ],
       ),
     );
   }

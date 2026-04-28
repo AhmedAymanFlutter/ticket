@@ -4,13 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CategoryPackageCardImage extends StatelessWidget {
   final String imageUrl;
   final String categoryBadge;
-  final String countryName;
+  final String packageName;
 
   const CategoryPackageCardImage({
     super.key,
     required this.imageUrl,
     required this.categoryBadge,
-    required this.countryName,
+    required this.packageName,
   });
 
   @override
@@ -58,12 +58,12 @@ class CategoryPackageCardImage extends StatelessWidget {
             ),
           ),
         ),
-        // Country Name Overlay
+        // Package Name Overlay
         Positioned(
           bottom: 12.h,
           right: 12.w,
           child: Text(
-            countryName,
+            packageName,
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w700,

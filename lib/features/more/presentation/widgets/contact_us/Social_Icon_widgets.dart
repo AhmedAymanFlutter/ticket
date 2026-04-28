@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:ticket/core/helper/contact_helper.dart';
 
 class SocialIcon extends StatelessWidget {
@@ -18,7 +17,7 @@ class SocialIcon extends StatelessWidget {
             number: ContactHelper.extractPhoneNumber(url),
           );
         } else {
-          launchUrl(Uri.parse(url));
+          ContactHelper.launchBrowser(url);
         }
       },
       child: icon,

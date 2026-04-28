@@ -18,17 +18,31 @@ class HotelModel extends HotelEntity {
   factory HotelModel.fromJson(Map<String, dynamic> json) {
     return HotelModel(
       hotelId: json['hotelId']?.toString() ?? '',
-      name: json['name'],
-      currency: json['currency'],
-      price: (json['price'] as num).toDouble(),
-      image: json['image'] is Map ? (json['image']['url'] ?? '') : (json['image'] ?? ''),
-      rating: (json['rating'] as num).toDouble(),
-      ratingWord: json['ratingWord'],
-      stars: json['stars'],
-      address: json['address'],
-      distance: json['distance'],
-      url: json['url'],
+      name: json['name']?.toString() ?? '',
+      currency: json['currency']?.toString() ?? 'SAR',
+      price: _toDouble(json['price']),
+      image: json['image'] is Map ? (json['image']['url'] ?? '') : (json['image']?.toString() ?? ''),
+      rating: _toDouble(json['rating']),
+      ratingWord: json['ratingWord']?.toString() ?? '',
+      stars: _toInt(json['stars']),
+      address: json['address']?.toString() ?? '',
+      distance: json['distance']?.toString(),
+      url: json['url']?.toString() ?? '',
     );
+  }
+
+  static double _toDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
+  }
+
+  static int _toInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 
   Map<String, dynamic> toJson() {

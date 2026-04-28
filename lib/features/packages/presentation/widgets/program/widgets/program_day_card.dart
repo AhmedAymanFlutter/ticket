@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:ticket/features/packages/presentation/widgets/program/models/program_day.dart';
 
 class ProgramDayCard extends StatelessWidget {
@@ -79,24 +80,37 @@ class ProgramDayCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10.h),
+            // ── Image if present
+            if (day.imageUrl != null && day.imageUrl!.isNotEmpty) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12.r),
+                child: Image.network(
+                  day.imageUrl!,
+                  width: double.infinity,
+                  height: 150.h,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => 
+                      const SizedBox.shrink(),
+                ),
+              ),
+              SizedBox(height: 12.h),
+            ],
             // ── Description
-            Text(
+            HtmlWidget(
               day.description,
-              style: TextStyle(
+              textStyle: TextStyle(
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFF6B7280),
                 fontFamily: 'Madani Arabic',
                 height: 1.7,
               ),
-              textAlign: TextAlign.right,
             ),
             SizedBox(height: 12.h),
             // ── Tags
             Wrap(
               spacing: 8.w,
               runSpacing: 8.h,
-              alignment: WrapAlignment.end,
               children: day.tags.map(_buildTag).toList(),
             ),
           ],

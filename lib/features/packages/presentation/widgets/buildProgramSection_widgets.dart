@@ -85,8 +85,9 @@ Widget buildProgramSection(List<PackageDayModel> days) {
                             description:
                                 day.description ??
                                 (day.type == 'TOUR' && day.tour != null
-                                    ? 'packages.tour_included'.tr()
+                                    ? (day.tour!.description ?? 'packages.tour_included'.tr())
                                     : ''),
+                            imageUrl: day.type == 'TOUR' ? day.tour?.imageCover : null,
                             tags: day.type == 'TOUR'
                                 ? ['packages.tour'.tr()]
                                 : [],

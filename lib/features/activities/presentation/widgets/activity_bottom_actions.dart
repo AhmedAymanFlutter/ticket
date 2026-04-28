@@ -133,7 +133,12 @@ class ActivityBottomActions extends StatelessWidget {
                     context: context,
                     backgroundColor: Colors.transparent,
                     isScrollControlled: true,
-                    builder: (context) => const ActivityBookingBottomSheet(),
+                    builder: (context) => ActivityBookingBottomSheet(
+                      productOption: tour?.productOptions != null &&
+                              tour!.productOptions!.isNotEmpty
+                          ? tour!.productOptions!.first
+                          : null,
+                    ),
                   );
                 },
                 borderRadius: BorderRadius.circular(12.r),

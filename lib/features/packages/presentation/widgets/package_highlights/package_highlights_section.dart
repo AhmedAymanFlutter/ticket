@@ -7,8 +7,14 @@ import 'inclusion_checklist_card.dart';
 import 'inclusion_overview_card.dart';
 
 class PackageHighlightsSection extends StatefulWidget {
-  final PackageBranchModel? branch;
-  const PackageHighlightsSection({super.key, this.branch});
+  final PackageDetailsModel? packageDetails;
+  final int selectedBranchIndex;
+  
+  const PackageHighlightsSection({
+    super.key, 
+    this.packageDetails,
+    this.selectedBranchIndex = 0,
+  });
 
   @override
   State<PackageHighlightsSection> createState() =>
@@ -20,12 +26,17 @@ class _PackageHighlightsSectionState extends State<PackageHighlightsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final branch = widget.packageDetails != null && 
+                   widget.packageDetails!.branches.isNotEmpty
+        ? widget.packageDetails!.branches[widget.selectedBranchIndex]
+        : null;
+
     // Collect all inclusions and exclusions from all tours in this branch
     final List<String> allInclusions = [];
     final List<String> allExclusions = [];
 
-    if (widget.branch != null) {
-      for (var day in widget.branch!.days) {
+    if (branch != null) {
+      for (var day in branch.days) {
         if (day.type == 'TOUR' && day.tour != null) {
           allInclusions.addAll(day.tour!.inclusions);
           allExclusions.addAll(day.tour!.exclusions);
@@ -63,7 +74,10 @@ class _PackageHighlightsSectionState extends State<PackageHighlightsSection> {
             exclusions: uniqueExclusions,
           ),
           SizedBox(height: 8.h),
-          InclusionOverviewCard(title: widget.branch?.name ?? ''),
+          InclusionOverviewCard(
+            title: widget.packageDetails?.pkg.name ?? '',
+            description: widget.packageDetails?.pkg.description ?? '',
+          ),
         ],
       ),
     );
@@ -71,5 +85,5 @@ class _PackageHighlightsSectionState extends State<PackageHighlightsSection> {
 }
 
 // Backward-compatible function wrapper
-Widget buildInclusionSection(PackageBranchModel? branch) =>
-    PackageHighlightsSection(branch: branch);
+Widget buildInclusionSection(PackageDetailsModel? packageDetails) =>
+    PackageHighlightsSection(packageDetails: packageDetails);

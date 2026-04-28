@@ -30,24 +30,25 @@ class HotelDetailsModel extends HotelDetailsEntity {
     
     return HotelDetailsModel(
       hotelId: hotel['hotelId']?.toString() ?? '',
-      name: hotel['name'] ?? '',
-      stars: hotel['stars'] ?? 0,
-      description: hotel['description'] ?? '',
-      imageCover: hotel['imageCover'] is Map ? (hotel['imageCover']['url'] ?? '') : (hotel['imageCover'] ?? ''),
+      name: hotel['name']?.toString() ?? '',
+      stars: _toInt(hotel['stars']),
+      description: hotel['description']?.toString() ?? '',
+      imageCover: hotel['imageCover'] is Map ? (hotel['imageCover']['url'] ?? '') : (hotel['imageCover']?.toString() ?? ''),
       images: (hotel['images']?['all'] as List?)
-              ?.map((e) => e['url'] as String)
+              ?.map((e) => e['url']?.toString() ?? '')
+              .where((url) => url.isNotEmpty)
               .toList() ??
           [],
-      city: hotel['city'] ?? '',
-      country: hotel['country'] ?? '',
-      address: hotel['address'] ?? '',
-      latitude: (hotel['latitude'] as num?)?.toDouble(),
-      longitude: (hotel['longitude'] as num?)?.toDouble(),
-      currency: hotel['currency'] ?? 'SAR',
-      rating: (hotel['rating'] as num?)?.toDouble() ?? 0.0,
-      ratingWord: hotel['ratingWord'] ?? '',
-      ratingCount: hotel['ratingCount'] ?? 0,
-      price: (hotel['price'] as num?)?.toDouble() ?? 0.0,
+      city: hotel['city']?.toString() ?? '',
+      country: hotel['country']?.toString() ?? '',
+      address: hotel['address']?.toString() ?? '',
+      latitude: _toDouble(hotel['latitude']),
+      longitude: _toDouble(hotel['longitude']),
+      currency: hotel['currency']?.toString() ?? 'SAR',
+      rating: _toDouble(hotel['rating']) ?? 0.0,
+      ratingWord: hotel['ratingWord']?.toString() ?? '',
+      ratingCount: _toInt(hotel['ratingCount']),
+      price: _toDouble(hotel['price']) ?? 0.0,
       facilities: _parseStringList(hotel['facilities']),
       rooms: (hotel['rooms'] as List?)
               ?.map((e) => HotelRoomModel.fromJson(e))
@@ -64,6 +65,20 @@ class HotelDetailsModel extends HotelDetailsEntity {
           ? HotelContactModel.fromJson(hotel['contact'])
           : null,
     );
+  }
+
+  static double? _toDouble(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
+  }
+
+  static int _toInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 
   static String? _parseToString(dynamic value) {
@@ -113,20 +128,20 @@ class HotelRoomModel extends HotelRoomEntity {
   factory HotelRoomModel.fromJson(Map<String, dynamic> json) {
     return HotelRoomModel(
       id: json['id']?.toString() ?? '',
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       price: json['price']?.toString() ?? '0',
-      currency: json['currency'] ?? 'SAR',
+      currency: json['currency']?.toString() ?? 'SAR',
       photos: HotelDetailsModel._parseStringList(json['photos']),
-      bedOptions: json['bedOptions'] ?? '',
-      adults: json['occupancy']?['adults'] ?? 0,
-      children: json['occupancy']?['children'] ?? 0,
+      bedOptions: json['bedOptions']?.toString() ?? '',
+      adults: HotelDetailsModel._toInt(json['occupancy']?['adults']),
+      children: HotelDetailsModel._toInt(json['occupancy']?['children']),
       facilities: HotelDetailsModel._parseStringList(json['facilities']),
-      mealPlan: json['mealPlan'],
-      cancellationText: json['cancellation']?['text'],
+      mealPlan: json['mealPlan']?.toString(),
+      cancellationText: json['cancellation']?['text']?.toString(),
       highlights: HotelDetailsModel._parseStringList(json['highlights']),
-      maxOccupancy: json['occupancy']?['maxOccupancy'],
-      isFreeCancellation: json['cancellation']?['free'],
+      maxOccupancy: json['occupancy']?['maxOccupancy']?.toString(),
+      isFreeCancellation: json['cancellation']?['free'] == true || json['cancellation']?['free'] == 1,
     );
   }
 }
@@ -157,15 +172,15 @@ class HotelReviewModel extends HotelReviewEntity {
 
   factory HotelReviewModel.fromJson(Map<String, dynamic> json) {
     return HotelReviewModel(
-      authorName: json['author']?['name'] ?? 'Anonymous',
-      authorAvatar: json['author']?['avatar'],
-      title: json['title'] ?? '',
-      date: json['date'] ?? '',
-      score: (json['average_score'] as num?)?.toDouble() ?? 0.0,
-      pros: json['pros'] ?? '',
-      cons: json['cons'] ?? '',
-      reviewerCountry: json['author']?['countrycode'],
-      travelerType: json['author']?['type_string'],
+      authorName: json['author']?['name']?.toString() ?? 'Anonymous',
+      authorAvatar: json['author']?['avatar']?.toString(),
+      title: json['title']?.toString() ?? '',
+      date: json['date']?.toString() ?? '',
+      score: HotelDetailsModel._toDouble(json['average_score']) ?? 0.0,
+      pros: json['pros']?.toString() ?? '',
+      cons: json['cons']?.toString() ?? '',
+      reviewerCountry: json['author']?['countrycode']?.toString(),
+      travelerType: json['author']?['type_string']?.toString(),
     );
   }
 }

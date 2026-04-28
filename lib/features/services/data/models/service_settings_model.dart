@@ -9,8 +9,9 @@ class ServiceSettingsModel extends Equatable {
   factory ServiceSettingsModel.fromJson(Map<String, dynamic> json) {
     return ServiceSettingsModel(
       id: json['_id']?.toString() ?? '',
-      phones: (json['contactInfo']?['phones'] as List<dynamic>?)
-              ?.map((e) => ServiceContactPhoneModel.fromJson(e))
+      phones: (json['contactInfo'] is Map ? json['contactInfo']['phones'] as List<dynamic>? : null)
+              ?.whereType<Map<String, dynamic>>()
+              .map((e) => ServiceContactPhoneModel.fromJson(e))
               .toList() ??
           [],
     );
@@ -39,12 +40,12 @@ class ServiceContactPhoneModel extends Equatable {
 
   factory ServiceContactPhoneModel.fromJson(Map<String, dynamic> json) {
     return ServiceContactPhoneModel(
-      id: json['_id'],
-      number: json['number'],
-      label: json['label'],
-      isPrimary: json['isPrimary'],
-      isWhatsApp: json['isWhatsApp'],
-      countryCode: json['countryCode'],
+      id: json['_id']?.toString() ?? '',
+      number: json['number']?.toString() ?? '',
+      label: json['label']?.toString() ?? '',
+      isPrimary: json['isPrimary'] == true || json['isPrimary'] == 'true',
+      isWhatsApp: json['isWhatsApp'] == true || json['isWhatsApp'] == 'true',
+      countryCode: json['countryCode']?.toString() ?? '',
     );
   }
 

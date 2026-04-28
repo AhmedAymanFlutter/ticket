@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactHelper {
@@ -19,7 +20,17 @@ class ContactHelper {
     );
 
     if (await canLaunchUrl(whatsappUrl)) {
-      await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+      try {
+        await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+      } catch (e) {
+        debugPrint('Could not launch WhatsApp: $e');
+      }
+    } else {
+      try {
+        await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+      } catch (e) {
+        debugPrint('Could not launch WhatsApp fallback: $e');
+      }
     }
   }
 
@@ -44,37 +55,57 @@ class ContactHelper {
     return null;
   }
 
-  /// Launches a phone call.
   static Future<void> launchCall(String phone) async {
     final url = Uri.parse('tel:${phone.replaceAll(RegExp(r'[^\d+]'), '')}');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        await launchUrl(url);
+      }
+    } catch (e) {
+      debugPrint('Could not launch call: $e');
     }
   }
 
-  /// Launches an email client.
   static Future<void> launchEmail(String email) async {
     final url = Uri.parse('mailto:$email');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        await launchUrl(url);
+      }
+    } catch (e) {
+      debugPrint('Could not launch email: $e');
     }
   }
 
-  /// Launches Google Maps with a query.
   static Future<void> launchMap(String query) async {
     final url = Uri.parse(
       'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(query)}',
     );
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+    try {
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } else {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      }
+    } catch (e) {
+      debugPrint('Could not launch map: $e');
     }
   }
 
-  /// Launches a generic URL.
   static Future<void> launchBrowser(String url) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (e) {
+      debugPrint('Could not launch browser: $e');
     }
   }
 }

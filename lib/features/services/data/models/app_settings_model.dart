@@ -13,9 +13,9 @@ class AppSettingsModel extends Equatable {
 
   factory AppSettingsModel.fromJson(Map<String, dynamic> json) {
     return AppSettingsModel(
-      id: json['_id'],
-      contactInfo: ContactInfoModel.fromJson(json['contactInfo']),
-      socialMedia: SocialMediaModel.fromJson(json['socialMedia']),
+      id: json['_id']?.toString() ?? '',
+      contactInfo: ContactInfoModel.fromJson(json['contactInfo'] is Map<String, dynamic> ? json['contactInfo'] : {}),
+      socialMedia: SocialMediaModel.fromJson(json['socialMedia'] is Map<String, dynamic> ? json['socialMedia'] : {}),
     );
   }
 
@@ -36,13 +36,15 @@ class ContactInfoModel extends Equatable {
 
   factory ContactInfoModel.fromJson(Map<String, dynamic> json) {
     return ContactInfoModel(
-      phones: (json['phones'] as List)
+      phones: (json['phones'] is List ? json['phones'] as List : [])
+          .whereType<Map<String, dynamic>>()
           .map((e) => ContactPhoneModel.fromJson(e))
           .toList(),
-      emails: (json['emails'] as List)
+      emails: (json['emails'] is List ? json['emails'] as List : [])
+          .whereType<Map<String, dynamic>>()
           .map((e) => ContactEmailModel.fromJson(e))
           .toList(),
-      addresses: List<String>.from(json['addresses']),
+      addresses: List<String>.from(json['addresses'] is List ? json['addresses'] : []),
     );
   }
 
@@ -69,12 +71,12 @@ class ContactPhoneModel extends Equatable {
 
   factory ContactPhoneModel.fromJson(Map<String, dynamic> json) {
     return ContactPhoneModel(
-      id: json['_id'],
-      number: json['number'],
-      label: json['label'],
-      isPrimary: json['isPrimary'],
-      isWhatsApp: json['isWhatsApp'],
-      countryCode: json['countryCode'],
+      id: json['_id']?.toString() ?? '',
+      number: json['number']?.toString() ?? '',
+      label: json['label']?.toString() ?? '',
+      isPrimary: json['isPrimary'] == true || json['isPrimary'] == 'true',
+      isWhatsApp: json['isWhatsApp'] == true || json['isWhatsApp'] == 'true',
+      countryCode: json['countryCode']?.toString() ?? '',
     );
   }
 
@@ -106,11 +108,11 @@ class ContactEmailModel extends Equatable {
 
   factory ContactEmailModel.fromJson(Map<String, dynamic> json) {
     return ContactEmailModel(
-      id: json['_id'],
-      email: json['email'],
-      label: json['label'],
-      isPrimary: json['isPrimary'],
-      department: json['department'] ?? '',
+      id: json['_id']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      label: json['label']?.toString() ?? '',
+      isPrimary: json['isPrimary'] == true || json['isPrimary'] == 'true',
+      department: json['department']?.toString() ?? '',
     );
   }
 
@@ -133,10 +135,10 @@ class SocialMediaModel extends Equatable {
 
   factory SocialMediaModel.fromJson(Map<String, dynamic> json) {
     return SocialMediaModel(
-      facebook: SocialMediaItemModel.fromJson(json['facebook']),
-      instagram: SocialMediaItemModel.fromJson(json['instagram']),
-      twitter: SocialMediaItemModel.fromJson(json['twitter']),
-      whatsApp: SocialMediaItemModel.fromJson(json['whatsApp']),
+      facebook: SocialMediaItemModel.fromJson(json['facebook'] is Map<String, dynamic> ? json['facebook'] : {}),
+      instagram: SocialMediaItemModel.fromJson(json['instagram'] is Map<String, dynamic> ? json['instagram'] : {}),
+      twitter: SocialMediaItemModel.fromJson(json['twitter'] is Map<String, dynamic> ? json['twitter'] : {}),
+      whatsApp: SocialMediaItemModel.fromJson(json['whatsApp'] is Map<String, dynamic> ? json['whatsApp'] : {}),
     );
   }
 
@@ -151,7 +153,10 @@ class SocialMediaItemModel extends Equatable {
   const SocialMediaItemModel({required this.name, required this.url});
 
   factory SocialMediaItemModel.fromJson(Map<String, dynamic> json) {
-    return SocialMediaItemModel(name: json['name'], url: json['url']);
+    return SocialMediaItemModel(
+      name: json['name']?.toString() ?? '', 
+      url: json['url']?.toString() ?? ''
+    );
   }
 
   @override

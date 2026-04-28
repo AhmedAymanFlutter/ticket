@@ -14,8 +14,8 @@ class ContactRemoteDataSource {
     return await _apiHelper.postRequest(
       endPoint: EndPoints.contact,
       data: request.toJson(),
-      isFormData: false, // Per request body format, it's JSON
-      isAuthorized: false, // Usually contact forms don't require login
+      isFormData: false,
+      isAuthorized: true,
     );
   }
 }

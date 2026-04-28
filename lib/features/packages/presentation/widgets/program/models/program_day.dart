@@ -3,12 +3,14 @@ class ProgramDay {
   final String title;
   final String description;
   final List<String> tags;
+  final String? imageUrl;
 
   const ProgramDay({
     required this.dayLabel,
     required this.title,
     required this.description,
     required this.tags,
+    this.imageUrl,
   });
 }
 

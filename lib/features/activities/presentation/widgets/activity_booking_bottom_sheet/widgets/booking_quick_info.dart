@@ -31,12 +31,15 @@ class BookingQuickInfo extends StatelessWidget {
               fit: BoxFit.scaleDown,
             ),
             SizedBox(width: 4.w),
-            Text(
-              'عرض التذكرة عبر الهاتف المحمول أو طباعتها',
-              style: TextStyle(
-                fontSize: 13.sp,
-                color: const Color(0xFF6B7280),
-                fontFamily: 'Madani Arabic',
+            Flexible(
+              child: Text(
+                'عرض التذكرة عبر الهاتف المحمول أو طباعتها',
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: const Color(0xFF6B7280),
+                  fontFamily: 'Madani Arabic',
+                ),
+                overflow: TextOverflow.visible,
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class HotelOverview extends StatelessWidget {
   final String? description;
@@ -12,7 +13,7 @@ class HotelOverview extends StatelessWidget {
       width: 343.w,
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
           SizedBox(height: 24.h),
@@ -72,11 +73,10 @@ class HotelOverview extends StatelessWidget {
           ),
         ],
       ),
-      child: Text(
+      child: HtmlWidget(
         description ??
             'استمتع بتجربة فخامة لا مثيل لها في هذا الفندق الأيقوني. صُممت كل التفاصيل بعناية فائقة لتوفير تجربة استثنائية للضيوف.',
-        textAlign: TextAlign.right,
-        style: GoogleFonts.ibmPlexSansArabic(
+        textStyle: GoogleFonts.ibmPlexSansArabic(
           fontSize: 16.sp,
           fontWeight: FontWeight.w400,
           height: 27.63 / 16,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:ticket/features/hotels/domain/entities/hotel_entity.dart';
 
 class HotelPoliciesSection extends StatelessWidget {
@@ -120,9 +121,9 @@ class HotelPoliciesSection extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                Text(
+                HtmlWidget(
                   content,
-                  style: TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'Madani Arabic',

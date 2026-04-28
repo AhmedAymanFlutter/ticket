@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/hotels/domain/entities/hotel_entity.dart';
@@ -361,11 +362,9 @@ class RoomCard extends StatelessWidget {
               Icon(Icons.restaurant, size: 14.sp, color: const Color(0xFF039855)),
               SizedBox(width: 8.w),
               Expanded(
-                child: Text(
+                child: HtmlWidget(
                   mealPlan!,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Madani Arabic',
@@ -382,11 +381,9 @@ class RoomCard extends StatelessWidget {
               Icon(Icons.event_available, size: 14.sp, color: const Color(0xFF039855)),
               SizedBox(width: 8.w),
               Expanded(
-                child: Text(
+                child: HtmlWidget(
                   cancellationText!,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'Madani Arabic',

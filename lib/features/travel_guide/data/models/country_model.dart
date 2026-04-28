@@ -97,11 +97,9 @@ class CountryModel {
   String getCurrency(String lang) => lang == 'ar' ? (currencyAr ?? currency ?? '') : (currencyEn ?? currency ?? '');
   String getLanguage(String lang) => lang == 'ar' ? (languageAr ?? language ?? '') : (languageEn ?? language ?? '');
   String getDescription(String lang) {
-    String text = lang == 'ar'
+    return lang == 'ar'
         ? (descriptionAr ?? description ?? '')
         : (descriptionEn ?? description ?? '');
-    // Basic regex to strip HTML tags if they still exist
-    return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ').trim();
   }
 
   String getBestTimeToVisit(String lang) =>

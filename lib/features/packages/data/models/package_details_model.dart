@@ -22,6 +22,7 @@ class PackageDetailsModel extends Equatable {
 class PackageInfoModel extends Equatable {
   final String id;
   final String name;
+  final String? description;
   final String slug;
   final double ratingsAverage;
   final int ratingsQuantity;
@@ -29,6 +30,7 @@ class PackageInfoModel extends Equatable {
   const PackageInfoModel({
     required this.id,
     required this.name,
+    this.description,
     required this.slug,
     required this.ratingsAverage,
     required this.ratingsQuantity,
@@ -38,14 +40,16 @@ class PackageInfoModel extends Equatable {
     return PackageInfoModel(
       id: json['_id'],
       name: json['name'],
+      description: json['description'],
       slug: json['slug'],
-      ratingsAverage: (json['ratingsAverage'] as num).toDouble(),
-      ratingsQuantity: json['ratingsQuantity'],
+      ratingsAverage: (json['ratingsAverage'] as num?)?.toDouble() ?? 0.0,
+      ratingsQuantity: json['ratingsQuantity'] ?? 0,
     );
   }
 
   @override
-  List<Object?> get props => [id, name, slug, ratingsAverage, ratingsQuantity];
+  List<Object?> get props =>
+      [id, name, description, slug, ratingsAverage, ratingsQuantity];
 }
 
 class PackageBranchModel extends Equatable {
@@ -76,7 +80,9 @@ class PackageBranchModel extends Equatable {
       totalBranchPrice: json['totalBranchPrice'],
       daysCount: json['daysCount'],
       nightsCount: json['nightsCount'],
-      imageCover: json['imageCover'] is Map ? json['imageCover']['url'] : json['imageCover'],
+      imageCover: json['imageCover'] is Map
+          ? json['imageCover']['url']
+          : json['imageCover'],
       cities: (json['cities'] as List)
           .map((e) => BranchCityModel.fromJson(e))
           .toList(),
@@ -88,15 +94,15 @@ class PackageBranchModel extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    name,
-    totalBranchPrice,
-    daysCount,
-    nightsCount,
-    imageCover,
-    cities,
-    days,
-  ];
+        id,
+        name,
+        totalBranchPrice,
+        daysCount,
+        nightsCount,
+        imageCover,
+        cities,
+        days,
+      ];
 }
 
 class BranchCityModel extends Equatable {
@@ -155,6 +161,8 @@ class PackageDayModel extends Equatable {
 class PackageTourDetailsModel extends Equatable {
   final String id;
   final String title;
+  final String? description;
+  final String? imageCover;
   final List<String> inclusions;
   final List<String> exclusions;
   final double ratingAverage;
@@ -164,6 +172,8 @@ class PackageTourDetailsModel extends Equatable {
   const PackageTourDetailsModel({
     required this.id,
     required this.title,
+    this.description,
+    this.imageCover,
     required this.inclusions,
     required this.exclusions,
     required this.ratingAverage,
@@ -175,26 +185,32 @@ class PackageTourDetailsModel extends Equatable {
     return PackageTourDetailsModel(
       id: json['_id'],
       title: json['title'],
+      description: json['description'],
+      imageCover: json['imageCover'] is Map
+          ? json['imageCover']['url']
+          : json['imageCover'],
       inclusions: (json['inclusions'] as List)
           .map((e) => e['description'] as String)
           .toList(),
       exclusions: (json['exclusions'] as List)
           .map((e) => e['description'] as String)
           .toList(),
-      ratingAverage: (json['rating']['average'] as num).toDouble(),
-      ratingCount: json['rating']['count'],
-      price: json['price'],
+      ratingAverage: (json['rating']?['average'] as num?)?.toDouble() ?? 0.0,
+      ratingCount: json['rating']?['count'] ?? 0,
+      price: json['price'] ?? 0,
     );
   }
 
   @override
   List<Object?> get props => [
-    id,
-    title,
-    inclusions,
-    exclusions,
-    ratingAverage,
-    ratingCount,
-    price,
-  ];
+        id,
+        title,
+        description,
+        imageCover,
+        inclusions,
+        exclusions,
+        ratingAverage,
+        ratingCount,
+        price,
+      ];
 }

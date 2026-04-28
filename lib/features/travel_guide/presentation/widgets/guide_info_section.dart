@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 import 'package:ticket/features/travel_guide/presentation/widgets/guide_info_card.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../../data/models/country_model.dart';
 
 /// The main information section container for the Tour Guide Details page.
@@ -66,9 +67,9 @@ class GuideInfoSection extends StatelessWidget {
           // ── Description Text
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
+            child: HtmlWidget(
               country?.getDescription(lang) ?? 'جاري تحميل الوصف...',
-              style: TextStyle(
+              textStyle: TextStyle(
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xFF6B7280),

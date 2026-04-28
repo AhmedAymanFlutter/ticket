@@ -6,7 +6,7 @@ import 'package:ticket/features/packages/presentation/widgets/category_package_c
 class CategoryPackageCard extends StatelessWidget {
   final String imageUrl;
   final String categoryBadge;
-  final String countryName;
+  final String packageName;
   final String locationText;
   final List<String> cities;
   final String buttonText;
@@ -18,7 +18,7 @@ class CategoryPackageCard extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.categoryBadge,
-    required this.countryName,
+    required this.packageName,
     required this.locationText,
     required this.cities,
     required this.buttonText,
@@ -49,7 +49,7 @@ class CategoryPackageCard extends StatelessWidget {
           CategoryPackageCardImage(
             imageUrl: imageUrl,
             categoryBadge: categoryBadge,
-            countryName: countryName,
+            packageName: packageName,
           ),
           CategoryPackageCardContent(
             cities: cities,

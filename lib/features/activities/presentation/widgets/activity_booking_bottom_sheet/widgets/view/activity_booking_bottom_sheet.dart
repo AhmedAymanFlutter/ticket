@@ -6,8 +6,11 @@ import 'package:ticket/features/activities/presentation/widgets/activity_booking
 import 'package:ticket/features/activities/presentation/widgets/activity_booking_bottom_sheet/widgets/booking_tab_content.dart';
 import 'package:ticket/features/activities/presentation/widgets/activity_booking_bottom_sheet/widgets/booking_tabs.dart';
 
+import 'package:ticket/features/tours/data/models/tour_details_model.dart';
+
 class ActivityBookingBottomSheet extends StatefulWidget {
-  const ActivityBookingBottomSheet({super.key});
+  final ProductOption? productOption;
+  const ActivityBookingBottomSheet({super.key, this.productOption});
 
   @override
   State<ActivityBookingBottomSheet> createState() =>
@@ -31,7 +34,10 @@ class _ActivityBookingBottomSheetState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const BookingHeader(title: 'رحلة بحرية فاخرة على الساحل لشخصين'),
+          BookingHeader(
+            title: widget.productOption?.title ??
+                'رحلة بحرية فاخرة على الساحل لشخصين',
+          ),
           SizedBox(height: 16.h),
           const BookingQuickInfo(),
           SizedBox(height: 16.h),
@@ -40,7 +46,10 @@ class _ActivityBookingBottomSheetState
             onTabSelected: (index) => setState(() => _selectedTab = index),
           ),
           SizedBox(height: 24.h),
-          BookingTabContent(selectedTab: _selectedTab),
+          BookingTabContent(
+            selectedTab: _selectedTab,
+            productOption: widget.productOption,
+          ),
           SizedBox(height: 32.h),
           BookingActionButton(
             text: 'احجز الآن',

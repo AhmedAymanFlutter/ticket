@@ -294,13 +294,31 @@ class ItineraryItem {
 class ProductOption {
   final String? title;
   final String? description;
+  final List<String>? packageDescription;
+  final List<String>? termsAndConditions;
+  final List<String>? howToUse;
 
-  ProductOption({this.title, this.description});
+  ProductOption({
+    this.title,
+    this.description,
+    this.packageDescription,
+    this.termsAndConditions,
+    this.howToUse,
+  });
 
   factory ProductOption.fromJson(Map<String, dynamic> json) {
     return ProductOption(
       title: json['title']?.toString(),
       description: json['description']?.toString(),
+      packageDescription: (json['packageDescription'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList(),
+      termsAndConditions: (json['termsAndConditions'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList(),
+      howToUse: (json['howToUse'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList(),
     );
   }
 }

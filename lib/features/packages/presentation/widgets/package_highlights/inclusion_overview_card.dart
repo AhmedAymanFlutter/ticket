@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:ticket/core/utils/app_colors.dart';
 
 class InclusionOverviewCard extends StatelessWidget {
   final String title;
-  const InclusionOverviewCard({super.key, required this.title});
+  final String description;
+  const InclusionOverviewCard({
+    super.key,
+    required this.title,
+    required this.description,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +40,17 @@ class InclusionOverviewCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8.h),
-          Text(
-            'استمتع برحلة مميزة مع باقة $title. تجمع هذه الباقة بين الترفيه والاستكشاف لضمان تجربة سياحية لا تُنسى في أرقى الوجهات.',
-            style: TextStyle(
+          HtmlWidget(
+            description.isNotEmpty
+                ? description
+                : 'استمتع برحلة مميزة مع باقة $title. تجمع هذه الباقة بين الترفيه والاستكشاف لضمان تجربة سياحية لا تُنسى في أرقى الوجهات.',
+            textStyle: TextStyle(
               fontSize: 13.sp,
               fontWeight: FontWeight.w400,
               color: const Color(0xFF6B7280),
               fontFamily: 'Madani Arabic',
               height: 1.6,
             ),
-            textAlign: TextAlign.right,
           ),
         ],
       ),

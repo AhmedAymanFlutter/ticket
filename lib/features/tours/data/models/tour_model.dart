@@ -40,7 +40,9 @@ class TourModel {
       cityName: json['city']?['name']?.toString(),
       priceAmount: json['price']?['amount'],
       priceCurrency: json['price']?['currency']?.toString(),
-      coverImage: json['coverImage']?.toString(),
+      coverImage: json['coverImage'] is Map
+          ? json['coverImage']['url']?.toString()
+          : json['coverImage']?.toString(),
       cancellationPolicy: json['cancellationPolicy']?['description']
           ?.toString(),
       slug: json['slug']?.toString(),

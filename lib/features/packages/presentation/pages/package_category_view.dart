@@ -196,7 +196,7 @@ class PackageCategoryView extends StatelessWidget {
                                               'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa',
                                           categoryBadge:
                                               'packages.suitable_for_visa'.tr(),
-                                          countryName: country.name,
+                                          packageName: categoryTitle,
                                           locationText:
                                               country.cities
                                                   .where((c) => c.name != null)
